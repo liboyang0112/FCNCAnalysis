@@ -138,14 +138,14 @@ std::vector<TString> commonNPlist = { //common NP for both tthML and xTFW
 };
 
 std::vector<TString> theoryNPlist = { // theory uncertainties, the recipe is changed, need to ask conveners.
-	"muR=100,muF=200",
-	"muR=100,muF=050",
-	"muR=200,muF=100",
-	"muR=050,muF=100",
-	"muR=050,muF=050",
-	"muR=200,muF=200",
-	"muR=200,muF=050",
-	"muR=050,muF=200",
+	"muR=10,muF=20",
+	"muR=10,muF=05",
+	"muR=20,muF=10",
+	"muR=05,muF=10",
+	"muR=05,muF=05",
+	"muR=20,muF=20",
+	"muR=20,muF=05",
+	"muR=05,muF=20",
 	"PDFset=260001",
 	"PDFset=260002",
 	"PDFset=260003",

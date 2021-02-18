@@ -147,7 +147,7 @@ void hadhadtree::init_hist(TString histfilename){
   fcnc_plots->add(vars["x2fit"],&x2fit);
   fcnc_plots->add(vars["chi2"],&chi2);
   fcnc_plots->add(vars["leading_bin"],&leading_bin); //
-  fcnc_plots->add(vars["subleading_bin"],&subleading_bin); 
+  fcnc_plots->add(vars["subleading_bin"],&subleading_bin);
   for (int j = 0; j < fcnc_regions.size(); ++j)
   {
     for (int k = 0; k < 2; ++k)
@@ -270,8 +270,6 @@ void hadhadtree::prepare(){
     mcChannelNumber = mc_channel_number;
     eventNumber     = event_number;
     runNumber       = run_number;
-    tau0RNN=tau_0_jet_rnn_score_trans;
-    tau1RNN=tau_1_jet_rnn_score_trans;
     met_sumet=met_sumet_;
     if(isData){
       if(0 < run_number && run_number <= 284484){year=2015;}
