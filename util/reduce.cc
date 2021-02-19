@@ -501,10 +501,10 @@ int main(int argc, char const *argv[])
 					theoryweightsum[dsid] = new TH1D(("theory_"+to_string(dsid)).c_str(), ("theory_"+to_string(dsid)).c_str(), weightname->size(), 0, weightname->size());
 					theoryweightsum[dsid]->SetDirectory(gROOT);
 					for(int j = 0; j<weightname->size(); j++) {
-						findAndReplaceAll((*weightname)[j]," ","");
+						findAndReplaceAll((*weightname)[j],".","");
 						if(weightname->at(j).find("muR=")!=string::npos && weightname->at(j).find("muF=")!=string::npos) {
-							findAndReplaceAll((*weightname)[j],".","0");
-							findAndReplaceAll((*weightname)[j],"005","050");
+							findAndReplaceAll((*weightname)[j],"50","5");
+							findAndReplaceAll((*weightname)[j],"00","0");
 						}
 						theoryweightsum[dsid]->GetXaxis()->SetBinLabel(j+1,weightname->at(j).c_str());
 					}
