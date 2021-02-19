@@ -23,8 +23,6 @@ void hadhadtree::definetree(TTree * tree) {
     tree->Branch("ljets_jvt",ljets_jvt);
     tree->Branch("ljets_origin",ljets_origin);
     tree->Branch("ljets_q",ljets_q);
-    tree->Branch("tau0RNN",&tau_0_jet_rnn_score_trans);
-    tree->Branch("tau1RNN",&tau_1_jet_rnn_score_trans);
     if(nominaltree) tree->Branch("ljets_type",ljets_type);
     tree->Branch("ljets_width",ljets_width);
     if(!isData) {
@@ -41,8 +39,6 @@ void hadhadtree::definetree(TTree * tree) {
   if(reduce == 2){
     tree->Branch("allmass", &allmass);
     tree->Branch("allpz", &allpz);
-    tree->Branch("tau0RNN",&tau0RNN);
-    tree->Branch("tau1RNN",&tau1RNN);
     return;
   }
 }
@@ -382,7 +378,7 @@ bool hadhadtree::addWeightSys(){
   addweights(tau_1_TAUS_TRUEHADTAU_EFF_TRIGGER_SYST161718_1down_TauEffSF_HLT_tau25_medium1_tracktwo_JETIDRNNMEDIUM/tau_1_NOMINAL_TauEffSF_HLT_tau25_medium1_tracktwo_JETIDRNNMEDIUM* tau_0_TAUS_TRUEHADTAU_EFF_TRIGGER_SYST161718_1down_TauEffSF_HLT_tau35_medium1_tracktwo_JETIDRNNMEDIUM/tau_0_NOMINAL_TauEffSF_HLT_tau35_medium1_tracktwo_JETIDRNNMEDIUM,"tauTrigger_SYST161718down");
   addweights(tau_1_TAUS_TRUEHADTAU_EFF_TRIGGER_SYSTMU161718_1up_TauEffSF_HLT_tau25_medium1_tracktwo_JETIDRNNMEDIUM/tau_1_NOMINAL_TauEffSF_HLT_tau25_medium1_tracktwo_JETIDRNNMEDIUM *tau_0_TAUS_TRUEHADTAU_EFF_TRIGGER_SYSTMU161718_1up_TauEffSF_HLT_tau35_medium1_tracktwo_JETIDRNNMEDIUM/tau_0_NOMINAL_TauEffSF_HLT_tau35_medium1_tracktwo_JETIDRNNMEDIUM,"tauTrigger_SYSTMU161718up");
   addweights(tau_1_TAUS_TRUEHADTAU_EFF_TRIGGER_SYSTMU161718_1down_TauEffSF_HLT_tau25_medium1_tracktwo_JETIDRNNMEDIUM/tau_1_NOMINAL_TauEffSF_HLT_tau25_medium1_tracktwo_JETIDRNNMEDIUM*tau_0_TAUS_TRUEHADTAU_EFF_TRIGGER_SYSTMU161718_1down_TauEffSF_HLT_tau35_medium1_tracktwo_JETIDRNNMEDIUM/tau_0_NOMINAL_TauEffSF_HLT_tau35_medium1_tracktwo_JETIDRNNMEDIUM,"tauTrigger_SYSTMU161718down");
-
+  // add new NP by boyang 21-2-17
   addweights(tau_1_TAUS_TRUEELECTRON_EFF_ELEBDT_STAT_1down_TauEffSF_LooseEleBDT_electron/tau_1_NOMINAL_TauEffSF_LooseEleBDT_electron*tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_STAT_1down_TauEffSF_LooseEleBDT_electron/tau_0_NOMINAL_TauEffSF_LooseEleBDT_electron,"tauEveto_EL_STAT_up");
   addweights(tau_1_TAUS_TRUEELECTRON_EFF_ELEBDT_STAT_1up_TauEffSF_LooseEleBDT_electron/tau_1_NOMINAL_TauEffSF_LooseEleBDT_electron*tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_STAT_1up_TauEffSF_LooseEleBDT_electron/tau_0_NOMINAL_TauEffSF_LooseEleBDT_electron, "tauEveto_EL_STAT_down");
   addweights(tau_1_TAUS_TRUEELECTRON_EFF_ELEBDT_SYST_1down_TauEffSF_LooseEleBDT_electron/tau_1_NOMINAL_TauEffSF_LooseEleBDT_electron*tau_0_TAUS_TRUEELECTRON_EFF_ELEBDT_SYST_1down_TauEffSF_LooseEleBDT_electron/tau_0_NOMINAL_TauEffSF_LooseEleBDT_electron, "tauEveto_EL_SYST_up");
@@ -418,8 +414,6 @@ void hadhadtree::initRaw(TTree *tree)
   // tree->SetBranchAddress("chi2",&chi2);
    tree->SetBranchAddress("allmass", &allmass);
    tree->SetBranchAddress("allpz", &allpz);
-   tree->SetBranchAddress("tau0RNN", &tau0RNN);
-   tree->SetBranchAddress("tau1RNN", &tau1RNN);
    return;
   }
   if(reduce == 1) {
@@ -468,8 +462,6 @@ void hadhadtree::initRaw(TTree *tree)
     tree->SetBranchAddress("bjets_p4", &bjets_p4);
     tree->SetBranchAddress("bjets_type", &bjets_type);
     tree->SetBranchAddress("bjets_width", &bjets_width);
-    tree->SetBranchAddress("tau0RNN",&tau0RNN);
-    tree->SetBranchAddress("tau1RNN",&tau1RNN);
     tree->SetBranchAddress("met_p4", &met_p4);
     tree->SetBranchAddress("met_sumet", &met_sumet_);
     tree->SetBranchAddress("taus_id", &taus_id);
