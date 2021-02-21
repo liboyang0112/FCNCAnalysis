@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 # create_model.py
 
 import numpy as np
@@ -20,7 +20,7 @@ from itertools import combinations
 import matplotlib.pyplot as plt
 
 import sys
-sys.path.insert(0, '/Users/Liby/work/tools/frugally-deep/keras_export')
+sys.path.insert(0, '/Users/Liby/work/tau_analysis/FCNCProject/tools/frugally-deep/keras_export')
 import convert_model
 
 def isfloat(value):
@@ -355,6 +355,6 @@ plt.title('model loss')
 plt.ylabel('loss')
 plt.xlabel('epoch')
 plt.legend(['train', 'test'], loc='upper left')
-plt.savefig(modelname+'.eps')
+plt.savefig(modelname+'.pdf')
 #plt.show()
 

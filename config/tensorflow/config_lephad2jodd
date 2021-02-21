@@ -6,5 +6,5 @@ pool = 2
 watchers = 1,2
 outputcategory = 2
 modelname = lephad2jodd
-traindata = /Users/Liby/work/tau_analysis/FCNC/ttH_fakes/run/signaltruth/lephad2jodd.txt
-testdata = /Users/Liby/work/tau_analysis/FCNC/ttH_fakes/run/signaltruth/lephad2jeven.txt
+traindata = /Users/Liby/work/tau_analysis/FCNCProject/FCNCAnalysis/run/signaltruth/lephad2jodd.txt
+testdata = /Users/Liby/work/tau_analysis/FCNCProject/FCNCAnalysis/run/signaltruth/lephad2jeven.txt
