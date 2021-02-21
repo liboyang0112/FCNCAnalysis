@@ -441,11 +441,26 @@ void tthmltree_v6::defineTauTruth(){
 
   taus_matched_mother_pdgId->clear();
   taus_matched_pdgId->clear();
+  if(taus_p4->size()){
+    if (taus_truthType_0 == 10) taus_matched_pdgId->push_back(15);
+    else if (taus_truthJetFlavour_0 < 0 && (taus_truthType_0 == 2 || taus_truthType_0 == 6)) taus_matched_pdgId->push_back(11);
+    else taus_matched_pdgId->push_back(taus_truthJetFlavour_0);
+  }
+  if(taus_p4->size()>=2){
+    if (taus_truthType_1 == 10) taus_matched_pdgId->push_back(15);
+    else if (taus_truthJetFlavour_1 < 0 && (taus_truthType_1 == 2 || taus_truthType_1 == 6)) taus_matched_pdgId->push_back(11);
+    else taus_matched_pdgId->push_back(taus_truthJetFlavour_1);
+  }
   if(nominaltree && taus_p4->size()){
     constructTruth();
     for (int i = 0; i < taus_p4->size(); ++i)
     {
       auto matched = truthmatch(taus_p4->at(i));
+      if(matched && taus_matched_pdgId->at(i)==15){
+        while(matched && (abs(matched->pdg)!=15 || matched->pdg==matched->mother->pdg)){
+          matched=matched->mother;
+        }
+      }
       if(matched){
         auto matchedmother = matched->mother;
         while(matchedmother && (matchedmother->pdg==matched->pdg || fabs(matchedmother->pdg) > 30))
@@ -457,16 +472,6 @@ void tthmltree_v6::defineTauTruth(){
     }
   }
 
-  if(taus_p4->size()){
-    if (taus_truthType_0 == 10) taus_matched_pdgId->push_back(15);
-    else if (taus_truthJetFlavour_0 < 0 && (taus_truthType_0 == 2 || taus_truthType_0 == 6)) taus_matched_pdgId->push_back(11);
-    else taus_matched_pdgId->push_back(taus_truthJetFlavour_0);
-  }
-  if(taus_p4->size()>=2){
-    if (taus_truthType_1 == 10) taus_matched_pdgId->push_back(15);
-    else if (taus_truthJetFlavour_1 < 0 && (taus_truthType_1 == 2 || taus_truthType_1 == 6)) taus_matched_pdgId->push_back(11);
-    else taus_matched_pdgId->push_back(taus_truthJetFlavour_1);
-  }
 }
 
 
