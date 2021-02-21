@@ -329,8 +329,20 @@ truthpart* tthmltree::truthmatch(TLorentzVector *p4){
 }
 
 void tthmltree::constructwmatchmap(TTree *tree){
+  taumatchmap.clear();
+//  printf("start erasing\n");
+//  int nerase = 0;
+//  while(taumatchmap.size()){
+//    if(nerase == 5038){ 
+//      printf("this one crash");
+//      printf("\n evt %d, size %d, id0 %d\n",taumatchmap.begin()->first,taumatchmap.begin()->second.size(),0);
+//      exit(0);
+//    }
+//    taumatchmap.erase(taumatchmap.begin());
+//    nerase++;
+//  }
   ULong64_t eventnumber;
-  std::vector<int> *matched;
+  std::vector<int> *matched = 0;
   tree->SetBranchStatus("*",0);
   tree->SetBranchStatus("eventNumber",1);
   tree->SetBranchStatus("taus_matched_mother_pdgId",1);
@@ -340,8 +352,14 @@ void tthmltree::constructwmatchmap(TTree *tree){
   for (int i = 0; i < nentries; ++i)
   {
     tree->GetEntry(i);
-    taumatchmap[eventnumber] = matched;
+    taumatchmap.emplace(eventnumber,*matched);
   }
+//  for(auto iter: taumatchmap){
+//    printf("matchmap[%d][%d]",iter.first,iter.second.size());
+//    for(auto x : (iter.second)) printf("%d",x);
+//    printf("\n");
+//  }
+  //else printf("matchmap contains %d events\n",taumatchmap.size());
 }
 
 void tthmltree::initialize_fit(const char* input) {

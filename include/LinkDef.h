@@ -10,4 +10,5 @@
 #pragma link C++ class std::vector<unsigned char>+;
 #pragma link C++ class std::vector<TLorentzVector>+;
 #pragma link C++ class std::vector<TLorentzVector*>+;
+#pragma link C++ class TLorentzVector+;
 #endif

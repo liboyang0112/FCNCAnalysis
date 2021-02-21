@@ -41,7 +41,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	bool prefit = 1;
 	float BRbenchmark = 0.2;
 	bool calculate_fake_calibration = 1;
-	bool mergeFake = 1;// template: mergeFake=0,showfake=0       hadhad realonly=1,mergeFake=0 ==>0,1
+	bool mergeFake = 0;// template: mergeFake=0,showfake=0       hadhad realonly=1,mergeFake=0 ==>0,1
 	bool mergeOrigin = 0;
 	bool doTrex = 1;
 	bool plotnj = 0;
@@ -56,7 +56,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	bool showFake = 1; // 1 showfake 0 raw
 	TString fitcharge = "os";
 	int campaignfrom = 0;
-	int campaignto = 3;
+	int campaignto = 2;
 	int perpart = 1;
 	int varcount = 0;
 	int plotvar = 0;
@@ -459,7 +459,6 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	map<TString,vector<TString>> ret;
 	mergeregion(-1,ret);
 	for(auto reg : ret["all"]) tau_plots->add_region(reg);
-    tau_plots->show();
 	tau_plots->yieldvariable="tau_pt_0";
 	if(framework=="tthML"){
 		if(printSRTable){

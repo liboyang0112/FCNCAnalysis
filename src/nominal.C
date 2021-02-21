@@ -979,7 +979,7 @@ bool nominal::addTheorySys(){
   }
   for(int i = 0; i < weights->size(); i++){
     if(weights->at(i)!=weights->at(i)) {
-      printf("weight is nan, eventNumber: %llu, n_weight: %d\n", eventNumber, i);
+      printf("weight is nan, eventNumber: %llu, weight %s: %d\n", eventNumber, weightlist[i].Data(), i);
       return 0;
     }
   }
@@ -1123,6 +1123,7 @@ void nominal::calcfakesf_pdg(){ //origin=-1,0,1,2,3 for real/lep,b,c,g,j
 
 void nominal::addweights(double weight, TString name){
   if(weight == 0) printf("Warning: %s weight is 0\n", name.Data());
+  if(weight != weight) printf("Warning: %s weight is nan for %d\n", name.Data(), eventNumber);
   weights->push_back(weight);
   if(ifill==0) weightlist.push_back(name);
 }
@@ -1329,6 +1330,7 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
 
 
   int printperentry = reduce == 1? 100000 : 5000;
+  auto dummy = new vector<int>();
   for (Long64_t jentry = 0; jentry < nloop; jentry++) {
     cut_flow.newEvent();
     inputtree->GetEntry(jentry);
@@ -1393,7 +1395,21 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
       chi2 = 0;
       nljet = ljets_p4->size();
       if(!nominaltree && leps_p4->size()!=0) {
-        taus_matched_mother_pdgId = taumatchmap[eventNumber];
+        taus_matched_mother_pdgId = 0;
+        auto tmp = taumatchmap.find(eventNumber);
+        if(tmp!=taumatchmap.end()) taus_matched_mother_pdgId = new vector<int>(tmp->second);
+//        else {
+//  for(auto iter: taumatchmap){
+//    if(iter.first==eventNumber){
+//    taus_matched_mother_pdgId = &(iter.second);
+//    }
+//  }
+//        }
+        if(!taus_matched_mother_pdgId){
+        printf("Warning: matchmap didn't find the event %d\n",eventNumber);
+        taus_matched_mother_pdgId = dummy;
+        }
+
       }
       if(taus_p4->size()){
         if(bjets_p4->size() >= 2){
@@ -1756,7 +1772,7 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
             if(!addWeightSys()) continue;
             if(!addTheorySys()) {
               printf("Warning: cannot add weight systematics\n");
-              continue;
+              exit(0);
             }
           }
         }else{
@@ -1836,7 +1852,7 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
               else if (tauabspdg <= 3 && tauabspdg >=1) tauorigin = sample + "_j_fake";
               else if (tauabspdg == 21) tauorigin = sample + "_g_fake";
               else tauorigin = sample + "_nomatch";
-              if((tauabspdg <= 4 && tauabspdg >=1) && abs(taus_matched_mother_pdgId->at(i)) == 24) tauorigin = sample + "_w_jet_fake";
+              if((tauabspdg <= 4 && tauabspdg >=1) && taus_matched_mother_pdgId->size() && abs(taus_matched_mother_pdgId->at(i)) == 24) tauorigin = sample + "_w_jet_fake";
             }
           }
           if(leps_id->size()==0 && nfaketau == 1&&abs(taus_matched_pdgId->at(0))==15) continue;
@@ -1937,6 +1953,7 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
     }
     ifill ++;
   }
+  delete dummy;
 
 
   if(dumpeventnumber) evtfile.close();

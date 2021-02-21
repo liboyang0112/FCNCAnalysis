@@ -245,7 +245,7 @@ public :
   std::vector<int> *leps_first_EgMother_truth_origin;
   std::vector<int> *leps_first_EgMother_truth_type;
   std::vector<TLorentzVector*>  *totaljets_p4;
-  std::map<ULong64_t,std::vector<int>*> taumatchmap;// cannot use eventnumber as a vector index
+  std::unordered_map<ULong64_t,std::vector<int>> taumatchmap;// cannot use eventnumber as a vector index
   std::vector<float>           *bjets_score;
   std::vector<float>           *ljets_bscore;
   // test htautau method

@@ -34,7 +34,7 @@ int main(int argc, char const *argv[])
 	bool dofake = 0;
 	bool onlyMajorNP = 0; // set to 0 for current xTFW analysis.
 	bool applynewSF = 0; //w-jet non-w-jet fake, not available for both hadhad and lephad yet
-	bool nominalOnly = 1; //when nominal =1
+	bool nominalOnly = 0; //when nominal =1
 	TString version = "v3"; //define your n-tuple version
 	TString prefix1;
 	TString prefix = PACKAGE_DIR;
@@ -297,10 +297,10 @@ int main(int argc, char const *argv[])
 							if(framework == "tthML") for(auto v: tthMLmajorNPlist) analysis->plotNPs.push_back(v);
 							else for(auto v: xTFWmajorNPlist) analysis->plotNPs.push_back(v);//xTFW empty
 						}else{
-							//if(framework == "tthML") for(auto v: tthMLNPlist) analysis->plotNPs.push_back(v);
+							if(framework == "tthML") for(auto v: tthMLNPlist) analysis->plotNPs.push_back(v);
 						    //else for(auto v: xTFWNPlist) analysis->plotNPs.push_back(v);
 							for(auto v: theoryNPlist) analysis->plotNPs.push_back(v);
-							//for(auto v: commonNPlist) analysis->plotNPs.push_back(v);
+							for(auto v: commonNPlist) analysis->plotNPs.push_back(v);
                                                         //for(auto v: xsecNPlist) analysis->plotNPs.push_back(v);
 							if(framework != "tthML") for(auto v: xTFWfakeNPlist) analysis->plotNPs.push_back(v);
 							if(applynewSF)
@@ -327,14 +327,17 @@ int main(int argc, char const *argv[])
 			inputfile_nominal = new TFile(inputfilename_nominal,"read");
 		}
 		for(auto reg : regions){
-			printf("Loop region: %s\n", reg.Data());
-
+			TTree *nominalinputtree = 0;
+				printf("Loop region: %s\n", reg.Data());
 			if(!analysis->nominaltree && framework == "tthML" && reduce == 2){
-				TTree *nominalinputtree;
-				inputfile_nominal->GetObject(reg,nominalinputtree);
-				analysis->constructwmatchmap(nominalinputtree);
+				nominalinputtree = (TTree*)inputfile_nominal->Get(reg.Data());
+				if(nominalinputtree) analysis->constructwmatchmap(nominalinputtree);
+				else printf("nominal input is empty: %s, %s\n",inputfile_nominal->GetName(),reg.Data());
+  if(debug > 1) printf("Finished contructing W match map\n");
 			}
-			if(analysis->plotTauFake || reg.Contains("2l") || reduce <=2) analysis->Loop( (TTree*)inputfile.Get(reg), inputconfig, 1);
+			if(analysis->plotTauFake || reg.Contains("2l") || reduce <=2){
+				analysis->Loop( (TTree*)inputfile.Get(reg), inputconfig, 1);
+			}
 			else printf("region is disabled in plotting lepton fakes, skip\n");
 		}
 		analysis->finalise_sample();
@@ -408,8 +411,8 @@ int main(int argc, char const *argv[])
 			printf("reading file: DSID: %d name %s\n", dsid, filename);
 			TFile inputfile(filename);
 			if(!inputfile.Get("h_metadata")) {
-				printf("h_metadata not found, exit.\n");
-				exit(1);
+				printf("h_metadata not found.\n");
+				continue;
 			}
 			if(!isData){
 				TH1D *theoryhisttmp = ((TH1D*)inputfile.Get("h_metadata_theory_weights"));
@@ -489,8 +492,8 @@ int main(int argc, char const *argv[])
 			TFile inputfile(filename);
 			TTree *weighttree = (TTree*)inputfile.Get("sumWeights");
 			if(!weighttree) {
-				printf("sumWeights not found, exit.\n");
-				exit(1);
+				printf("sumWeights not found.\n");
+				continue;
 			}
 			vector<float>* weightsum = new vector<float>();
 			vector<string>* weightname = new vector<string>();
@@ -508,15 +511,17 @@ int main(int argc, char const *argv[])
 					theoryweightsum[dsid]->SetDirectory(gROOT);
 					for(int j = 0; j<weightname->size(); j++) {
 						findAndReplaceAll((*weightname)[j],".","");
+						findAndReplaceAll((*weightname)[j]," ","");
 						if(weightname->at(j).find("muR=")!=string::npos && weightname->at(j).find("muF=")!=string::npos) {
 							findAndReplaceAll((*weightname)[j],"50","5");
 							findAndReplaceAll((*weightname)[j],"00","0");
 						}
+						printf("Theory Weights: %s\n",(*weightname)[j].c_str());
 						theoryweightsum[dsid]->GetXaxis()->SetBinLabel(j+1,weightname->at(j).c_str());
 					}
 				}
 				totgenweighted[dsid] += totalEventsWeighted;
-				for(int j = 0; j<weightname->size(); j++) theoryweightsum[dsid]->Fill(j,weightsum->at(j));
+				for(int j = 0; j<weightname->size(); j++) theoryweightsum[dsid]->Fill(j,weightsum->at(j)==weightsum->at(j)?weightsum->at(j):weightsum->at(0));
 			}
 		}
 	}

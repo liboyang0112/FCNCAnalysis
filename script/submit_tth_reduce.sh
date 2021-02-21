@@ -32,7 +32,7 @@ echo '#!/bin/bash
 #SBATCH --constraint=haswell
 #SBATCH --time=24:00:00
 #SBATCH --mem=4GB
-#SBATCH --image=zlmarshall/atlas-grid-slc6:20190416 --export=NONE
+#SBATCH --image=atlasadc/atlas-grid-centos7 --export=NONE
 shifter --module=cvmfs /bin/bash bulkreduce.sh
 ' > slurmscript.sh
 chmod +x slurmscript.sh
@@ -64,9 +64,9 @@ if [[ $2 =~ "sub" ]] ; then
 	fi
 	for lines in $files
 	do
-		if [[ $systname != "nominal" ]] && ( [[ $lines =~ "wjet" ]] || [[ $lines =~ "zll" ]] || [[ $lines =~ "ztautau" ]] ) ; then
-			continue
-		fi
+#		if [[ $systname != "nominal" ]] ; then
+#			continue
+#		fi
 		touch ../done.txt
 		donefind=`grep $lines ../done.txt`
 		if [[ $donefind == $lines ]] ; then
