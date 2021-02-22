@@ -980,7 +980,7 @@ bool nominal::addTheorySys(){
   for(int i = 0; i < weights->size(); i++){
     if(weights->at(i)!=weights->at(i)) {
       printf("weight is nan, eventNumber: %llu, weight %s: %d\n", eventNumber, weightlist[i].Data(), i);
-      return 0;
+      (*weights)[i]=1;
     }
   }
   return 1;
