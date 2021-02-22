@@ -90,6 +90,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	}else if(method.Contains("fit")){
 		mergeOrigin = 1;
 		doTrex = 0;
+		doPlots = 1;
 		calculate_fake_calibration = 1;
 		fittodata = 1;
 		fitcharge = method.Contains("os")?"os":"ss";
@@ -561,7 +562,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 						for(auto signalsamp : signalmap.at(samples[j].name)){
 							inputfile = getFile(mc_campaign + "_" + signalsamp);
 							double norm = samples[j].norm;
-							tau_plots->read_sample( origin.at(i).name, signalsamp + "_" + origin.at(i).name, getFileFailed?nominalname:histmiddlename, origin.at(i).title, (enum EColor)colors[i], norm,inputfile);
+							tau_plots->read_sample( origin.at(i).name, signalsamp + "_" + origin.at(i).name, histmiddlename, origin.at(i).title, (enum EColor)colors[i], norm,inputfile);
 							deletepointer(inputfile);
 						}
 					}
@@ -583,7 +584,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 					for(auto signalsamp : signalmap.at(samples[j].name)){
 						inputfile = getFile(mc_campaign + "_" + signalsamp);
 						for (int i = 0; i < origin.size(); i++) {
-							tau_plots->read_sample( samples[j].name, signalsamp + "_" + origin.at(i).name, getFileFailed?nominalname:histmiddlename, samples[j].title, samples[j].color, samples[j].norm, inputfile);
+							tau_plots->read_sample( samples[j].name, signalsamp + "_" + origin.at(i).name, histmiddlename, samples[j].title, samples[j].color, samples[j].norm, inputfile, !getFileFailed);
 						}
 						deletepointer(inputfile);
 					}
@@ -591,27 +592,27 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 					TString samplename = (samplesys==samples[j].name ? NPname : samples[j].name);
 					inputfile = getFile(mc_campaign + "_" + samplename);
 					double norm = samples[j].norm;
-					if(plotFakeLep) tau_plots->read_sample( samples[j].name, samplename + "_realLep", getFileFailed?nominalname:histmiddlename, samples[j].title, samples[j].color, norm, inputfile);
-					else tau_plots->read_sample( samples[j].name, samplename + "_real", getFileFailed?nominalname:histmiddlename, samples[j].title, samples[j].color, norm, inputfile);
-					//tau_plots->read_sample( samples[j].name, samplename + "_lep", histmiddlename, samples[j].title, samples[j].color, norm, inputfile);
+					if(plotFakeLep) tau_plots->read_sample( samples[j].name, samplename + "_realLep", histmiddlename, samples[j].title, samples[j].color, norm, inputfile, !getFileFailed);
+					else tau_plots->read_sample( samples[j].name, samplename + "_real", histmiddlename, samples[j].title, samples[j].color, norm, inputfile, !getFileFailed);
+					//tau_plots->read_sample( samples[j].name, samplename + "_lep", histmiddlename, samples[j].title, samples[j].color, norm, inputfile, !getFileFailed);
 					if(!realOnly){
 						if(showFake){
 							if (mergeFake) {
 								for (int i = 1; i < origin.size() - 1; i++) {
 									//std::cout<<"===="<<std::endl;
-									tau_plots->read_sample( "fake1truth", samplename + "_"+origin.at(i).name, getFileFailed?nominalname:histmiddlename, "only #tau_{sub} real", (enum EColor)43, norm, inputfile);//kMagenta
+									tau_plots->read_sample( "fake1truth", samplename + "_"+origin.at(i).name, histmiddlename, "only #tau_{sub} real", (enum EColor)43, norm, inputfile);//kMagen, !getFileFailedta
 								}
-								//tau_plots->read_sample( "fake0truth", samplename + "_doublefake", histmiddlename, "fake, 0 truth #tau", kTeal, norm,inputfile);
+								//tau_plots->read_sample( "fake0truth", samplename + "_doublefake", histmiddlename, "fake, 0 truth #tau", kTeal, norm,inputfile, !getFileFailed);
 							}else 
 								for (int i = 1; i < origin.size() - (framework=="xTFW"); i++){  //no double fake for hadhad channel
 									if(mergeOrigin && find(mergedOrigins.begin(),mergedOrigins.end(),origin.at(i).name) != mergedOrigins.end())
-										tau_plots->read_sample( "other_fake", samplename + "_" + origin.at(i).name, getFileFailed?nominalname:histmiddlename, "Other Fake #tau", (enum EColor)(41), norm, inputfile);
+										tau_plots->read_sample( "other_fake", samplename + "_" + origin.at(i).name, histmiddlename, "Other Fake #tau", (enum EColor)(41), norm, inputfile, !getFileFailed);
 									else
-										tau_plots->read_sample( origin.at(i).name, samplename + "_" + origin.at(i).name, getFileFailed?nominalname:histmiddlename, origin.at(i).title, (enum EColor)(i+40), norm, inputfile);
+										tau_plots->read_sample( origin.at(i).name, samplename + "_" + origin.at(i).name, histmiddlename, origin.at(i).title, (enum EColor)(i+40), norm, inputfile, !getFileFailed);
 								}
 						}else{
 							for (int i = 1; i < origin.size(); i++){
-								tau_plots->read_sample( samples[j].name, samplename + "_" + origin.at(i).name, getFileFailed?nominalname:histmiddlename, samples[j].title, samples[j].color, norm, inputfile);
+								tau_plots->read_sample( samples[j].name, samplename + "_" + origin.at(i).name, histmiddlename, samples[j].title, samples[j].color, norm, inputfile, !getFileFailed);
 							}
 						}
 					}
@@ -798,7 +799,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 							TString histname = SF.first + "_pt" + (to_string(int(fakePtSlices[i])) + to_string(int(fakePtSlices[i+1]))).c_str();
 							SFhist = (TH1D*)SFfile.Get(histname);
 							if(!SFhist) {
-								SFhist = new TH1D(histname,histname,1000,0,1000);
+								SFhist = new TH1D(histname,histname,300,0,300);
 							}
 							SFhist -> SetBinContent(iNP+1,SF.second[i].nominal);
 							SFhist -> SetBinError(iNP+1,SF.second[i].error);
