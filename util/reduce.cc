@@ -288,7 +288,7 @@ int main(int argc, char const *argv[])
 			analysis->dumpeventnumber = 0;
 		}
 		if(doplot) {
-			analysis->plotNPs.push_back("NOMINAL");
+			
 			if(!inputconfig.Contains("data")){
 				if(analysis->nominaltree == 1 && !nominalOnly){
 					//for(auto v: fakeNPlist) analysis->plotNPs.push_back(v);
@@ -308,8 +308,8 @@ int main(int argc, char const *argv[])
 									if(v.Contains("fakeSFNP")) analysis->plotNPs.push_back(v);
 						}
 					}
-				}
-			}
+				}else analysis->plotNPs.push_back("NOMINAL");
+			}else analysis->plotNPs.push_back("NOMINAL");
 			for(auto NPs: analysis->plotNPs) printf("Plotting NPs: %s\n",NPs.Data());
 			if(applynewSF) analysis->ConfigNewFakeSF();
 			analysis->fcnc_regions = regions;

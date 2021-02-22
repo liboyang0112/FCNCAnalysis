@@ -7,11 +7,11 @@ using namespace std;
 int main(int argc, char const *argv[])
 {
 	std::map<string, string> regionTitles;
-	regionTitles["lep2tau2j"] = "l\\thadhad 2j";
-	regionTitles["lep2tau3j"] = "l\\thadhad 3j";
-	regionTitles["lephad2j"] = "STH \\tlhad";
-	regionTitles["lephad3j"] = "TTH \\tlhad 3j";
-	regionTitles["lephad3j"] = "TTH \\tlhad 4j";
+	regionTitles["config_lep2tau2j"] = "l\\thadhad 2j";
+	regionTitles["config_lep2tau3j"] = "l\\thadhad 3j";
+	regionTitles["config_lephad2j"] = "STH \\tlhad";
+	regionTitles["config_lephad3j"] = "TTH \\tlhad 3j";
+	regionTitles["config_lephad4j"] = "TTH \\tlhad 4j";
 	LatexChart chart[2];
 	ifstream inputfile(argv[1]);
 	char inputline[200];
@@ -24,36 +24,36 @@ int main(int argc, char const *argv[])
 		if(strlen(inputline)==0) continue;
 		if(inputline[0]=='#') continue;
 		float rate;
-		char channel[200];
 		switch(iline%4) {
 			case 0:
-			sscanf(inputline,"%s", cchannel);
-			channel=cchannel;
-			if(channel.find("odd")) {
+			channel = inputline;
+			if(channel.find("odd") != string::npos) {
 				isodd=1;
-				findAndReplaceAll(channel,"odd");
+				findAndReplaceAll(channel,"odd","");
 			}
 			else {
 				isodd=0;
-				findAndReplaceAll(channel,"even");
+				findAndReplaceAll(channel,"even","");
 			}
 			break;
 			case 1:
-			sscanf(inputline,"%d", rate);
+			sscanf(inputline,"%f", &rate);
 			chart[isodd].set(regionTitles[channel],"神经网络重建效率", rate*50);
 			break;
 			case 2:
-			sscanf(inputline,"%d", rate);
+			sscanf(inputline,"%f", &rate);
 			chart[isodd].set(regionTitles[channel],"$\\Delta R$重建效率", rate*50);
 			break;
 			case 3:
-			sscanf(inputline,"%d", rate);
+			sscanf(inputline,"%f", &rate);
 			chart[isodd].set(regionTitles[channel],"同时正确重建效率", rate*50);
 			break;
 		}
 		iline++;
 	}
-	chart.print(string(TABLE_DIR) + "/BDT/" + framework + "_OptimResult");
+	gSystem->mkdir(TString(TABLE_DIR) + "/TF");
+	chart[0].add(&chart[1]);
+	chart[0].print(string(TABLE_DIR) + "/TF/Compare");
 	return 0;
 }
 
