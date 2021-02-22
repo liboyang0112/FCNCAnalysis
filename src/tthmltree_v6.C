@@ -457,7 +457,7 @@ void tthmltree_v6::defineTauTruth(){
     {
       auto matched = truthmatch(taus_p4->at(i));
       if(matched && taus_matched_pdgId->at(i)==15){
-        while(matched && (abs(matched->pdg)!=15 || matched->pdg==matched->mother->pdg)){
+        while(matched && matched->mother && (abs(matched->pdg)!=15 || matched->pdg==matched->mother->pdg)){
           matched=matched->mother;
         }
       }

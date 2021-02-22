@@ -47,7 +47,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	bool plotnj = 0;
 	bool doPlots = 0;
 	bool scaletodata = 0;
-	bool mergeprong = 1;
+	bool mergeprong = 0;
 	bool mergemet = 0;
 	int plot_option = 2;
 	bool fittodata = 0;
@@ -56,7 +56,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	bool showFake = 1; // 1 showfake 0 raw
 	TString fitcharge = "os";
 	int campaignfrom = 0;
-	int campaignto = 2;
+	int campaignto = 3;
 	int perpart = 1;
 	int varcount = 0;
 	int plotvar = 0;
