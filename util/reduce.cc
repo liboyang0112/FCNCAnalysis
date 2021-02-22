@@ -31,7 +31,7 @@ int main(int argc, char const *argv[])
 	bool doplot = reduce >= 3 ? 1 : 0;
 	bool tthdofcnc = 1;
 	bool dofake = 0;
-	bool doTheory=1;
+	bool doTheory=0;
 	bool onlyMajorNP = 0; // set to 0 for current xTFW analysis.
 	bool applynewSF = 0; //w-jet non-w-jet fake, not available for both hadhad and lephad yet
 	bool nominalOnly = 0; //when nominal =1
@@ -299,7 +299,7 @@ int main(int argc, char const *argv[])
 						if(doTheory) {
 							for(auto v: theoryNPlist) analysis->plotNPs.push_back(v);
 						}else{
-							if(framework == "tthML") for(auto v: tthMLNPlist) analysis->plotNPs.push_back(v);
+//							if(framework == "tthML") for(auto v: tthMLNPlist) analysis->plotNPs.push_back(v);
 							//else for(auto v: xTFWNPlist) analysis->plotNPs.push_back(v);
 							for(auto v: commonNPlist) analysis->plotNPs.push_back(v);
                         	                            //for(auto v: xsecNPlist) analysis->plotNPs.push_back(v);

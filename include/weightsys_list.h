@@ -95,6 +95,8 @@ std::vector<TString> commonNPlist = { //common NP for both tthML and xTFW
 	"MEDIUM_tauID_HIGHPT_down",
 	"MEDIUM_tauID_SYST_up",
 	"MEDIUM_tauID_SYST_down",
+//};
+//std::vector<TString> btagNPlist = {
 	"btag_B_0_down",
 	"btag_B_0_up",
 	"btag_B_10_down",
