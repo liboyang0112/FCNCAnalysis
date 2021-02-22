@@ -303,9 +303,11 @@ int main(int argc, char const *argv[])
 							for(auto v: commonNPlist) analysis->plotNPs.push_back(v);
                                                         //for(auto v: xsecNPlist) analysis->plotNPs.push_back(v);
 							if(framework != "tthML") for(auto v: xTFWfakeNPlist) analysis->plotNPs.push_back(v);
-							if(applynewSF)
+							if(applynewSF){
 								for(auto v: tthMLfakeNPlist)
 									if(v.Contains("fakeSFNP")) analysis->plotNPs.push_back(v);
+							}
+							else analysis->plotNPs.push_back("NOMINAL");
 						}
 					}
 				}else analysis->plotNPs.push_back("NOMINAL");
