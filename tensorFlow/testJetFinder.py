@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 # create_model.py
 import numpy as np
 
@@ -121,6 +121,7 @@ predicted = np.array(model.predict(testinput)).transpose((1,0,2))
 truth = np.array(testoutput).transpose((1,0,2))
 matchedtot = 0;
 invmassmatchedtot = 0;
+bothmatched = 0;
 tot = 0;
 for i in range(0,len(truth)):
 	fcncjet = -1
@@ -128,7 +129,7 @@ for i in range(0,len(truth)):
 	if invmassrec[i]>=len(truth[i]):
 		continue
 	for j in range(0,len(truth[i])):
-		print(truth[i][j],predicted[i][j])
+		#print(truth[i][j],predicted[i][j])
 		if truth[i][j][0] == 1 :
 			fcncjet = j
 	for j in range(0,len(truth[i])):
@@ -139,8 +140,15 @@ for i in range(0,len(truth)):
 		matchedtot += testweight[i]
 	if fcncjet==invmassrec[i]:
 		invmassmatchedtot += testweight[i]
-	print(matched,fcncjet==invmassrec[i],invmassrec[i])
-print("matching rate ML: ", float(matchedtot)/tot)
-print("matching rate kine: ", float(invmassmatchedtot)/tot)
-print("mean:",datamean)
-print("stdd:",datastddev)
+	if matched and fcncjet==invmassrec[i]:
+		bothmatched += testweight[i]
+	#print(matched,fcncjet==invmassrec[i],invmassrec[i])
+#print("matching rate ML: ", float(matchedtot)/tot)
+#print("matching rate kine: ", float(invmassmatchedtot)/tot)
+#print("both matched: ", float(bothmatched)/tot)
+#print("mean:",datamean)
+#print("stdd:",datastddev)
+
+print(float(matchedtot)/tot)
+print(float(invmassmatchedtot)/tot)
+print(float(bothmatched)/tot)
