@@ -1869,14 +1869,14 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
       	}
         if(mcChannelNumber!=0){
           auto weightvec = weightsysmap.at(mcChannelNumber);
+          unordered_map<string,int> weightmap;
+          for(int i = 0; i<weightvec.size();i++){
+            weightmap[weightvec[i].Data()] = i;
+          }
           for (int iNP = 0; iNP < plotNPs.size(); ++iNP){ //// loop over NPs I want to plot
             auto theNP = plotNPs.at(iNP);
             if(debug) printf("fill NP %s\n", theNP.Data());
             weight = weights->at(0);
-
-            if(iNP ==0&& false){
-              for(auto &_x_:weightvec)std::cout<<"np:"<<_x_<<std::endl;
-            }
             if(applyNewFakeSF){
               if(theNP.Contains("fakeSF")){
                 TString SFname;
@@ -1902,9 +1902,9 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
               }
             }// end of applyNewFakeSF
             if(!theNP.Contains("Xsec") && !theNP.Contains("fakeSF") && nominaltree) { ////this part deal with "weight"
-              std::vector<TString>::iterator it = std::find(weightvec.begin(), weightvec.end(), theNP);
+              auto it = weightmap.find(theNP.Data());
               int index = 0;
-              if(it != weightvec.end()) index = std::distance(weightvec.begin(), it);
+              if(it != weightmap.end()) index = it->second;
               if(index !=0) weight *= weights->at(index);
             }
             if(region.Contains("1mtau1ltau1b")) { weight*=read_fake_factor(theNP,subleading_bin); /*std::cout<<"ff:"<<read_fake_factor(theNP,subleading_bin)<<std::endl;*/}
