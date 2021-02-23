@@ -1905,15 +1905,7 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
               std::vector<TString>::iterator it = std::find(weightvec.begin(), weightvec.end(), theNP);
               int index = 0;
               if(it != weightvec.end()) index = std::distance(weightvec.begin(), it);
-              else continue;
               if(index !=0) weight *= weights->at(index);
-              //if(index==2 || index==1) weight = weights->at(index);
-              //else if(index !=0)
-              //  weight *= weights->at(index);
-              if(index !=0&&leps_id->size()==0&&jentry/1000==1){
-                std::cout<<"nominal weight:"<<weights->at(0)<<std::endl;
-                std::cout<<"weight:"<<weight<<std::endl;
-              }
             }
             if(region.Contains("1mtau1ltau1b")) { weight*=read_fake_factor(theNP,subleading_bin); /*std::cout<<"ff:"<<read_fake_factor(theNP,subleading_bin)<<std::endl;*/}
             if(!nominaltree){// tree NP
