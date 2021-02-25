@@ -26,29 +26,36 @@ void setlimit(LatexChart *chart, TString filename, string row, string column){
 
 int main(int argc, char const *argv[])
 {
+	bool doComb = 1;
+	bool doBlind = 1;
 	TString variable = "BDTG_test";
 	auto sigsample = getSigSamples("tthML",0.2);
-	vector<TString> signals = {"fcnc_ch","fcnc_ch_prod","tcH","tuH"};
-	vector<TString> signalstitle = {"tuH","tcH"};
 	vector<TString> channels = {"reg1l1tau1b2j_ss","reg1l1tau1b1j_ss","reg1l1tau1b2j_os","reg1l1tau1b3j_os","reg1l2tau1bnj_os"};
 	vector<TString> channelstitle = {"$l\\tauhad$2j", "$l\\tauhad$1j", "STH $\\tlhad$", "TTH $\\tlhad$", "$l\\thadhad$"};
-	string framework = "tthML";
+	string framework = argc>1? argv[1]:"";
+	if(framework!="") doComb=0;
 	LatexChart *chart = new LatexChart("limit");
 	for (int isig = 0; isig < sigsample.size(); ++isig)
 	{
+		if(doComb && (sigsample[isig].name!="tcH" && sigsample[isig].name!="tuH")) continue;
 		string samptitle=sigsample[isig].title.Data();
 		if(samptitle.find("#")!=string::npos) samptitle = "$" + samptitle + "$";
 		findAndReplaceAll(samptitle,"rightarrow","to ");
 		findAndReplaceAll(samptitle,"#","\\");
-		for (int ichan = 0; ichan < channels.size(); ++ichan)
-		{
-			TString jobname = sigsample[isig].name + "/" + channels[ichan] + "_" + variable;
-			setlimit(chart, jobname + "/Limits/asymptotics/myLimit_BLIND_CL95.root", samptitle, channelstitle[ichan].Data());
+		TString jobname = sigsample[isig].name;
+		if(!doComb){
+			for (int ichan = 0; ichan < channels.size(); ++ichan)
+			{
+				TString jobname = sigsample[isig].name + "/" + channels[ichan] + "_" + variable;
+				setlimit(chart, jobname + "/Limits/asymptotics/myLimit_BLIND_CL95.root", samptitle, channelstitle[ichan].Data());
+			}
+			jobname = sigsample[isig].name + "/combined" + "_" + variable;
+			setlimit(chart, jobname + "/Limits/asymptotics/myLimit"+ (doBlind?"_BLIND":"") + "_CL95.root", samptitle, "Combined");
+		}else{
+			setlimit(chart, jobname + "/Limits/asymptotics/myLimit"+ (doBlind?"_BLIND":"") + "_CL95.root", "Combined Limit", samptitle);
 		}
-		TString jobname = sigsample[isig].name + "/combined" + "_" + variable;
-		setlimit(chart, jobname + "/Limits/asymptotics/myLimit_BLIND_CL95.root", samptitle, "Combined");
 	}
 	chart->caption="The limits derived from leptonic channels.";
-	chart->print(string(TABLE_DIR)+"/" + framework + "/limits");
+	chart->print(string(TABLE_DIR)+(doComb?"":"/" + framework) + "/limits");
 	return 0;
 }
