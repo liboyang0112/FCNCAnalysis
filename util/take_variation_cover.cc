@@ -13,7 +13,7 @@ int main(int argc, char const *argv[])
 	string variable="BDTG_test";
 	TString prefix = TString(PACKAGE_DIR) + "/config/trexfitter/";
 	vector<TString> samples = readTovecString(prefix + framework + "/samplelist.txt");
-	vector<TString> regions = readTovecString(prefix + framework + "regionlist.txt");
+	vector<TString> regions = readTovecString(prefix + framework + "/regionlist.txt");
 	vector<TString> variations = readTovecString(prefix + variationlistfile.c_str());
 	vector<TString> varup;  //varup[ibin]
 	vector<TString> vardown; //vardown[ibin]
