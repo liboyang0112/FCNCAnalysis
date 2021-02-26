@@ -1,0 +1,8 @@
+muR=10,muF=20
+muR=10,muF=05
+muR=20,muF=10
+muR=05,muF=10
+muR=05,muF=05
+muR=20,muF=20
+muR=20,muF=05
+muR=05,muF=20

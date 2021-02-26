@@ -1,0 +1,5 @@
+reg1l1tau1b1j_ss_vetobtagwp70_highmet
+reg1l1tau1b2j_os_vetobtagwp70_highmet
+reg1l1tau1b2j_ss_vetobtagwp70_highmet
+reg1l1tau1b3j_os_vetobtagwp70_highmet
+reg1l2tau1bnj_os
