@@ -7,7 +7,8 @@ log="FALSE"
 cp $ttH_fakes_DIR/config/trexfitter/tthML/myFit.config tthML.config
 cp $ttH_fakes_DIR/config/trexfitter/tthML/combine.config .
 cat $ttH_fakes_DIR/config/trexfitter/tthML/fake_sys.config >> tthML.config
-#cat $ttH_fakes_DIR/config/trexfitter/tthML/Instrumental_sys.config >> tthML.config
+cat $ttH_fakes_DIR/config/trexfitter/common.config >> tthML.config
+cat $ttH_fakes_DIR/config/trexfitter/btag.config >> tthML.config
 if [[ $variable =~ 'BDTG' ]] ; then
 	bin="Binning: -1,-0.4,0.1,0.3,0.5,0.65,0.75,0.85,1"
 	log="TRUE"
