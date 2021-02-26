@@ -25,6 +25,7 @@ int main(int argc, char const *argv[])
 //======================= read files ======================
 	for(auto region:regions){
 	string inputfilestr = variationlistfile;
+	noVariation.clear();
 	findAndReplaceAll(inputfilestr,".txt","/"+variable+"/"+region.Data());
 	for(auto sample: samples){
 		TFile* inputfile = new TFile(inputfilestr + "/" + sample+".root");
