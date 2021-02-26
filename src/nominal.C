@@ -909,7 +909,7 @@ observable nominal::FindNewFakeSF(TString NP, int itau, TString &name){ //origin
   TString origin;
   if(abs(taus_matched_pdgId->at(itau)) == 5) origin = "b_fake";
   else if(abs(taus_matched_pdgId->at(itau)) < 6) {
-    if(abs(taus_matched_mother_pdgId->at(itau)) == 24) {
+    if(taus_matched_mother_pdgId->size()>itau && abs(taus_matched_mother_pdgId->at(itau)) == 24) {
       origin = "w_jet_fake";
 #if FITSTRATEGY!=1
       if(leps_id->size()){
@@ -1021,7 +1021,7 @@ void nominal::ConfigNewFakeSF(){ //origin=-1,0,1,2,3 for real/lep,b,c,g,j
           TString NPname = xaxis->GetBinLabel(ibin);
           double content = SFhist->GetBinContent(ibin);
           double err = SFhist->GetBinError(ibin);
-          if(!content || NPname.Contains("Punch")) continue;
+          if(!content) continue;
           if(NPname != "NOMINAL" && !NPname.Contains("fake") && !NPname.Contains("down")){
             err2 += pow(content - newFakeSFnominal, 2);
           }
@@ -1905,7 +1905,10 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
               auto it = weightmap.find(theNP.Data());
               int index = 0;
               if(it != weightmap.end()) index = it->second;
-              if(index !=0) weight *= weights->at(index);
+              if(index !=0){
+                if(index >= weights->size()) printf("ERROR weight not matched %d, size %d, DSID=%d", index,  weights->size(),  mcChannelNumber);
+                else weight *= weights->at(index);
+              }
             }
             if(region.Contains("1mtau1ltau1b")) { weight*=read_fake_factor(theNP,subleading_bin); /*std::cout<<"ff:"<<read_fake_factor(theNP,subleading_bin)<<std::endl;*/}
             if(!nominaltree){// tree NP

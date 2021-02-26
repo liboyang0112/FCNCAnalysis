@@ -31,10 +31,10 @@ int main(int argc, char const *argv[])
 	bool doplot = reduce >= 3 ? 1 : 0;
 	bool tthdofcnc = 1;
 	bool dofake = 0;
-	bool doTheory=0;
+	bool doTheory=1;
 	bool onlyMajorNP = 0; // set to 0 for current xTFW analysis.
 	bool applynewSF = 0; //w-jet non-w-jet fake, not available for both hadhad and lephad yet
-	bool nominalOnly = 0; //when nominal =1
+	bool nominalOnly = 1; //when nominal =1
 	TString version = "v3"; //define your n-tuple version
 	TString prefix1;
 	TString prefix = PACKAGE_DIR;
@@ -255,7 +255,7 @@ int main(int argc, char const *argv[])
 	analysis->dataDir = prefix+"/data/" + version;
 	analysis->nominaltree = inputconfig.Contains("sys")? 0 : (analysis->SystematicsName == "NOMINAL" || analysis->SystematicsName == "nominal");
 	analysis->writetree = (reduce == 1 || (reduce == 2 && !dofake)) ? 1:0;
-	analysis->doubleCounting = 1;
+	analysis->doubleCounting = 0;
   	analysis->belong_regions.enable(regions);
 	if(framework == "xTFW") {
 		analysis->xTFWfakeNPlist_=xTFWfakeNPlist;
@@ -298,8 +298,8 @@ int main(int argc, char const *argv[])
 					}else{
 						if(doTheory) {
 							for(auto v: theoryNPlist) analysis->plotNPs.push_back(v);
-						}else{
-//							if(framework == "tthML") for(auto v: tthMLNPlist) analysis->plotNPs.push_back(v);
+						}//else{
+							if(framework == "tthML") for(auto v: tthMLNPlist) analysis->plotNPs.push_back(v);
 							//else for(auto v: xTFWNPlist) analysis->plotNPs.push_back(v);
 							for(auto v: commonNPlist) analysis->plotNPs.push_back(v);
                         	                            //for(auto v: xsecNPlist) analysis->plotNPs.push_back(v);
@@ -309,7 +309,7 @@ int main(int argc, char const *argv[])
 									if(v.Contains("fakeSFNP")) analysis->plotNPs.push_back(v);
 							}
 							else analysis->plotNPs.push_back("NOMINAL");
-						}
+						//}
 					}
 				}else analysis->plotNPs.push_back("NOMINAL");
 			}else analysis->plotNPs.push_back("NOMINAL");
@@ -524,7 +524,18 @@ int main(int argc, char const *argv[])
 					}
 				}
 				totgenweighted[dsid] += totalEventsWeighted;
-				for(int j = 0; j<weightname->size(); j++) theoryweightsum[dsid]->Fill(j,weightsum->at(j)==weightsum->at(j)?weightsum->at(j):weightsum->at(0));
+				//printf("tot weighted: %f\n",totalEventsWeighted);
+				for(int j = 0; j<weightname->size(); j++) {
+					if (fabs(weightsum->at(j)/totalEventsWeighted-1)>2) {
+						printf("%d theory %f\n",weightsum->at(j)/totalEventsWeighted);
+						theoryweightsum[dsid]->Fill(j,weightsum->at(0));
+					}
+					else{
+						float num = weightsum->at(j)==weightsum->at(j)?weightsum->at(j):totalEventsWeighted;
+						theoryweightsum[dsid]->Fill(j,num);
+					}
+					
+				}
 			}
 		}
 	}
