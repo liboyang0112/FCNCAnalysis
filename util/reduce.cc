@@ -330,6 +330,7 @@ int main(int argc, char const *argv[])
 			inputfile_nominal = new TFile(inputfilename_nominal,"read");
 		}
 		for(auto reg : regions){
+			if(applynewSF && region.Contains("2b") || region.Contains("2l")) continue;
 			TTree *nominalinputtree = 0;
 				printf("Loop region: %s\n", reg.Data());
 			if(!analysis->nominaltree && framework == "tthML" && reduce == 2){
