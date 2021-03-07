@@ -1,4 +1,4 @@
-regions=("reg1l1tau1b1j_ss_highmet" "reg1l1tau1b2j_ss_highmet" "reg1l1tau1b3j_os_highmet" "reg1l1tau1b2j_os_highmet" "reg1l2tau1bnj_os" "combined")
+regions=("reg1l1tau1b1j_ss" "reg1l1tau1b2j_ss" "reg1l1tau1b3j_os" "reg1l1tau1b2j_os" "reg1l2tau1bnj_os" "combined")
 regiontitle=("t_{l}#tau_{had}-1j" "t_{l}#tau_{had}2j" "t_{h}#tau_{lep}#tau_{had}-3j" "t_{h}#tau_{lep}#tau_{had}-2j" "t_{l}#tau_{had}#tau_{had}" "Combined")
 variable="BDTG_test"
 variabletitle="BDT Discriminant"
@@ -45,4 +45,5 @@ XXXBinning:$bin
 XXXregion:\"${regions[0]}\";\"${regions[1]}\";\"${regions[2]}\";\"${regions[3]}\";\"${regions[4]}\"
 XXXregopt:\"${regions[0]}\",\"${regions[1]}\",\"${regions[2]}\",\"${regions[3]}\",\"${regions[4]}\"
 XXXlabel:\"${regiontitle[0]}\";\"${regiontitle[1]}\";\"${regiontitle[2]}\";\"${regiontitle[3]}\";\"${regiontitle[4]}\"
-XXXhistoPathSuff:\"reg1l1tau1b1j_ss_vetobtagwp70_highmet\";\"/reg1l1tau1b2j_ss_vetobtagwp70_highmet\";\"reg1l1tau1b3j_os_vetobtagwp70_highmet\";\"reg1l1tau1b2j_os_vetobtagwp70_highmet\";\"/reg1l2tau1bnj_os\"" > config/combined/$variable.config
+XXXhistoPathSuff:\"${regions[0]}_vetobtagwp70_highmet\";\"${regions[1]}_vetobtagwp70_highmet\";\"${regions[2]}_vetobtagwp70_highmet\";\"${regions[3]}_vetobtagwp70_highmet\";\"${regions[4]}\"" > config/combined/$variable.config
+
