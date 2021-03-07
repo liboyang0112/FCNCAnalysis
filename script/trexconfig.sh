@@ -21,6 +21,7 @@ do
 	mkdir -p config/${regions[i]}
 	echo "ReplacementFile:tthML.config
 XXXjobname:${regions[i]}_$variable
+XXXoutdir:${regions[i]}_$variable
 XXXvariable:$variable
 XXXxaxis:$variabletitle
 XXXlog:$log
