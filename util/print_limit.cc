@@ -32,7 +32,7 @@ int main(int argc, char const *argv[])
 	TString variable = "BDTG_test";
 	auto sigsample = getSigSamples("tthML",0.2);
 	vector<TString> channels = {"reg1l1tau1b2j_ss","reg1l1tau1b1j_ss","reg1l1tau1b2j_os","reg1l1tau1b3j_os","reg1l2tau1bnj_os"};
-	vector<TString> channelstitle = {"$l\\tauhad$2j", "$l\\tauhad$1j", "STH $\\tlhad$", "TTH $\\tlhad$", "$l\\thadhad$"};
+	vector<TString> channelstitle = {"$l\\tauhad$2j", "$l\\tauhad$1j", "STH $\\tlhad$", "TTH $\\tlhad$", "$t_l\\thadhad$"};
 	string framework = argc>1? argv[1]:"";
 	if(framework!="") doComb=0;
 	LatexChart *chart = new LatexChart("limit");

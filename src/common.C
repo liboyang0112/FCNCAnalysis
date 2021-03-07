@@ -66,16 +66,17 @@ TString translateRegion(TString &reg){
 	return regtitle.c_str();
 }
 void translateRegion(std::string &regtitle){
-	findAndReplaceAll(regtitle,"reg1l1tau1b3j_","TTH~$\\tlhad$~");
-	findAndReplaceAll(regtitle,"reg1l1tau1b2j_os","STH~$\\tlhad$~os");
-	findAndReplaceAll(regtitle,"reg1l1tau1b_ss","l$\\tauhad$~ss");
-	findAndReplaceAll(regtitle,"reg1l1tau1b1j_ss","l$\\tauhad$j~ss");
-	findAndReplaceAll(regtitle,"reg1l1tau1b2j_ss","l$\\tauhad$2j~ss");
-	findAndReplaceAll(regtitle,"reg1l1tau2b3j_","TTH~$\\tlhad$~2b~");
-	findAndReplaceAll(regtitle,"reg1l1tau2b2j_","STH~$\\tlhad$~2b~");
-	findAndReplaceAll(regtitle,"reg1l2tau1bnj_","$l\\thadhad$~");
-	findAndReplaceAll(regtitle,"reg1l2tau2bnj_","$l\\thadhad$~2b~");
+	findAndReplaceAll(regtitle,"reg1l1tau1b3j_os","t_h$\\tlhad$-3j");
+	findAndReplaceAll(regtitle,"reg1l1tau1b2j_os","t_h$\\tlhad$-2j");
+	findAndReplaceAll(regtitle,"reg1l1tau1b_ss","t_l$\\tauhad$~-0j");
+	findAndReplaceAll(regtitle,"reg1l1tau1b1j_ss","t_l$\\tauhad$-1j");
+	findAndReplaceAll(regtitle,"reg1l1tau1b2j_ss","t_l$\\tauhad$-2j");
+	findAndReplaceAll(regtitle,"reg1l2tau1bnj_os","$t_l\\thadhad$");
+	findAndReplaceAll(regtitle,"reg1l2tau1bnj_ss","$t_l\\thadhad$ ss");
 	findAndReplaceAll(regtitle,"reg2lSS1tau1bnj","2lSS~$\\tauhad$");
+	findAndReplaceAll(regtitle,"reg1l1tau2b2j_","STH~$\\tlhad$~2b~");
+	findAndReplaceAll(regtitle,"reg1l1tau2b3j_","TTH~$\\tlhad$~2b~");
+	findAndReplaceAll(regtitle,"reg1l2tau2bnj_","$t_l\\thadhad$~2b~");
 	findAndReplaceAll(regtitle,"_","~");
 }
 
