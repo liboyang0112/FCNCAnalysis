@@ -946,7 +946,7 @@ observable nominal::FindNewFakeSF(TString NP, int itau, TString &name){ //origin
   string ss = string("fakeSFNP_") + (mergeProngFF?"":(prongbin? "3prong_":"1prong_")) + "ptbin" + to_string(slice) + "_" + origin.Data();
   name = ss.c_str();
   if(!newFakeSF[prongbin][NP].size()) printf("nominal::FindNewFakeSF : NP %s not found\n", NP.Data());
-  if(debug) printf("%s = %f +/- %f\n", name.Data(), result.nominal, result.error);
+  // printf("\n\n\n%s = %f +/- %f\n", name.Data(), result.nominal, result.error);
   return result;
 }
 
@@ -1911,10 +1911,6 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
               }
             }
             if(region.Contains("1mtau1ltau1b")) { weight*=read_fake_factor(theNP,subleading_bin); /*std::cout<<"ff:"<<read_fake_factor(theNP,subleading_bin)<<std::endl;*/}
-            if(!nominaltree){// tree NP
-              weight=weights->at(0);
-              if(region.Contains("1mtau1ltau1b")) weight*=read_fake_factor(theNP,subleading_bin); 
-            }
             if(plotTauFake && region.Contains("tau")) fillhist(fcnc?fcnc_plots:fake_plots, region, tauorigin, theNP);
             //else if(!region.Contains("tau")) fill_notau(region, sample, theNP);
             else if((taus_b_tagged->size()==0 || !taus_b_tagged->at(0))) {
@@ -1934,7 +1930,7 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
 
           if(plotTauFake && region.Contains("tau")) fillhist(fcnc?fcnc_plots:fake_plots, region, tauorigin, "NOMINAL");
           else if((taus_b_tagged->size()==0 || !taus_b_tagged->at(0))) (fcnc?fcnc_plots:fake_plots)->fill_hist("data",region,"NOMINAL");
-
+          if(leps_id->size()==0)
           for(auto &item:xTFWfakeNPlist_){
             weight=weights->at(0);
            // if(region.Contains("1mtau1ltau1b")) weight*=read_fake_factor(item,subleading_bin);
