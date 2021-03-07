@@ -21,9 +21,10 @@ test=`echo $systname | awk -F " " '{print $1}'| grep "#"`
 if [ "$test" != "" ]; then
 	continue;
 fi
-
-mkdir -p $systname
-cd $systname
+tmpname=${systname/CategoryReduction_/}
+tmpname=${systname/__/_}
+mkdir -p ${tmpname}
+cd $tmpname
 echo '#!/bin/bash
 #SBATCH --account=atlas
 #SBATCH --qos=shared
