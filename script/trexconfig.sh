@@ -36,12 +36,13 @@ done
 	mkdir -p config/combined
 	echo "ReplacementFile:tthML.config
 XXXjobname:combined_$variable
+XXXoutdir:${regions[i]}_$variable
 XXXvariable:$variable
 XXXxaxis:$variabletitle
 XXXlog:$log
 XXXrebin:$rebin
 XXXBinning:$bin
-XXXregion:\"reg1l1tau1b3j_os\";\"reg1l1tau1b2j_os\";\"reg1l2tau1bnj_os\";\"reg1l1tau1b2j_ss\";\"reg1l1tau1b1j_ss\"
-XXXregopt:\"reg1l1tau1b3j_os\",\"reg1l1tau1b2j_os\",\"reg1l2tau1bnj_os\",\"reg1l1tau1b2j_ss\",\"reg1l1tau1b1j_ss\"
-XXXlabel:\"TTH #it{#tau_{lep}#tau_{had}}\";\"STH #it{#tau_{lep}#tau_{had}}\";\"#it{l#tau_{had}#tau_{had}}\";\"l#tau_{had}1j\";\"l#tau_{had}2j\"
-XXXhistoPathSuff:\"/reg1l1tau1b3j_os_vetobtagwp70_highmet\";\"/reg1l1tau1b2j_os_vetobtagwp70_highmet\";\"/reg1l2tau1bnj_os\";\"reg1l1tau1b2j_ss_vetobtagwp70_highmet\";\"reg1l1tau1b1j_ss_vetobtagwp70_highmet\"" > config/combined/$variable.config
+XXXregion:\"${regions[0]}\";\"${regions[1]}\";\"${regions[2]}\";\"${regions[3]}\";\"${regions[4]}\"
+XXXregopt:\"${regions[0]}\",\"${regions[1]}\",\"${regions[2]}\",\"${regions[3]}\",\"${regions[4]}\"
+XXXlabel:\"${regiontitle[0]}\";\"${regiontitle[1]}\";\"${regiontitle[2]}\";\"${regiontitle[3]}\";\"${regiontitle[4]}\"
+XXXhistoPathSuff:\"reg1l1tau1b1j_ss_vetobtagwp70_highmet\";\"/reg1l1tau1b2j_ss_vetobtagwp70_highmet\";\"reg1l1tau1b3j_os_vetobtagwp70_highmet\";\"reg1l1tau1b2j_os_vetobtagwp70_highmet\";\"/reg1l2tau1bnj_os\"" > config/combined/$variable.config
