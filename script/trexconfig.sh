@@ -1,5 +1,5 @@
 regions=("reg1l1tau1b1j_ss_highmet" "reg1l1tau1b2j_ss_highmet" "reg1l1tau1b3j_os_highmet" "reg1l1tau1b2j_os_highmet" "reg1l2tau1bnj_os" "combined")
-regiontitle=("l#tau_{had}1j" "l#tau_{had}2j" "TTH #it{#tau_{lep}#tau_{had}}" "STH #it{#tau_{lep}#tau_{had}}" "#it{l#tau_{had}#tau_{had}}" "Combined")
+regiontitle=("t_{l}#tau_{had}-1j" "t_{l}#tau_{had}2j" "t_{h}#tau_{lep}#tau_{had}-3j" "t_{h}#tau_{lep}#tau_{had}-2j" "t_{l}#tau_{had}#tau_{had}" "Combined")
 variable="BDTG_test"
 variabletitle="BDT Discriminant"
 log="FALSE"
