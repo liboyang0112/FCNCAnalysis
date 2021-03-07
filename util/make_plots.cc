@@ -593,7 +593,8 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 					inputfile = getFile(mc_campaign + "_" + samplename);
 					double norm = samples[j].norm;
 					if(plotFakeLep) tau_plots->read_sample( samples[j].name, samplename + "_realLep", histmiddlename, samples[j].title, samples[j].color, norm, inputfile, !getFileFailed);
-					else tau_plots->read_sample( samples[j].name, samplename + "_real", histmiddlename, samples[j].title, samples[j].color, norm, inputfile, !getFileFailed);
+					else if(samples[j].name.Contains("ttbar") || framework == "xTFW") tau_plots->read_sample( samples[j].name, samplename + "_real", histmiddlename, samples[j].title, samples[j].color, norm, inputfile, !getFileFailed);
+					else tau_plots->read_sample("others", samplename + "_real", histmiddlename, "Other MC", samples[j].color, norm, inputfile, !getFileFailed);
 					//tau_plots->read_sample( samples[j].name, samplename + "_lep", histmiddlename, samples[j].title, samples[j].color, norm, inputfile, !getFileFailed);
 					if(!realOnly){
 						if(showFake){
@@ -612,8 +613,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 								}
 						}else{
 							for (int i = 1; i < origin.size(); i++){
-								if(samples[j].name.Contains("ttbar") || framework == "xTFW")tau_plots->read_sample( samples[j].name, samplename + "_" + origin.at(i).name, histmiddlename, samples[j].title, samples[j].color, norm, inputfile, !getFileFailed);
-								else tau_plots->read_sample("others", samplename + "_" + origin.at(i).name, histmiddlename, "Other MC", samples[j].color, norm, inputfile, !getFileFailed);
+								tau_plots->read_sample( samples[j].name, samplename + "_" + origin.at(i).name, histmiddlename, samples[j].title, samples[j].color, norm, inputfile, !getFileFailed);
 							}
 						}
 					}
