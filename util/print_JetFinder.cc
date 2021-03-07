@@ -7,11 +7,11 @@ using namespace std;
 int main(int argc, char const *argv[])
 {
 	std::map<string, string> regionTitles;
-	regionTitles["config_lep2tau2j"] = "t_l\\thadhad 2j";
-	regionTitles["config_lep2tau3j"] = "t_l\\thadhad 3j";
-	regionTitles["config_lephad2j"] = "t_h\\tlhad-2j";
-	regionTitles["config_lephad3j"] = "t_h\\tlhad-3j 3j";
-	regionTitles["config_lephad4j"] = "t_h\\tlhad-3j 4j";
+	regionTitles["config_lep2tau2j"] = "t_{l}\\thadhad 2j";
+	regionTitles["config_lep2tau3j"] = "t_{l}\\thadhad 3j";
+	regionTitles["config_lephad2j"] = "t_{h}\\tlhad-2j";
+	regionTitles["config_lephad3j"] = "t_{h}\\tlhad-3j 3j";
+	regionTitles["config_lephad4j"] = "t_{h}\\tlhad-3j 4j";
 	LatexChart chart[2];
 	ifstream inputfile(argv[1]);
 	char inputline[200];
