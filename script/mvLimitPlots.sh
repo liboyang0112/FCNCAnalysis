@@ -16,8 +16,8 @@ do
 	done
 done
 
-cp tuH/combined_BDTG_test/RankingSysts_SigXsecOverSM.pdf $FCNC_DIR/FCNCFigures/tthML/Limit/tuH_Ranking.pdf
-cp tcH/combined_BDTG_test/RankingSysts_SigXsecOverSM.pdf $FCNC_DIR/FCNCFigures/tthML/Limit/tcH_Ranking.pdf
+#cp tuH/combined_BDTG_test/RankingSysts_SigXsecOverSM.pdf $FCNC_DIR/FCNCFigures/tthML/Limit/tuH_Ranking.pdf
+##cp tcH/combined_BDTG_test/RankingSysts_SigXsecOverSM.pdf $FCNC_DIR/FCNCFigures/tthML/Limit/tcH_Ranking.pdf
 cp tuH/combined_BDTG_test/NuisPar.pdf $FCNC_DIR/FCNCFigures/tthML/Limit/tuH_NuisPar.pdf
 cp tcH/combined_BDTG_test/NuisPar.pdf $FCNC_DIR/FCNCFigures/tthML/Limit/tcH_NuisPar.pdf
 cp tuH/combined_BDTG_test/CorrMatrix.pdf $FCNC_DIR/FCNCFigures/tthML/Limit/tuH_CorrMatrix.pdf

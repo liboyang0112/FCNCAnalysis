@@ -28,6 +28,7 @@ int main(int argc, char const *argv[])
 {
 	bool doComb = 1;
 	bool doBlind = 1;
+	bool statsOnly = 1;
 	TString variable = "BDTG_test";
 	auto sigsample = getSigSamples("tthML",0.2);
 	vector<TString> channels = {"reg1l1tau1b2j_ss","reg1l1tau1b1j_ss","reg1l1tau1b2j_os","reg1l1tau1b3j_os","reg1l2tau1bnj_os"};
@@ -56,6 +57,6 @@ int main(int argc, char const *argv[])
 		}
 	}
 	chart->caption="The limits derived from leptonic channels.";
-	chart->print(string(TABLE_DIR)+(doComb?"":"/" + framework) + "/limits");
+	chart->print(string(TABLE_DIR)+(doComb?"":"/" + framework) + "/limits"+(statsOnly?"_statsOnly":""));
 	return 0;
 }
