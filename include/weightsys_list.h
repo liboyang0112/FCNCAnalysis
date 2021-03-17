@@ -378,6 +378,8 @@ std::vector<TString> theoryNPlist = { // theory uncertainties, the recipe is cha
 	"PDFset=260098",
 	"PDFset=260099",
 	"PDFset=260100",
+	"alphaS_up",
+	"alphaS_down",
 	"ISR_up",
 	"ISR_down",
 	"FSR_up",
