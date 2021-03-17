@@ -10,17 +10,17 @@ int main(int argc, char const *argv[])
 
 	string framework = argv[1];
 	if(framework == "tthML"){
-		regionTitles["reg1l2tau1bnj_os"] = "t_{l}\\thadhad";
-		regionTitles["reg1l1tau1b1j_ss"] = "t_{l}\\tauhad-1j";
-		regionTitles["reg1l1tau1b2j_os"] = "t_{h}\\tlhad-2j";
-		regionTitles["reg1l1tau1b2j_ss"] = "t_{l}\\tauhad-2j";
-		regionTitles["reg1l1tau1b3j_os"] = "t_{h}\\tlhad-3j";
+		regionTitles["reg1l2tau1bnj_os"] = "$t_{l}\\thadhad$";
+		regionTitles["reg1l1tau1b1j_ss"] = "$t_{l}\\tauhad$-1j";
+		regionTitles["reg1l1tau1b2j_os"] = "$t_{h}\\tlhad$-2j";
+		regionTitles["reg1l1tau1b2j_ss"] = "$t_{l}\\tauhad$-2j";
+		regionTitles["reg1l1tau1b3j_os"] = "$t_{h}\\tlhad$-3j";
     }else{
-		regionTitles["reg2mtau1b2jos"] = "t_{h}\\thadhad-2j";
-		regionTitles["reg2mtau1b3jos"] = "t_{h}\\thadhad-3j";
+		regionTitles["reg2mtau1b2jos"] = "$t_{h}\\thadhad$-2j";
+		regionTitles["reg2mtau1b3jos"] = "$t_{h}\\thadhad$-3j";
 	}
 	LatexChart chart("BDTOptimResult");
-	ifstream inputfile(argv[1]);
+	ifstream inputfile(argv[2]);
 	char inputline[200];
 	while(!inputfile.eof()){
 		inputfile.getline(inputline,200);
