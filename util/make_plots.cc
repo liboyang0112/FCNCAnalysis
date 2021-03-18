@@ -144,8 +144,8 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	//}
 	auto vars = getVariables(framework);
 
-	if(printSRTable || !doFakeFactor) tau_plots->yieldvariable = "tau_pt_0";
-	else tau_plots->yieldvariable = "lep_pt_0";
+	if(doClosureTest || !printSRTable) tau_plots->yieldvariable = "lep_pt_0";
+	else tau_plots->yieldvariable = "tau_pt_0";
 	if(framework == "tthML"){
 		if(plot2lttbar){
 			tau_plots->add(vars.at("nljet"));
@@ -448,50 +448,49 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	map<TString,vector<TString>> ret;
 	mergeregion(-1,ret);
 	for(auto reg : ret["all"]) tau_plots->add_region(reg);
-	tau_plots->yieldvariable="tau_pt_0";
 	if(framework=="tthML"){
 		if(printSRTable){
-			tau_plots->regioninTables["reg1l2tau1bnj_os"] = "t_{l}\\thadhad";
-			tau_plots->regioninTables["reg1l1tau1b1j_ss_vetobtagwp70_highmet"] = "t_{l}\\tauhad-1j";
-			tau_plots->regioninTables["reg1l1tau1b2j_os_vetobtagwp70_highmet"] = "t_{h}\\tlhad-2j";
-			tau_plots->regioninTables["reg1l1tau1b3j_os_vetobtagwp70_highmet"] = "t_{h}\\tlhad-3j";
-			tau_plots->regioninTables["reg1l1tau1b2j_ss_vetobtagwp70_highmet"] = "t_{l}\\tauhad-2j";
+			tau_plots->regioninTables["reg1l2tau1bnj_os"] = "$t_{l}\\thadhad$";
+			tau_plots->regioninTables["reg1l1tau1b1j_ss_vetobtagwp70_highmet"] = "$t_{l}\\tauhad$-1j";
+			tau_plots->regioninTables["reg1l1tau1b2j_os_vetobtagwp70_highmet"] = "$t_{h}\\tlhad$-2j";
+			tau_plots->regioninTables["reg1l1tau1b3j_os_vetobtagwp70_highmet"] = "$t_{h}\\tlhad$-3j";
+			tau_plots->regioninTables["reg1l1tau1b2j_ss_vetobtagwp70_highmet"] = "$t_{l}\\tauhad$-2j";
 		}else{
-			tau_plots->regioninTables["reg2l1tau1bnj_vetobtagwp70_highmet"] = "t_{l}t_{l}1b\\tauhad";
-			tau_plots->regioninTables["reg2l1tau2bnj_vetobtagwp70_highmet"] = "t_{l}t_{l}2b\\tauhad";
-			tau_plots->regioninTables["reg1l1tau2b3j_ss_vetobtagwp70_highmet"] = "t_{l}t_{h}2b\\tauhad-3jSS";
-			tau_plots->regioninTables["reg1l1tau2b2j_os_vetobtagwp70_highmet"] = "t_{l}t_{h}2b\\tauhad-2jOS";
-			tau_plots->regioninTables["reg1l1tau2b2j_ss_vetobtagwp70_highmet"] = "t_{l}t_{h}2b\\tauhad-2jSS";
-			tau_plots->regioninTables["reg1l1tau2b3j_os_vetobtagwp70_highmet"] = "t_{l}t_{h}2b\\tauhad-3jOS";
+			tau_plots->regioninTables["reg2l1tau1bnj_vetobtagwp70_highmet"] = "$t_{l}t_{l}1b\\tauhad$";
+			tau_plots->regioninTables["reg2l1tau2bnj_vetobtagwp70_highmet"] = "$t_{l}t_{l}2b\\tauhad$";
+			tau_plots->regioninTables["reg1l1tau2b3j_ss_vetobtagwp70_highmet"] = "$t_{l}t_{h}2b\\tauhad$-3jSS";
+			tau_plots->regioninTables["reg1l1tau2b2j_os_vetobtagwp70_highmet"] = "$t_{l}t_{h}2b\\tauhad$-2jOS";
+			tau_plots->regioninTables["reg1l1tau2b2j_ss_vetobtagwp70_highmet"] = "$t_{l}t_{h}2b\\tauhad$-2jSS";
+			tau_plots->regioninTables["reg1l1tau2b3j_os_vetobtagwp70_highmet"] = "$t_{l}t_{h}2b\\tauhad$-3jOS";
 			tau_plots->regioninTables["lowBDT_reg1l2tau1bnj_os"] = "t_{l}\\thadhad";
-			tau_plots->regioninTables["lowBDT_reg1l1tau1b1j_ss_vetobtagwp70_highmet"] = "t_{l}\\tauhad-1j";
-			tau_plots->regioninTables["lowBDT_reg1l1tau1b2j_os_vetobtagwp70_highmet"] = "t_{h}\\tlhad-2j";
-			tau_plots->regioninTables["lowBDT_reg1l1tau1b2j_ss_vetobtagwp70_highmet"] = "t_{l}\\tauhad-2j";
-			tau_plots->regioninTables["lowBDT_reg1l1tau1b3j_os_vetobtagwp70_highmet"] = "t_{h}\\tlhad-3j";
+			tau_plots->regioninTables["lowBDT_reg1l1tau1b1j_ss_vetobtagwp70_highmet"] = "$t_{l}\\tauhad$-1j";
+			tau_plots->regioninTables["lowBDT_reg1l1tau1b2j_os_vetobtagwp70_highmet"] = "$t_{h}\\tlhad$-2j";
+			tau_plots->regioninTables["lowBDT_reg1l1tau1b2j_ss_vetobtagwp70_highmet"] = "$t_{l}\\tauhad$-2j";
+			tau_plots->regioninTables["lowBDT_reg1l1tau1b3j_os_vetobtagwp70_highmet"] = "$t_{h}\\tlhad$-3j";
 			if(!prefit){
-				tau_plots->regioninTables["reg1l1tau1b1j_ss_antiiso_vetobtagwp70_highmet"] = "t_{l}\\tauhad-1j C";
-				tau_plots->regioninTables["reg1l1tau1b1j_ss_vetobtagwp70_lowmet"] = "t_{l}\\tauhad-1j B";
-				tau_plots->regioninTables["reg1l1tau1b1j_ss_antiiso_vetobtagwp70_lowmet"] = "t_{l}\\tauhad-1j A";
-				tau_plots->regioninTables["reg1l1tau1b2j_os_antiiso_vetobtagwp70_highmet"] = "t_{h}\\tlhad-2j C";
-				tau_plots->regioninTables["reg1l1tau1b2j_os_vetobtagwp70_lowmet"] = "t_{h}\\tlhad-2j B";
-				tau_plots->regioninTables["reg1l1tau1b2j_os_antiiso_vetobtagwp70_lowmet"] = "t_{h}\\tlhad-2j A";
-				tau_plots->regioninTables["reg1l1tau1b2j_ss_antiiso_vetobtagwp70_highmet"] = "t_{l}\\tauhad-2j C";
-				tau_plots->regioninTables["reg1l1tau1b2j_ss_vetobtagwp70_lowmet"] = "t_{l}\\tauhad-2j B";
-				tau_plots->regioninTables["reg1l1tau1b2j_ss_antiiso_vetobtagwp70_lowmet"] = "t_{l}\\tauhad-2j A";
-				tau_plots->regioninTables["reg1l1tau1b3j_os_antiiso_vetobtagwp70_highmet"] = "t_{h}\\tlhad-3j C";
-				tau_plots->regioninTables["reg1l1tau1b3j_os_vetobtagwp70_lowmet"] = "t_{h}\\tlhad-3j B";
-				tau_plots->regioninTables["reg1l1tau1b3j_os_antiiso_vetobtagwp70_lowmet"] = "t_{h}\\tlhad-3j A";
-				tau_plots->regioninTables["reg1l1tau1b3j_os_vetobtagwp70_highmet"] = "t_{h}\\tlhad-3j D";
-				tau_plots->regioninTables["reg1l1tau1b1j_ss_vetobtagwp70_highmet"] = "t_{l}\\tauhad-1j D";
-				tau_plots->regioninTables["reg1l1tau1b2j_os_vetobtagwp70_highmet"] = "t_{h}\\tlhad-2j D";
-				tau_plots->regioninTables["reg1l1tau1b2j_ss_vetobtagwp70_highmet"] = "t_{l}\\tauhad-2j D";
+				tau_plots->regioninTables["reg1l1tau1b1j_ss_antiiso_vetobtagwp70_highmet"] = "$t_{l}\\tauhad$-1j C";
+				tau_plots->regioninTables["reg1l1tau1b1j_ss_vetobtagwp70_lowmet"] = "$t_{l}\\tauhad$-1j B";
+				tau_plots->regioninTables["reg1l1tau1b1j_ss_antiiso_vetobtagwp70_lowmet"] = "$t_{l}\\tauhad$-1j A";
+				tau_plots->regioninTables["reg1l1tau1b2j_os_antiiso_vetobtagwp70_highmet"] = "$t_{h}\\tlhad$-2j C";
+				tau_plots->regioninTables["reg1l1tau1b2j_os_vetobtagwp70_lowmet"] = "$t_{h}\\tlhad$-2j B";
+				tau_plots->regioninTables["reg1l1tau1b2j_os_antiiso_vetobtagwp70_lowmet"] = "$t_{h}\\tlhad$-2j A";
+				tau_plots->regioninTables["reg1l1tau1b2j_ss_antiiso_vetobtagwp70_highmet"] = "$t_{l}\\tauhad$-2j C";
+				tau_plots->regioninTables["reg1l1tau1b2j_ss_vetobtagwp70_lowmet"] = "$t_{l}\\tauhad$-2j B";
+				tau_plots->regioninTables["reg1l1tau1b2j_ss_antiiso_vetobtagwp70_lowmet"] = "$t_{l}\\tauhad$-2j A";
+				tau_plots->regioninTables["reg1l1tau1b3j_os_antiiso_vetobtagwp70_highmet"] = "$t_{h}\\tlhad$-3j C";
+				tau_plots->regioninTables["reg1l1tau1b3j_os_vetobtagwp70_lowmet"] = "$t_{h}\\tlhad$-3j B";
+				tau_plots->regioninTables["reg1l1tau1b3j_os_antiiso_vetobtagwp70_lowmet"] = "$t_{h}\\tlhad$-3j A";
+				tau_plots->regioninTables["reg1l1tau1b3j_os_vetobtagwp70_highmet"] = "$t_{h}\\tlhad$-3j D";
+				tau_plots->regioninTables["reg1l1tau1b1j_ss_vetobtagwp70_highmet"] = "$t_{l}\\tauhad$-1j D";
+				tau_plots->regioninTables["reg1l1tau1b2j_os_vetobtagwp70_highmet"] = "$t_{h}\\tlhad$-2j D";
+				tau_plots->regioninTables["reg1l1tau1b2j_ss_vetobtagwp70_highmet"] = "$t_{l}\\tauhad$-2j D";
 			}
 		}
 	}else{
-		tau_plots->regioninTables[string("reg2mtau1b2jos_vetobtagwp70_highmet")+(plotSB?"_SB":"")] = "t_{h}\\thadhad-2j";
-		tau_plots->regioninTables[string("reg2mtau1b3jos_vetobtagwp70_highmet")+(plotSB?"_SB":"")] = "t_{h}\\thadhad-3j";
-		tau_plots->regioninTables[string("reg2mtau1b2jss_vetobtagwp70_highmet")+(plotSB?"_SB":"")] = "t_{h}\\thadhad-2j SSCR";
-		tau_plots->regioninTables[string("reg2mtau1b3jss_vetobtagwp70_highmet")+(plotSB?"_SB":"")] = "t_{h}\\thadhad-3j SSCR";
+		tau_plots->regioninTables[string("reg2mtau1b2jos_vetobtagwp70_highmet")+(plotSB?"_SB":"")] = "$t_{h}\\thadhad$-2j";
+		tau_plots->regioninTables[string("reg2mtau1b3jos_vetobtagwp70_highmet")+(plotSB?"_SB":"")] = "$t_{h}\\thadhad$-3j";
+		tau_plots->regioninTables[string("reg2mtau1b2jss_vetobtagwp70_highmet")+(plotSB?"_SB":"")] = "$t_{h}\\thadhad$-2j SSCR";
+		tau_plots->regioninTables[string("reg2mtau1b3jss_vetobtagwp70_highmet")+(plotSB?"_SB":"")] = "$t_{h}\\thadhad$-3j SSCR";
 		tau_plots->regioninTables[string("reg1mtau1ltau1b2jos_vetobtagwp70_highmet")+(plotSB?"_SB":"")]=string("reg1mtau1ltau1b2jos")+(plotSB?"_SB":"");
 		tau_plots->regioninTables[string("reg1mtau1ltau1b3jos_vetobtagwp70_highmet")+(plotSB?"_SB":"")]=string("reg1mtau1ltau1b3jos")+(plotSB?"_SB":"");
 		tau_plots->regioninTables[string("reg1mtau1ltau1b2jss_vetobtagwp70_highmet")+(plotSB?"_SB":"")]=string("reg1mtau1ltau1b2jss")+(plotSB?"_SB":"");
@@ -593,7 +592,8 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 					inputfile = getFile(mc_campaign + "_" + samplename);
 					double norm = samples[j].norm;
 					if(plotFakeLep) tau_plots->read_sample( samples[j].name, samplename + "_realLep", histmiddlename, samples[j].title, samples[j].color, norm, inputfile, !getFileFailed);
-					else if(samples[j].name.Contains("ttbar") || framework == "xTFW" || !showFake) tau_plots->read_sample( samples[j].name, samplename + "_real", histmiddlename, samples[j].title, samples[j].color, norm, inputfile, !getFileFailed);
+					else if(samples[j].name.Contains("ttbar") || framework == "xTFW" || !showFake) 
+						tau_plots->read_sample( samples[j].name, samplename + "_real", histmiddlename, samples[j].title, samples[j].color, norm, inputfile, !getFileFailed);
 					else tau_plots->read_sample("others", samplename + "_real", histmiddlename, "Other MC", samples[j].color, norm, inputfile, !getFileFailed);
 					//tau_plots->read_sample( samples[j].name, samplename + "_lep", histmiddlename, samples[j].title, samples[j].color, norm, inputfile, !getFileFailed);
 					if(!realOnly){
@@ -663,7 +663,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 				if(ipart==0) if(iNP == 0) FFchart = new LatexChart("FF");
 				tau_plots->stackorder.push_back("QCD_Fake_lep");
 //				string fakeFormular="1 data -1 smhiggs -1 wjet -1 diboson -1 zll -1 ztautau -1 ttbar -1 ttV -1 others -1 lep_fake -1 other_fake -1 b_fake -1 w_jet_fake";
-				string fakeFormular="1 data -1 others -1 lep_fake -1 other_fake -1 b_fake -1 w_jet_fake";
+				string fakeFormular="1 data -1 others -1 ttbar -1 lep_fake -1 other_fake -1 b_fake -1 w_jet_fake";
 				vector<TString> FFregions = {
 					//"reg1l1tau1b1j_os",
 					"reg1l1tau1b1j_ss",
