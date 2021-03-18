@@ -28,11 +28,11 @@ int main(int argc, char const *argv[])
 {
 	bool doComb = 1;
 	bool doBlind = 1;
-	bool statsOnly = 1;
+	bool statsOnly = 0;
 	TString variable = "BDTG_test";
 	auto sigsample = getSigSamples("tthML",0.2);
 	vector<TString> channels = {"reg1l1tau1b2j_ss","reg1l1tau1b1j_ss","reg1l1tau1b2j_os","reg1l1tau1b3j_os","reg1l2tau1bnj_os"};
-	vector<TString> channelstitle = {"$l\\tauhad$2j", "$l\\tauhad$1j", "STH $\\tlhad$", "TTH $\\tlhad$", "$t_l\\thadhad$"};
+	vector<TString> channelstitle = {"$t_l\\tauhad$-2j", "$t_l\\tauhad$-1j", "$t_h\\tlhad$-2j", "$t_h\\tlhad$-3j", "$t_l\\thadhad$"};
 	string framework = argc>1? argv[1]:"";
 	if(framework!="") doComb=0;
 	LatexChart *chart = new LatexChart("limit");
