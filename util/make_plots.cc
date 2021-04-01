@@ -127,7 +127,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	if(NPname.Contains("ttbarsys")){
 		samplesys = "ttbar";
 	}else if(NPname.Contains("Lumi")){
-		for(auto samp:samples){
+		for(auto &samp:samples){
 			samp.norm*=1.017;
 		}
 	}
@@ -166,7 +166,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 //					var.first!="drlbditau"
 //					&&var.first!="etmiss"
 //					&&var.first!="ttvismass"
-					((!printSRTable||doClosureTest) && !doTrex && var.first!="lep_pt_0")||
+					((!printSRTable||doClosureTest) && var.first!="lep_pt_0")||
 					(doTrex && var.first!="BDTG_test")
 					//var.first!="chi2"
 					//&&var.first!="drlb"

@@ -1060,7 +1060,7 @@ void nominal::ConfigNewFakeSF(){ //origin=-1,0,1,2,3 for real/lep,b,c,g,j
     LatexChart *chart = 0;
     printf("saved SF for NP:");
     for(auto iter : newFakeSF[iprong]){
-      printf(" %s", iter.first.Data());
+      printf(" %s,", iter.first.Data());
     }
     printf("\nnew SFs: \n");
     string chartname = string("scale_factors") + (mergeProngFF?"":nprongstrs[iprong].Data());
@@ -1905,7 +1905,7 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
                 }
               }
             }// end of applyNewFakeSF
-            if(!theNP.Contains("Xsec") && !theNP.Contains("fakeSF") && nominaltree) { ////this part deal with "weight"
+            if(!theNP.Contains("Xsec") && !theNP.Contains("fakeSF") && nominaltree && !theNP.Contains("Lumi")) { ////this part deal with "weight"
               auto it = weightmap.find(theNP.Data());
               int index = 0;
               if(it != weightmap.end()) index = it->second;

@@ -90,7 +90,11 @@ void tthmltree::init_hist(TString outputfilename){
     fcnc_plots = new histSaver(outputfilename);
     fcnc_plots->set_weight(&weight);
     fcnc_plots->debug = !!debug;
-    if(reduce == 3 && doBDT && (plotNPs.size()>1 || !nominaltree) && !outputfilename.Contains("data")) fcnc_plots->add(vars.at("BDTG_test"),&BDTG_test);
+    if(reduce == 3 && doBDT && (plotNPs.size()>1 || !nominaltree) && !outputfilename.Contains("data")) {
+        fcnc_plots->add(vars.at("BDTG_test"),&BDTG_test);
+        fcnc_plots->add(vars.at("tau_pt_0"),&tau_pt_0);
+        fcnc_plots->add(vars.at("lep_pt_0"),&lep_pt_0);
+    }
     else{
       if(reduce >= 2) {
         if(reduce == 3 && doBDT) {

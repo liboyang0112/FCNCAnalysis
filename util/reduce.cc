@@ -34,7 +34,7 @@ int main(int argc, char const *argv[])
 	bool doTheory=1;
 	bool onlyMajorNP = 0; // set to 0 for current xTFW analysis.
 	bool applynewSF = 0; //w-jet non-w-jet fake, not available for both hadhad and lephad yet
-	bool nominalOnly = 1; //when nominal =1
+	bool nominalOnly = 0; //when nominal =1
 	TString version = "v3"; //define your n-tuple version
 	TString prefix1;
 	TString prefix = PACKAGE_DIR;
@@ -145,33 +145,34 @@ int main(int argc, char const *argv[])
 	}else{
 		if(tthdofcnc || reduce == 1){
 //			regions.push_back("reg1l1tau1b_os");
-			regions.push_back("reg1l1tau1b_ss");
 //			regions.push_back("reg1l1tau1b1j_os");
+//			regions.push_back("reg1l1tau1b3j_ss");
+//			regions.push_back("reg1l1tau1b_os_antiiso");
+//			regions.push_back("reg1l1tau1b1j_os_antiiso");
+//			regions.push_back("reg1l1tau1b3j_ss_antiiso");
+			regions.push_back("reg2l1tau1bnj");
+			regions.push_back("reg2l1tau2bnj");
+			regions.push_back("reg1l1tau1b_ss");
 			regions.push_back("reg1l1tau1b1j_ss");
 			regions.push_back("reg1l1tau1b2j_os");
 			regions.push_back("reg1l1tau1b2j_ss");
 			regions.push_back("reg1l1tau1b3j_os");
-//			regions.push_back("reg1l1tau1b3j_ss");
-//			regions.push_back("reg1l1tau1b_os_antiiso");
 			regions.push_back("reg1l1tau1b_ss_antiiso");
-//			regions.push_back("reg1l1tau1b1j_os_antiiso");
 			regions.push_back("reg1l1tau1b1j_ss_antiiso");
 			regions.push_back("reg1l1tau1b2j_os_antiiso");
 			regions.push_back("reg1l1tau1b2j_ss_antiiso");
 			regions.push_back("reg1l1tau1b3j_os_antiiso");
-//			regions.push_back("reg1l1tau1b3j_ss_antiiso");
-			regions.push_back("reg2l1tau1bnj");
-			regions.push_back("reg2l1tau2bnj");
-//			regions.push_back("reg1l1tau2b_os");
-//			regions.push_back("reg1l1tau2b_ss");
-//			regions.push_back("reg1l1tau2b1j_os");
-//			regions.push_back("reg1l1tau2b1j_ss");
 			regions.push_back("reg1l1tau2b2j_os");
 			regions.push_back("reg1l1tau2b2j_ss");
 			regions.push_back("reg1l1tau2b3j_os");
 			regions.push_back("reg1l1tau2b3j_ss");
 			regions.push_back("reg1l2tau1bnj_os");
 			regions.push_back("reg1l2tau1bnj_ss");
+//
+//			regions.push_back("reg1l1tau2b_os");
+//			regions.push_back("reg1l1tau2b_ss");
+//			regions.push_back("reg1l1tau2b1j_os");
+//			regions.push_back("reg1l1tau2b1j_ss");
 //			regions.push_back("reg1l2tau2bnj_os");
 //			regions.push_back("reg1l2tau2bnj_ss");
 //			regions.push_back("reg2lSS1tau1bnj_os");
@@ -330,7 +331,7 @@ int main(int argc, char const *argv[])
 			inputfile_nominal = new TFile(inputfilename_nominal,"read");
 		}
 		for(auto reg : regions){
-			if(applynewSF && reg.Contains("2b") || reg.Contains("2l")) continue;
+			if(applynewSF && (reg.Contains("2b") || reg.Contains("2l"))) continue;
 			TTree *nominalinputtree = 0;
 				printf("Loop region: %s\n", reg.Data());
 			if(!analysis->nominaltree && framework == "tthML" && reduce == 2){

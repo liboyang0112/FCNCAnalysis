@@ -5,8 +5,7 @@ fcnc_ch
 fcnc_prod_ch
 fcnc_prod_uh
 fcnc_uh
-FF_QCD_e
-FF_QCD_mu
+QCD_Fake_lep
 lep_fake
 other_fake
 others
