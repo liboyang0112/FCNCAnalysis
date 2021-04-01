@@ -227,7 +227,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 
 
 	gErrorIgnoreLevel = kWarning;
-	tau_plots->blinding = 1;
+	tau_plots->blinding = 0.2;
 	vector<TString> regions_xTFW = {
 		/*//"reg1mtau1ltau1b2jss",
 		"reg2ltau1b2jss",
