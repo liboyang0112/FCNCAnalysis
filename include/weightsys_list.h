@@ -559,10 +559,10 @@ std::vector<TString> commontreeNPlist = {
 };
 
 std::vector<TString> sampleNPlist = {
-	"ttbarsys_frag",
-	"ttbarsys_hscatter",
+	"ttbarsys_aMCPy",
+	"ttbarsys_PHHW",
+	"ttbarsys_PHPyStar",
 };
-
 std::vector<TString> xsecNPlist = {
 	"ztautauXsec_up",
 	"ztautauXsec_down",
