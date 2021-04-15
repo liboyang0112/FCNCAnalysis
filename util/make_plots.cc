@@ -541,7 +541,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	}
 	bool getFileFailed = 0;
 	auto getFile = [&](TString sample){
-		TFile *inputfile = new TFile(dirname + "/" + sample + "_" + ((dirname==(framework == "tthML"? "nominal" : "NOMINAL")&&samplesys=="")? NPname : nominalname) + ".root");
+		TFile *inputfile = new TFile(dirname + "/" + sample + "_" + histmiddlename + ".root");
 		getFileFailed=0;
 		if(inputfile->IsZombie()) {
 			getFileFailed=1;
