@@ -232,6 +232,7 @@ int main(int argc, char const *argv[])
 #endif
 	}
 	analysis->SystematicsName = systname;
+	analysis->InputSample=inputconfig;
 	analysis->dumptruth = 0;
 	analysis->dumpeventnumber = 0;
 	analysis->dofit = 1;
@@ -314,9 +315,9 @@ int main(int argc, char const *argv[])
 				}else analysis->plotNPs.push_back("NOMINAL");
 			}else analysis->plotNPs.push_back("NOMINAL");
 			for(auto NPs: analysis->plotNPs) printf("Plotting NPs: %s\n",NPs.Data());
-			if(applynewSF) analysis->ConfigNewFakeSF();
 			analysis->fcnc_regions = regions;
 			analysis->init_hist(inputconfig);
+			if(applynewSF) analysis->ConfigNewFakeSF();
 		}
 	        analysis->fcnc_regions = regions;
         	analysis->init_sample(inputconfig,inputconfig);
