@@ -805,7 +805,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 							TString histname = SF.first + "_pt" + (to_string(int(fakePtSlices[i])) + to_string(int(fakePtSlices[i+1]))).c_str();
 							SFhist = (TH1D*)SFfile.Get(histname);
 							if(!SFhist) {
-								SFhist = new TH1D(histname,histname,300,0,300);
+								SFhist = new TH1D(histname,histname,1000,0,1000);
 							}
 							SFhist -> SetBinContent(iNP+1,SF.second[i].nominal);
 							SFhist -> SetBinError(iNP+1,SF.second[i].error);

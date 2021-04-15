@@ -451,7 +451,7 @@ void tthmltree_v6::defineTauTruth(){
     else if (taus_truthJetFlavour_1 < 0 && (taus_truthType_1 == 2 || taus_truthType_1 == 6)) taus_matched_pdgId->push_back(11);
     else taus_matched_pdgId->push_back(taus_truthJetFlavour_1);
   }
-  if(nominaltree && taus_p4->size()){
+  if((nominaltree||SystematicsName=="nominal") && taus_p4->size()){
     constructTruth();
     for (int i = 0; i < taus_p4->size(); ++i)
     {
@@ -1964,5 +1964,5 @@ void tthmltree_v6::initRaw(TTree *tree)
    tree->SetBranchAddress("jvtSF_customOR__1down", &jvtSF_customOR__1down, &b_jvtSF_customOR__1down);
    tree->SetBranchAddress("fjvtSF_customOR__1up", &fjvtSF_customOR__1up, &b_fjvtSF_customOR__1up);
    tree->SetBranchAddress("fjvtSF_customOR__1down", &fjvtSF_customOR__1down, &b_fjvtSF_customOR__1down);
-   if(nominaltree) tree->SetBranchAddress("mc_norm", &mc_norm, &b_mc_norm);
+   if((nominaltree||SystematicsName=="nominal")) tree->SetBranchAddress("mc_norm", &mc_norm, &b_mc_norm);
 }

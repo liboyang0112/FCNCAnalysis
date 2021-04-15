@@ -1399,7 +1399,7 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
   
       chi2 = 0;
       nljet = ljets_p4->size();
-      if(!nominaltree && leps_p4->size()!=0) {
+      if(!nominaltree && leps_p4->size()!=0 && SystematicsName!= "nominal") {
         taus_matched_mother_pdgId = 0;
         auto tmp = taumatchmap.find(eventNumber);
         if(tmp!=taumatchmap.end()) taus_matched_mother_pdgId = new vector<int>(tmp->second);
@@ -1899,7 +1899,7 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
               }else{
                 if(doubleCounting){
                   weight *= FindNewFakeSF("NOMINAL").nominal;
-                }else if(nominaltree) 
+                }else if(nominaltree||SystematicsName=="nominal") 
                   weight *= FindNewFakeSF(theNP).nominal;
                 else if(theNP == "NOMINAL"){
                   weight *= FindNewFakeSF(SystematicsName).nominal;

@@ -59,7 +59,7 @@ int main(int argc, char const *argv[])
 	findAndReplaceAll(tmpsystname,"CategoryReduction_","");
 	findAndReplaceAll(tmpsystname,"__","_");
 	TString systname = tmpsystname.c_str();
-	if(samplefile.Contains("sys") && systname != "NOMINAL") {
+	if(samplefile.Contains("sys") && systname != "NOMINAL" && systname != "nominal") {
 		printf("sys sample doesnt have the systematic trees\n");
 		return 0;
 	}
@@ -234,6 +234,7 @@ int main(int argc, char const *argv[])
 	}
 	analysis->SystematicsName = systname;
 	analysis->InputSample=inputconfig;
+	analysis->InputSample.Remove(0,6);
 	analysis->dumptruth = 0;
 	analysis->dumpeventnumber = 0;
 	analysis->dofit = 1;
@@ -599,7 +600,7 @@ int main(int argc, char const *argv[])
   	analysis->cut_flow.clear();
 	if(inputconfig.Contains("mc16a")) {
 		gSystem->mkdir(prefix + "/config/theoryweightlist");
-		if(analysis->nominaltree) analysis->saveweightslist(prefix + "/config/theoryweightlist/" + framework + "_" + to_string(lastdsid) + ".txt");
+		analysis->saveweightslist(prefix + "/config/theoryweightlist/" + framework + "_" + to_string(lastdsid) + ".txt");
 	}
 	if(framework == "xTFW"){
 		analysis->outputtreefile->cd();

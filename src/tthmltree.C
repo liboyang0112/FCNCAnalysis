@@ -216,8 +216,7 @@ void tthmltree::init_sample(TString sample, TString sampletitle){
       if(fake_nregions_notau) fake_notau_plots->add_sample("data","data",kBlue);
       initdata = 1;
     }else{
-      if(sample.Contains("ttbar")) sample = "ttbar";
-      else sample.Remove(0,6);
+      sample.Remove(0,6);
       auto origins = plotTauFake? getFakeTauOrigin() : getFakeLepOrigin();
       if(fcnc_nregions){
         for(auto origin : origins) fcnc_plots->add_sample(sample + "_" + origin.name,sampletitle + "(" + origin.title + ")",origin.color);
