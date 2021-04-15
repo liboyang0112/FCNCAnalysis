@@ -942,7 +942,7 @@ observable nominal::FindNewFakeSF(TString NP, int itau, TString &name){ //origin
     }
     printf("get origin: %s\n", origin.Data());
   }
-  observable result = doubleCounting? newFakeSFSys[prongbin].at(origin).at(slice) : newFakeSF[prongbin].at(NP).at(origin).at(slice);
+  observable result = doubleCounting? newFakeSFSys[prongbin].at(origin).at(slice) : newFakeSF[prongbin].at(InputSample.Contains("sys")?InputSample:NP).at(origin).at(slice);
   string ss = string("fakeSFNP_") + (mergeProngFF?"":(prongbin? "3prong_":"1prong_")) + "ptbin" + to_string(slice) + "_" + origin.Data();
   name = ss.c_str();
   if(!newFakeSF[prongbin][NP].size()) printf("nominal::FindNewFakeSF : NP %s not found\n", NP.Data());
@@ -1030,6 +1030,7 @@ void nominal::ConfigNewFakeSF(){ //origin=-1,0,1,2,3 for real/lep,b,c,g,j
             err2 += pow(content - newFakeSFnominal, 2);
           }
           if((find(plotNPs.begin(),plotNPs.end(),NPname) == plotNPs.end()) && SystematicsName!=NPname && NPname!="NOMINAL") {
+          	if(InputSample!=NPname)
             continue;
           }
           if(!newFakeSF[iprong][NPname].size()) {
