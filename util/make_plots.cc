@@ -126,6 +126,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	TString samplesys = "";
 	if(NPname.Contains("ttbarsys")){
 		samplesys = "ttbar";
+		histmiddlename = nominalname;
 	}else if(NPname.Contains("Lumi")){
 		for(auto samp:samples){
 			samp.norm*=1.017;
