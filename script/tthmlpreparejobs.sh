@@ -22,6 +22,7 @@ inputdatadir=/global/projecta/projectdirs/atlas/weiming/testareaSL5/AxAODsData/t
 #done
 ls $inputdir/*.root | grep -v p4310 | tee $allsamplefile $sysallsamplefile > /dev/null
 ls $inputdatadir/*newProd*.root | grep -v p4310 | tee -a $allsamplefile $sysallsamplefile > /dev/null
+ls $inputdatadir/*-nom*.root | grep -v p4310 | tee -a $allsamplefile $sysallsamplefile > /dev/null
 ls $inputdatadir/*data*.root >> $allsamplefile
 
 Order $allsamplefile
