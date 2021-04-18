@@ -942,7 +942,7 @@ observable nominal::FindNewFakeSF(TString NP, int itau, TString &name){ //origin
     }
     printf("get origin: %s\n", origin.Data());
   }
-  observable result = doubleCounting? newFakeSFSys[prongbin].at(origin).at(slice) : newFakeSF[prongbin].at(NP).at(origin).at(slice);
+  observable result = doubleCounting? newFakeSFSys[prongbin].at(origin).at(slice) : newFakeSF[prongbin].at(InputSample.Contains("sys")?InputSample:NP).at(origin).at(slice);
   string ss = string("fakeSFNP_") + (mergeProngFF?"":(prongbin? "3prong_":"1prong_")) + "ptbin" + to_string(slice) + "_" + origin.Data();
   name = ss.c_str();
   if(!newFakeSF[prongbin][NP].size()) printf("nominal::FindNewFakeSF : NP %s not found\n", NP.Data());
@@ -1030,6 +1030,7 @@ void nominal::ConfigNewFakeSF(){ //origin=-1,0,1,2,3 for real/lep,b,c,g,j
             err2 += pow(content - newFakeSFnominal, 2);
           }
           if((find(plotNPs.begin(),plotNPs.end(),NPname) == plotNPs.end()) && SystematicsName!=NPname && NPname!="NOMINAL") {
+          	if(InputSample!=NPname)
             continue;
           }
           if(!newFakeSF[iprong][NPname].size()) {
@@ -1060,7 +1061,7 @@ void nominal::ConfigNewFakeSF(){ //origin=-1,0,1,2,3 for real/lep,b,c,g,j
     LatexChart *chart = 0;
     printf("saved SF for NP:");
     for(auto iter : newFakeSF[iprong]){
-      printf(" %s", iter.first.Data());
+      printf(" %s,", iter.first.Data());
     }
     printf("\nnew SFs: \n");
     string chartname = string("scale_factors") + (mergeProngFF?"":nprongstrs[iprong].Data());
@@ -1398,7 +1399,7 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
   
       chi2 = 0;
       nljet = ljets_p4->size();
-      if(!nominaltree && leps_p4->size()!=0) {
+      if(!nominaltree && leps_p4->size()!=0 && SystematicsName!= "nominal") {
         taus_matched_mother_pdgId = 0;
         auto tmp = taumatchmap.find(eventNumber);
         if(tmp!=taumatchmap.end()) taus_matched_mother_pdgId = new vector<int>(tmp->second);
@@ -1898,14 +1899,14 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
               }else{
                 if(doubleCounting){
                   weight *= FindNewFakeSF("NOMINAL").nominal;
-                }else if(nominaltree) 
+                }else if(nominaltree||SystematicsName=="nominal") 
                   weight *= FindNewFakeSF(theNP).nominal;
                 else if(theNP == "NOMINAL"){
                   weight *= FindNewFakeSF(SystematicsName).nominal;
                 }
               }
             }// end of applyNewFakeSF
-            if(!theNP.Contains("Xsec") && !theNP.Contains("fakeSF") && nominaltree) { ////this part deal with "weight"
+            if(!theNP.Contains("Xsec") && !theNP.Contains("fakeSF") && nominaltree && !theNP.Contains("Lumi")) { ////this part deal with "weight"
               auto it = weightmap.find(theNP.Data());
               int index = 0;
               if(it != weightmap.end()) index = it->second;

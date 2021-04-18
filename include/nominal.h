@@ -64,6 +64,7 @@ public :
   //=============================configurations===============================
   TString dataDir = ".";
   TString SystematicsName = "NOMINAL";
+  TString InputSample = "";
   CutFlow cut_flow;
   TMinuit* gMinside;
 // Fixed size dimensions of array or collections stored in the TTree if any.

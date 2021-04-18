@@ -90,7 +90,11 @@ void tthmltree::init_hist(TString outputfilename){
     fcnc_plots = new histSaver(outputfilename);
     fcnc_plots->set_weight(&weight);
     fcnc_plots->debug = !!debug;
-    if(reduce == 3 && doBDT && (plotNPs.size()>1 || !nominaltree) && !outputfilename.Contains("data")) fcnc_plots->add(vars.at("BDTG_test"),&BDTG_test);
+    if(reduce == 3 && doBDT && (plotNPs.size()>1 || !nominaltree) && !outputfilename.Contains("data")) {
+        fcnc_plots->add(vars.at("BDTG_test"),&BDTG_test);
+        fcnc_plots->add(vars.at("tau_pt_0"),&tau_pt_0);
+        fcnc_plots->add(vars.at("lep_pt_0"),&lep_pt_0);
+    }
     else{
       if(reduce >= 2) {
         if(reduce == 3 && doBDT) {
@@ -212,8 +216,7 @@ void tthmltree::init_sample(TString sample, TString sampletitle){
       if(fake_nregions_notau) fake_notau_plots->add_sample("data","data",kBlue);
       initdata = 1;
     }else{
-      if(sample.Contains("ttbar")) sample = "ttbar";
-      else sample.Remove(0,6);
+      sample.Remove(0,6);
       auto origins = plotTauFake? getFakeTauOrigin() : getFakeLepOrigin();
       if(fcnc_nregions){
         for(auto origin : origins) fcnc_plots->add_sample(sample + "_" + origin.name,sampletitle + "(" + origin.title + ")",origin.color);

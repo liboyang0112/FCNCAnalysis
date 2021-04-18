@@ -126,8 +126,9 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	TString samplesys = "";
 	if(NPname.Contains("ttbarsys")){
 		samplesys = "ttbar";
+		histmiddlename = nominalname;
 	}else if(NPname.Contains("Lumi")){
-		for(auto samp:samples){
+		for(auto &samp:samples){
 			samp.norm*=1.017;
 		}
 	}
@@ -166,7 +167,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 //					var.first!="drlbditau"
 //					&&var.first!="etmiss"
 //					&&var.first!="ttvismass"
-					((!printSRTable||doClosureTest) && !doTrex && var.first!="lep_pt_0")||
+					((!printSRTable||doClosureTest) && var.first!="lep_pt_0")||
 					(doTrex && var.first!="BDTG_test")
 					//var.first!="chi2"
 					//&&var.first!="drlb"
@@ -227,7 +228,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 
 
 	gErrorIgnoreLevel = kWarning;
-	tau_plots->blinding = 1;
+	tau_plots->blinding = 0.2;
 	vector<TString> regions_xTFW = {
 		/*//"reg1mtau1ltau1b2jss",
 		"reg2ltau1b2jss",
@@ -540,7 +541,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	}
 	bool getFileFailed = 0;
 	auto getFile = [&](TString sample){
-		TFile *inputfile = new TFile(dirname + "/" + sample + "_" + (dirname==(framework == "tthML"? "nominal" : "NOMINAL")? NPname : nominalname) + ".root");
+		TFile *inputfile = new TFile(dirname + "/" + sample + "_" + histmiddlename + ".root");
 		getFileFailed=0;
 		if(inputfile->IsZombie()) {
 			getFileFailed=1;
@@ -804,7 +805,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 							TString histname = SF.first + "_pt" + (to_string(int(fakePtSlices[i])) + to_string(int(fakePtSlices[i+1]))).c_str();
 							SFhist = (TH1D*)SFfile.Get(histname);
 							if(!SFhist) {
-								SFhist = new TH1D(histname,histname,300,0,300);
+								SFhist = new TH1D(histname,histname,1000,0,1000);
 							}
 							SFhist -> SetBinContent(iNP+1,SF.second[i].nominal);
 							SFhist -> SetBinError(iNP+1,SF.second[i].error);
