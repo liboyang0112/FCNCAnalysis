@@ -11,11 +11,30 @@ int main(int argc, char const *argv[])
 	string variationlistfile = argv[1];
 	TString outputdir = "trexinputs";
 	string variable="BDTG_test";
+	TString fakefilename[5]={"b_fake","other_fake","w_jet_fake","doublefake","lep_fake"};
 	TString prefix = TString(PACKAGE_DIR) + "/config/trexfitter/";
 	vector<TString> regions = readTovecString(prefix + framework + "/regionlist.txt");
 //======================= read files ======================
 	for(auto region:regions){
 		TFile *ttbarfile = new TFile(prefix+variable+"/"+region+"/ttbar.root","update");
+		TFile *fakefile[5];
+		if(framework == "tthML") for (int i = 0; i < 5; ++i)
+		{
+			fakefile[i] = new TFile(prefix+variable+"/"+region+"/"+fakefilename[i]+".root","update");
+			TH1D *fakeNOMINAL = (TH1D*) fakefile[i]->Get("NOMINAL");
+			TH1D *fakePHHW = (TH1D*) fakefile[i]->Get("ttbarsys_PHHW");
+			TH1D *fakeaMCPy = (TH1D*) fakefile[i]->Get("ttbarsys_aMCPy");
+			TH1D *fakePHPyStar = (TH1D*) fakefile[i]->Get("ttbarsys_PHPyStar");
+			TH1D *ME = (TH1D*) fakeaMCPy ->Clone("ME");
+			ME->Add(fakePHPyStar,-1);
+			ME->Add(fakeNOMINAL);
+			fakefile[i]->cd();
+			fakePHHW->Write("PS",TObject::kWriteDelete);
+			ME->Write("ME",TObject::kWriteDelete);
+			fakefile[i]->Close();
+			deletepointer(fakefile[i]);
+
+		}
 		TFile *decaysignalfile[2], *mergedsignalfile[2];
 		decaysignalfile[0] = new TFile(prefix+variable+"/"+region+"/fcnc_ch.root","update");
 		decaysignalfile[1] = new TFile(prefix+variable+"/"+region+"/fcnc_uh.root","update");
@@ -53,6 +72,7 @@ int main(int argc, char const *argv[])
 		}
 		TH1D *ttbarME = (TH1D*)ttbarNOMINAL->Clone("ttbarME");
 		ttbarME->Add(diffME);
+		deletepointer(diffME);
 		ttbarfile->cd();
 		ttbarPHHW->Write("PS",TObject::kWriteDelete);
 		ttbarME->Write("ME",TObject::kWriteDelete);
