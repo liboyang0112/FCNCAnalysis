@@ -24,7 +24,7 @@ int main(int argc, char const *argv[])
 			TH1D *fakeaMCPy = (TH1D*) fakefile->Get("ttbarsys_aMCPy");
 			TH1D *fakePHPyStar = (TH1D*) fakefile->Get("ttbarsys_PHPyStar");
 			if(!fakeaMCPy) {
-					printf("ttbarsys_aMCPy not found in file %s.\n", fakefile[i]->GetName());
+					printf("ttbarsys_aMCPy not found in file %s.\n", fakefile->GetName());
 					continue;
 			}
 			TH1D *ME = (TH1D*) fakeaMCPy ->Clone("ME");
