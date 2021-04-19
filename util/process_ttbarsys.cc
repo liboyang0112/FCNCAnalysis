@@ -8,13 +8,13 @@ int main(int argc, char const *argv[])
 	//	exit(0);
 	//}
 	TString framework = "tthML";
-	string variationlistfile = argv[1];
 	TString outputdir = "trexinputs";
 	string variable="BDTG_test";
 	TString fakefilename[5]={"b_fake","other_fake","w_jet_fake","doublefake","lep_fake"};
 	TString prefix = TString(PACKAGE_DIR) + "/config/trexfitter/";
 	vector<TString> regions = readTovecString(prefix + framework + "/regionlist.txt");
 //======================= read files ======================
+	prefix = "./trexinputs/";
 	for(auto region:regions){
 		TFile *ttbarfile = new TFile(prefix+variable+"/"+region+"/ttbar.root","update");
 		TFile *fakefile[5];
@@ -38,14 +38,19 @@ int main(int argc, char const *argv[])
 		TFile *decaysignalfile[2], *mergedsignalfile[2];
 		decaysignalfile[0] = new TFile(prefix+variable+"/"+region+"/fcnc_ch.root","update");
 		decaysignalfile[1] = new TFile(prefix+variable+"/"+region+"/fcnc_uh.root","update");
-		mergedsignalfile[0] =new TFile (prefix+variable+"/"+region+"/tch.root","update");
-		mergedsignalfile[1] =new TFile (prefix+variable+"/"+region+"/tuh.root","update");
+		mergedsignalfile[0] =new TFile (prefix+variable+"/"+region+"/tcH.root","update");
+		mergedsignalfile[1] =new TFile (prefix+variable+"/"+region+"/tuH.root","update");
 		TH1D *ttbarNOMINAL = (TH1D*) ttbarfile->Get("NOMINAL");
 		TH1D *ttbarPHHW = (TH1D*) ttbarfile->Get("ttbarsys_PHHW");
 		TH1D *ttbaraMCPy = (TH1D*) ttbarfile->Get("ttbarsys_aMCPy");
 		TH1D *ttbarPHPyStar = (TH1D*) ttbarfile->Get("ttbarsys_PHPyStar");
+		if(!ttbaraMCPy) {
+			printf("Histogram %s in File %s is not found.\n",ttbarfile->GetName(),"ttbarsys_aMCPy");
+			exit(0);
+		}
 		TH1D *diffME = (TH1D*) ttbaraMCPy ->Clone("diffME");
 		diffME->Add(ttbarPHPyStar,-1);
+		diffME->SetDirectory(0);
 		double ttbaryield = ttbarNOMINAL->Integral();
 		double scalePS = ttbarPHHW->Integral()/ttbaryield;
 		for(int i = 0; i<2 ; i++){
