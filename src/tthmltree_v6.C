@@ -442,12 +442,12 @@ void tthmltree_v6::defineTauTruth(){
   taus_matched_mother_pdgId->clear();
   taus_matched_pdgId->clear();
   if(taus_p4->size()){
-    if (taus_truthType_0 == 10 || (InputSample.Contains("PHHW") && taus_isHadronic_0)) taus_matched_pdgId->push_back(15);
+    if (taus_truthType_0 == 10 || (InputSample.Contains("PHHW") && taus_isHadronic_0 && taus_truthType_0==0)) taus_matched_pdgId->push_back(15);
     else if (taus_truthJetFlavour_0 < 0 && (taus_truthType_0 == 2 || taus_truthType_0 == 6)) taus_matched_pdgId->push_back(11);
     else taus_matched_pdgId->push_back(taus_truthJetFlavour_0);
   }
   if(taus_p4->size()>=2){
-    if (taus_truthType_1 == 10 || (InputSample.Contains("PHHW") && taus_isHadronic_1)) taus_matched_pdgId->push_back(15);
+    if (taus_truthType_1 == 10 || (InputSample.Contains("PHHW") && taus_isHadronic_1 && taus_truthType_1==0)) taus_matched_pdgId->push_back(15);
     else if (taus_truthJetFlavour_1 < 0 && (taus_truthType_1 == 2 || taus_truthType_1 == 6)) taus_matched_pdgId->push_back(11);
     else taus_matched_pdgId->push_back(taus_truthJetFlavour_1);
   }
