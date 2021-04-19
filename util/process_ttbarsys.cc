@@ -16,25 +16,28 @@ int main(int argc, char const *argv[])
 //======================= read files ======================
 	prefix = "./trexinputs/";
 	for(auto region:regions){
-		TFile *ttbarfile = new TFile(prefix+variable+"/"+region+"/ttbar.root","update");
-		TFile *fakefile[5];
 		if(framework == "tthML") for (int i = 0; i < 5; ++i)
 		{
-			fakefile[i] = new TFile(prefix+variable+"/"+region+"/"+fakefilename[i]+".root","update");
-			TH1D *fakeNOMINAL = (TH1D*) fakefile[i]->Get("NOMINAL");
-			TH1D *fakePHHW = (TH1D*) fakefile[i]->Get("ttbarsys_PHHW");
-			TH1D *fakeaMCPy = (TH1D*) fakefile[i]->Get("ttbarsys_aMCPy");
-			TH1D *fakePHPyStar = (TH1D*) fakefile[i]->Get("ttbarsys_PHPyStar");
+			TFile *fakefile = new TFile(prefix+variable+"/"+region+"/"+fakefilename[i]+".root","update");
+			TH1D *fakeNOMINAL = (TH1D*) fakefile->Get("NOMINAL");
+			TH1D *fakePHHW = (TH1D*) fakefile->Get("ttbarsys_PHHW");
+			TH1D *fakeaMCPy = (TH1D*) fakefile->Get("ttbarsys_aMCPy");
+			TH1D *fakePHPyStar = (TH1D*) fakefile->Get("ttbarsys_PHPyStar");
+			if(!fakeaMCPy) {
+					printf("ttbarsys_aMCPy not found in file %s.\n", fakefile[i]->GetName());
+					continue;
+			}
 			TH1D *ME = (TH1D*) fakeaMCPy ->Clone("ME");
 			ME->Add(fakePHPyStar,-1);
 			ME->Add(fakeNOMINAL);
-			fakefile[i]->cd();
+			fakefile->cd();
 			fakePHHW->Write("PS",TObject::kWriteDelete);
 			ME->Write("ME",TObject::kWriteDelete);
-			fakefile[i]->Close();
-			deletepointer(fakefile[i]);
+			fakefile->Close();
+			deletepointer(fakefile);
 
 		}
+		TFile *ttbarfile = new TFile(prefix+variable+"/"+region+"/ttbar.root","update");
 		TFile *decaysignalfile[2], *mergedsignalfile[2];
 		decaysignalfile[0] = new TFile(prefix+variable+"/"+region+"/fcnc_ch.root","update");
 		decaysignalfile[1] = new TFile(prefix+variable+"/"+region+"/fcnc_uh.root","update");
@@ -53,12 +56,17 @@ int main(int argc, char const *argv[])
 		diffME->SetDirectory(0);
 		double ttbaryield = ttbarNOMINAL->Integral();
 		double scalePS = ttbarPHHW->Integral()/ttbaryield;
+		double scaleME = diffME->Integral()/ttbaryield;
+		if(scaleME > 0.5) scaleME = 0.1;
+		if(scaleME < -0.5) scaleME = -0.1;
+		if(scalePS > 1.5) scalePS = 1.1;
+		if(scalePS < 0.5) scalePS = 0.9; 
 		for(int i = 0; i<2 ; i++){
 			TH1D *decayNOMINAL = (TH1D*) decaysignalfile[i]->Get("NOMINAL");
 			TH1D *mergedNOMINAL = (TH1D*) mergedsignalfile[i]->Get("NOMINAL");
 			TH1D *decayME = (TH1D*) decayNOMINAL->Clone("decayME");
 			TH1D *decayPS = (TH1D*) decayNOMINAL->Clone("decayPS");
-			decayME->Scale(1+diffME->Integral()/ttbaryield);
+			decayME->Scale(1+scaleME);
 			decayPS->Scale(scalePS);
 			decaysignalfile[i]->cd();
 			decayPS->Write("PS",TObject::kWriteDelete);
@@ -67,7 +75,7 @@ int main(int argc, char const *argv[])
 			deletepointer(decaysignalfile[i]);
 			TH1D *mergedME = (TH1D*) mergedNOMINAL->Clone("mergedME");
 			TH1D *mergedPS = (TH1D*) mergedNOMINAL->Clone("mergedPS");
-			mergedME->Add(decayME,diffME->Integral()/ttbaryield);
+			mergedME->Add(decayME,scaleME);
 			mergedPS->Add(decayPS,scalePS-1);
 			mergedsignalfile[i]->cd();
 			mergedME->Write("ME",TObject::kWriteDelete);
