@@ -60,7 +60,7 @@ int main(int argc, char const *argv[])
 		if(scaleME > 0.1) scaleME = 0.1;
 		if(scaleME < -0.1) scaleME = -0.1;
 		if(scalePS > 1.1) scalePS = 1.1;
-		if(scalePS < 0.1) scalePS = 0.9; 
+		if(scalePS < 0.9) scalePS = 0.9; 
 		for(int i = 0; i<2 ; i++){
 			TH1D *decayNOMINAL = (TH1D*) decaysignalfile[i]->Get("NOMINAL");
 			TH1D *mergedNOMINAL = (TH1D*) mergedsignalfile[i]->Get("NOMINAL");
