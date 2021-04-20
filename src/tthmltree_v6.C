@@ -447,7 +447,7 @@ void tthmltree_v6::defineTauTruth(){
     else taus_matched_pdgId->push_back(taus_truthJetFlavour_0);
   }
   if(taus_p4->size()>=2){
-    if (taus_truthType_1 == 10 || (InputSample.Contains("PHHW") && taus_isHadronic_1 && (taus_truthType_0==11 || taus_truthType_0==21))) taus_matched_pdgId->push_back(15);
+    if (taus_truthType_1 == 10 || (InputSample.Contains("PHHW") && taus_isHadronic_1 && (taus_truthType_1==11 || taus_truthType_1==21))) taus_matched_pdgId->push_back(15);
     else if (taus_truthJetFlavour_1 < 0 && (taus_truthType_1 == 2 || taus_truthType_1 == 6)) taus_matched_pdgId->push_back(11);
     else taus_matched_pdgId->push_back(taus_truthJetFlavour_1);
   }
