@@ -57,22 +57,15 @@ int main(int argc, char const *argv[])
 		double ttbaryield = ttbarNOMINAL->Integral();
 		double scalePS = ttbarPHHW->Integral()/ttbaryield;
 		double scaleME = diffME->Integral()/ttbaryield;
-		if(scaleME > 0.5) scaleME = 0.1;
-		if(scaleME < -0.5) scaleME = -0.1;
-		if(scalePS > 1.5) scalePS = 1.1;
-		if(scalePS < 0.5) scalePS = 0.9; 
+		if(scaleME > 0.1) scaleME = 0.1;
+		if(scaleME < -0.1) scaleME = -0.1;
+		if(scalePS > 1.1) scalePS = 1.1;
+		if(scalePS < 0.1) scalePS = 0.9; 
 		for(int i = 0; i<2 ; i++){
 			TH1D *decayNOMINAL = (TH1D*) decaysignalfile[i]->Get("NOMINAL");
 			TH1D *mergedNOMINAL = (TH1D*) mergedsignalfile[i]->Get("NOMINAL");
 			TH1D *decayME = (TH1D*) decayNOMINAL->Clone("decayME");
 			TH1D *decayPS = (TH1D*) decayNOMINAL->Clone("decayPS");
-			decayME->Scale(1+scaleME);
-			decayPS->Scale(scalePS);
-			decaysignalfile[i]->cd();
-			decayPS->Write("PS",TObject::kWriteDelete);
-			decayME->Write("ME",TObject::kWriteDelete);
-			decaysignalfile[i]->Close();
-			deletepointer(decaysignalfile[i]);
 			TH1D *mergedME = (TH1D*) mergedNOMINAL->Clone("mergedME");
 			TH1D *mergedPS = (TH1D*) mergedNOMINAL->Clone("mergedPS");
 			mergedME->Add(decayME,scaleME);
@@ -82,6 +75,13 @@ int main(int argc, char const *argv[])
 			mergedPS->Write("PS",TObject::kWriteDelete);
 			mergedsignalfile[i]->Close();
 			deletepointer(mergedsignalfile[i]);
+			decayME->Scale(1+scaleME);
+			decayPS->Scale(scalePS);
+			decaysignalfile[i]->cd();
+			decayPS->Write("PS",TObject::kWriteDelete);
+			decayME->Write("ME",TObject::kWriteDelete);
+			decaysignalfile[i]->Close();
+			deletepointer(decaysignalfile[i]);
 		}
 		TH1D *ttbarME = (TH1D*)ttbarNOMINAL->Clone("ttbarME");
 		ttbarME->Add(diffME);
