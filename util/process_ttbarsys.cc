@@ -30,8 +30,11 @@ int main(int argc, char const *argv[])
 			TH1D *ME = (TH1D*) fakeaMCPy ->Clone("ME");
 			ME->Add(fakePHPyStar,-1);
 			ME->Add(fakeNOMINAL);
+			TH1D *PS = (TH1D*) fakePHHW->Clone("PS");
+			PS->Add(fakePHPyStar,-1);
+			PS->Add(fakeNOMINAL);
 			fakefile->cd();
-			fakePHHW->Write("PS",TObject::kWriteDelete);
+			PS->Write("PS",TObject::kWriteDelete);
 			ME->Write("ME",TObject::kWriteDelete);
 			fakefile->Close();
 			deletepointer(fakefile);
@@ -52,15 +55,18 @@ int main(int argc, char const *argv[])
 			exit(0);
 		}
 		TH1D *diffME = (TH1D*) ttbaraMCPy ->Clone("diffME");
+		TH1D *diffPS = (TH1D*) ttbarPHHW ->Clone("diffPS");
 		diffME->Add(ttbarPHPyStar,-1);
 		diffME->SetDirectory(0);
+		diffPS->Add(ttbarPHPyStar,-1);
+		diffPS->SetDirectory(0);
 		double ttbaryield = ttbarNOMINAL->Integral();
-		double scalePS = ttbarPHHW->Integral()/ttbaryield;
+		double scalePS = diffPS->Integral()/ttbaryield;
 		double scaleME = diffME->Integral()/ttbaryield;
 		if(scaleME > 0.1) scaleME = 0.1;
 		if(scaleME < -0.1) scaleME = -0.1;
-		if(scalePS > 1.1) scalePS = 1.1;
-		if(scalePS < 0.9) scalePS = 0.9; 
+		if(scalePS > 0.1) scalePS = 0.1;
+		if(scalePS < -0.1) scalePS = -0.1; 
 		for(int i = 0; i<2 ; i++){
 			TH1D *decayNOMINAL = (TH1D*) decaysignalfile[i]->Get("NOMINAL");
 			TH1D *mergedNOMINAL = (TH1D*) mergedsignalfile[i]->Get("NOMINAL");
@@ -69,14 +75,14 @@ int main(int argc, char const *argv[])
 			TH1D *mergedME = (TH1D*) mergedNOMINAL->Clone("mergedME");
 			TH1D *mergedPS = (TH1D*) mergedNOMINAL->Clone("mergedPS");
 			mergedME->Add(decayME,scaleME);
-			mergedPS->Add(decayPS,scalePS-1);
+			mergedPS->Add(decayPS,scalePS);
 			mergedsignalfile[i]->cd();
 			mergedME->Write("ME",TObject::kWriteDelete);
 			mergedPS->Write("PS",TObject::kWriteDelete);
 			mergedsignalfile[i]->Close();
 			deletepointer(mergedsignalfile[i]);
 			decayME->Scale(1+scaleME);
-			decayPS->Scale(scalePS);
+			decayPS->Scale(1+scalePS);
 			decaysignalfile[i]->cd();
 			decayPS->Write("PS",TObject::kWriteDelete);
 			decayME->Write("ME",TObject::kWriteDelete);
@@ -84,10 +90,13 @@ int main(int argc, char const *argv[])
 			deletepointer(decaysignalfile[i]);
 		}
 		TH1D *ttbarME = (TH1D*)ttbarNOMINAL->Clone("ttbarME");
+		TH1D *ttbarPS = (TH1D*)ttbarNOMINAL->Clone("ttbarPS");
 		ttbarME->Add(diffME);
+		ttbarPS->Add(diffPS);
+		deletepointer(diffPS);
 		deletepointer(diffME);
 		ttbarfile->cd();
-		ttbarPHHW->Write("PS",TObject::kWriteDelete);
+		ttbarPS->Write("PS",TObject::kWriteDelete);
 		ttbarME->Write("ME",TObject::kWriteDelete);
 		ttbarfile->Close();
 		deletepointer(ttbarfile);
