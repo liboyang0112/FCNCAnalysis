@@ -16,7 +16,11 @@ do
 done
 
 cp tuH/combined_BDTG_test/RankingSysts_SigXsecOverSM.pdf $FCNC_DIR/FCNCFigures/tthML/Limit/tuH_Ranking.pdf
-cp tuH/combined_BDTG_test/Pruning.pdf $FCNC_DIR/FCNCFigures/tthML/Limit/tuH_Pruning.pdf
+rm $FCNC_DIR/FCNCFigures/tthML/Limit/tuH_Pruning*.pdf
+for files in `ls tuH/combined_BDTG_test | grep Pruning | grep pdf`
+do
+	cp tuH/combined_BDTG_test/$files $FCNC_DIR/FCNCFigures/tthML/Limit/tuH_$files
+done
 #cp tcH/combined_BDTG_test/RankingSysts_SigXsecOverSM.pdf $FCNC_DIR/FCNCFigures/tthML/Limit/tcH_Ranking.pdf
 
 for sig in ${signalall[@]}
