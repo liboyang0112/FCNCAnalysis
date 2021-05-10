@@ -54,6 +54,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	bool mergeleptype = 1;
 	bool doClosureTest = 0;
 	bool printSRTable = 0;
+	bool BDTOnly = 1;
 	if(method.Contains("SROnly")){
 		printSRTable = 1;
 	}
@@ -168,7 +169,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 //					&&var.first!="etmiss"
 //					&&var.first!="ttvismass"
 					((!printSRTable||doClosureTest) && var.first!="lep_pt_0")||
-					(doTrex && var.first!="BDTG_test")
+					((BDTOnly||doTrex) && var.first!="BDTG_test")
 					//var.first!="chi2"
 					//&&var.first!="drlb"
 					//&&var.first!="x1fit"

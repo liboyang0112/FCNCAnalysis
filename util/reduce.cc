@@ -580,7 +580,7 @@ int main(int argc, char const *argv[])
 			}
 			if(dsid != lastdsid && lastdsid != -1 && inputconfig.Contains("mc16a")) {
 				gSystem->mkdir(prefix + "/config/theoryweightlist");
-				if(analysis->nominaltree) analysis->saveweightslist(prefix + "/config/theoryweightlist/" + framework + "_" + to_string(lastdsid) + ".txt");
+				if(analysis->nominaltree||inputconfig.Contains("sys")) analysis->saveweightslist(prefix + "/config/theoryweightlist/" + framework + "_" + to_string(lastdsid) + ".txt");
 			}
 			if(dsid != lastdsid) analysis->init_dsid();
 			//if(framework == "tthML" && inputconfig.Contains("ml") && analysis->TTHMLVERSION == 5) ((tthmltree_v2*)analysis)->mc_norm = xsecs[dsid]*luminosity/totgenweighted[dsid];
@@ -598,7 +598,7 @@ int main(int argc, char const *argv[])
 	analysis->cut_flow.print();
   	analysis->cut_flow.save(5);
   	analysis->cut_flow.clear();
-	if(inputconfig.Contains("mc16a")) {
+	if(inputconfig.Contains("mc16a") && (analysis->nominaltree ||inputconfig.Contains("sys"))) {
 		gSystem->mkdir(prefix + "/config/theoryweightlist");
 		analysis->saveweightslist(prefix + "/config/theoryweightlist/" + framework + "_" + to_string(lastdsid) + ".txt");
 	}
