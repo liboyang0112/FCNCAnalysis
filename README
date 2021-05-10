@@ -29,11 +29,98 @@ Installation:
 How to run:
 
 	source env.sh
-	run hadhadpreparejobs.sh(tthmlpreparejobs.sh) to get the address of the rootfiles from xTauFramework(ttHML framework)
-	run reduce_run to reduce n-tuples
-	run trainBDT to train the BDT
-	run make_plots_run to analyse the histograms
+	
+	Leptonic channels workflow:
 
-In case you use TRexFitter (https://gitlab.cern.ch/TRExStats/TRExFitter), to produce the fitter input:
+		run command: tthmlpreparejobs.sh
+			To get the address of the rootfiles from xTauFramework(ttHML framework),
+			Generates files in datafiles/tthML(xTFW)/vX/run/*
 
-	run make_plots_run and set doTrex in to 1 and doPlot to 0
+		run command: cd $WORKDIRECTORY ; mkdir fit ; cd fit ; reduce_run XXX
+			To reduce n-tuples, for example:
+				reduce_run tthML 1 mc16a_ttbar.txt nominal
+				reduce_run tthML 2 mc16a_ttbar.txt nominal
+				reduce_run tthML 3 mc16a_ttbar.txt nominal
+				reduce_run tthML 1 mc16d_fcnc_ch_lv.txt TAUS_TRUEHADTAU_SME_TES_MODEL_CLOSURE_1down
+				reduce_run tthML 2 mc16d_fcnc_ch_lv.txt TAUS_TRUEHADTAU_SME_TES_MODEL_CLOSURE_1down
+				reduce_run tthML 3 mc16d_fcnc_ch_lv.txt TAUS_TRUEHADTAU_SME_TES_MODEL_CLOSURE_1down
+				1 and 2 generates reduced n-tuples in data/vX/*
+				3 makes histograms for later making plots and fits.
+		run command: submit_tth_reduce.sh
+		 	To submit jobs on cori, for example:
+		 		 submit_tth_reduce.sh sub 123 # submit jobs to do reduce_run tthML 1, 2, 3 in a row for all samples and systematics
+		 		 submit_tth_reduce.sh sub 123 nominal # submit jobs to do reduce_run tthML 1, 2, 3 in a row for all samples with nominal only
+		 		 submit_tth_reduce.sh sublocal nominal mc16d_fcnc_ch_lv.txt # do reduce_run tthML 1, 2, 3 in a row for nominal for a single sample locally.
+		run command: cd nominal ; print_cutflow_run tthML ; cd ..
+			To print the cutflow tables into FCNCTables/cutflow/tthML
+
+		run command: make_pltos_run XXX
+			To make plots and fit the fake tau SFs, for example:
+				make_plots_run tthML 0 0 plot          # make plots in control regions, showing fake tau origins
+				make_plots_run tthML 0 0 plotSROnly    # make plots in signal regions, showing fake tau origins
+				make_plots_run tthML 0 0 plotnofakeSROnly # make plots in signal regions, showing samples
+				make_plots_run tthML 0 0 plotnofake   # make plots in control regions, showing samples
+				make_plots_run tthML 0 0 plotfit    # fit the tau SFs, generate files in FCNCAnalysis/data/scale*
+			They generates plots in FCNCFigures/tthML/
+			"0 0" is the index of beginning and ending systematics. Nominal is 0. The full list can be obtained by:
+				root -l
+				.L <path of FCNCAnalysis>/include/weightsys_list.h
+				printNPindex("tthML")
+				.q
+				This will generate file NPlist.txt
+
+		run command: trainBDT_run
+			To train the BDT, for example:
+			trainBDT_run reg1l2tau1bnj_os 2 Optim
+			trainBDT_run reg1l2tau1bnj_os 2 10 100
+			"reg1l2tau1bnj_os" is the region name can be chosen from <reg1l1tau1b3j_os, reg1l1tau1b1j_ss ...>. "2" is the number of folds in the training. "10 100" is the number of cuts and number of trees. "Optim" means using gradiant method to get the best number of cuts and trees. 
+		run command: BDTResult.sh
+			To train with the best number of cuts and trees and print tables into FCNCTables/BDT/*
+
+		run command: mkdir ../postfit ; cd ../postfit ; reduce_run
+			To generate histograms after fake tau SFs applied, for example:
+			reduce_run tthML 5 mc16a_ttbar.txt nominal
+			reduce_run tthML 5 mc16d_fcnc_ch_lv.txt TAUS_TRUEHADTAU_SME_TES_MODEL_CLOSURE_1down
+
+		run command: make_pltos_run XXX
+			make_plots_run tthML 0 0 plotpostfitQCDFFClosure # do ABCD closure test
+			make_plots_run tthML 0 0 plotpostfitQCDFF # make plots in A,B,D control regions
+			make_plots_run tthML 0 0 plotpostfitQCDFFSROnly # make plots in C singal regions
+			They generates plots in FCNCFigures/tthML/
+
+		run command: make_plots_run tthML 0 489 trexQCDFFSROnly
+			make histograms for TRExFitter.
+
+		run commnad: trexconfig.sh
+			generates config files of trex-fitter
+
+		run command: trex-fitter h config/combined/BDTG_test.config ; trexfit.sh
+			To fit the limits.
+		run command: print_limits_run tthML
+			To generate tables in FCNCTables/tthML/limits.tex
+
+		run command: trexplot.sh to make prefit and post-fit plots.
+		run command: mvLimitPlots.sh to archive all plots in the FCNCFigures/tthML/Limit
+		run command: submit_ranking.sh ; trex-fitter r config/combined/BDTG_test.config Ranking=plot:Signal=tuH:Job=tuH/combined_BDTG_test
+			To make ranking plots
+
+	Hadronic channels workflow:
+		TBD by Mingming Xia.
+
+	Combination workflow:
+		ls $xTFWTREX
+		bonly/               fcnc_prod_ch/     regionlist.txt
+		combine.config       fcnc_prod_uh/     samplelist.txt      tuH/
+		combined_BDTG_test/  fcnc_uh/          scale_trexinputs
+		config/              mvLimitPlots.sh*  tcH/                xTFW.config
+		trexinputs/
+		fcnc_ch/             PDF_trexinputs/
+
+		ln -s $xTFWTREX xTFW_trex
+		ln -s $tthMLTREX tthML_trex
+		ln -s $tthMLTREX/tthML.config .
+		ln -s $xTFWTREX/xTFW.config .
+		trexconfig_comb.sh
+		trex-fitter mwfl tcH_combine.config
+		trex-fitter mwfl tuH_combine.config
+		mvCombinedPlots.sh
