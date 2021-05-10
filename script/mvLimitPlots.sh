@@ -28,3 +28,10 @@ do
 	cp $sig/combined_BDTG_test/NuisPar.pdf $FCNC_DIR/FCNCFigures/tthML/Limit/${sig}_NuisPar.pdf
 	cp $sig/combined_BDTG_test/CorrMatrix.pdf $FCNC_DIR/FCNCFigures/tthML/Limit/${sig}_CorrMatrix.pdf
 done
+
+cp -r combined_BDTG_test/Systematics/ttbar* $FCNC_DIR/FCNCFigures/tthML/trexfitter/.
+cp -r combined_BDTG_test/Systematics/TES_DETECTOR $FCNC_DIR/FCNCFigures/tthML/trexfitter/.
+cp -r combined_BDTG_test/Systematics/scale $FCNC_DIR/FCNCFigures/tthML/trexfitter/
+cp -r combined_BDTG_test/Systematics/FSR $FCNC_DIR/FCNCFigures/tthML/trexfitter/.
+cp -r combined_BDTG_test/Systematics/ABCD_electron $FCNC_DIR/FCNCFigures/tthML/trexfitter/.
+
