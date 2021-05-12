@@ -94,13 +94,15 @@ How to run:
 		run commnad: trexconfig.sh
 			generates config files of trex-fitter
 
-		run command: trex-fitter h config/combined/BDTG_test.config ; trexfit.sh
+		run command: trex-fitter h config/combined/BDTG_test.config
+
+		run command (On ihep server): trexfit.sh
 			To fit the limits.
+
 		run command: print_limits_run tthML
 			To generate tables in FCNCTables/tthML/limits.tex
-
 		run command: trexplot.sh to make prefit and post-fit plots.
-		run command: submit_ranking.sh ; trex-fitter r config/combined/BDTG_test.config Ranking=plot:Signal=tuH:Job=tuH/combined_BDTG_test
+		run command (On ihep server): submit_ranking.sh ; (after jobs are done) trex-fitter r config/combined/BDTG_test.config Ranking=plot:Signal=tuH:Job=tuH/combined_BDTG_test
 			To make ranking plots
 		run command: mvLimitPlots.sh to archive all plots in the FCNCFigures/tthML/Limit
 
