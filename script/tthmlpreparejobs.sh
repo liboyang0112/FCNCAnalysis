@@ -23,6 +23,8 @@ inputdatadir=/global/projecta/projectdirs/atlas/weiming/testareaSL5/AxAODsData/t
 ls $inputdir/*.root | grep -v p4310 | tee $allsamplefile $sysallsamplefile > /dev/null
 ls $inputdatadir/*newProd*.root | grep -v p4310 | tee -a $allsamplefile $sysallsamplefile > /dev/null
 ls $inputdatadir/*-nom*.root | grep -v p4310 | tee -a $allsamplefile $sysallsamplefile > /dev/null
+ls $inputdatadir/*nomOnly*.root | grep -v p4310 | tee -a $allsamplefile $sysallsamplefile > /dev/null
+ls $inputdatadir/*Sh2210*.root | grep -v p4310 | tee -a $allsamplefile $sysallsamplefile > /dev/null
 ls $inputdatadir/*data*.root >> $allsamplefile
 
 Order $allsamplefile
@@ -50,7 +52,10 @@ do
 		done
 		for files in $alldsidfiles
 		do
-			if (( haveFS == 1 )) && [[ $files =~ "AF" ]] ; then
+			if (( haveFS == 1 )) && [[ $files =~ "AF" ]] && ! [[ $samplefiles =~ "AF" ]]; then
+				continue;
+			fi
+			if [[ $samplefiles =~ "AF" ]] && ! [[ $files =~ "AF" ]]; then
 				continue;
 			fi
 			if [[ $files =~ "mc16a" ]] ; then
