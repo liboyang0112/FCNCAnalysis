@@ -33,8 +33,8 @@ How to run:
 	Leptonic channels workflow:
 
 		run command: tthmlpreparejobs.sh
-			To get the address of the rootfiles from xTauFramework(ttHML framework),
-			Generates files in datafiles/tthML(xTFW)/vX/run/*
+			To get the address of the rootfiles from ttHML framework,
+			Generates files in datafiles/tthML/vX/run/*
 
 		run command: cd $WORKDIRECTORY ; mkdir fit ; cd fit ; reduce_run XXX
 			To reduce n-tuples, for example:
@@ -82,7 +82,7 @@ How to run:
 			reduce_run tthML 5 mc16a_ttbar.txt nominal
 			reduce_run tthML 5 mc16d_fcnc_ch_lv.txt TAUS_TRUEHADTAU_SME_TES_MODEL_CLOSURE_1down
 
-		run command: make_pltos_run XXX
+		run command: make_plots_run XXX
 			make_plots_run tthML 0 0 plotpostfitQCDFFClosure # do ABCD closure test
 			make_plots_run tthML 0 0 plotpostfitQCDFF # make plots in A,B,D control regions
 			make_plots_run tthML 0 0 plotpostfitQCDFFSROnly # make plots in C singal regions
@@ -100,9 +100,9 @@ How to run:
 			To generate tables in FCNCTables/tthML/limits.tex
 
 		run command: trexplot.sh to make prefit and post-fit plots.
-		run command: mvLimitPlots.sh to archive all plots in the FCNCFigures/tthML/Limit
 		run command: submit_ranking.sh ; trex-fitter r config/combined/BDTG_test.config Ranking=plot:Signal=tuH:Job=tuH/combined_BDTG_test
 			To make ranking plots
+		run command: mvLimitPlots.sh to archive all plots in the FCNCFigures/tthML/Limit
 
 	Hadronic channels workflow:
 		TBD by Mingming Xia.
