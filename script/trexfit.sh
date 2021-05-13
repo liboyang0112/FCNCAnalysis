@@ -42,7 +42,7 @@ echo "#!/bin/bash
 date
 . ~/setupMe.sh
 cd $PWD
-trex-fitter wfl config/combined/$variable.config "Signal=$sig:Job=$sig/${reg}_$variable"
+trex-fitter wf config/combined/$variable.config "Signal=$sig:Job=$sig/${reg}_$variable"
 date" > ${sig}_$reg.sh
 			chmod +x ${sig}_$reg.sh
 			#echo hep_sub -o ${sig}_$reg.out -e ${sig}_$reg.err ${sig}_$reg.sh
@@ -54,7 +54,7 @@ echo "#!/bin/bash
 date
 . ~/setupMe.sh
 cd $PWD
-trex-fitter wfl config/combined/$variable.config "Signal=$sig:Regions=$reg:Job=$sig/${reg}_$variable"
+trex-fitter wf config/combined/$variable.config "Signal=$sig:Regions=$reg:Job=$sig/${reg}_$variable"
 date" > ${sig}_$reg.sh
 			chmod +x ${sig}_$reg.sh
 			#echo hep_sub -o ${sig}_$reg.out -e ${sig}_$reg.err ${sig}_$reg.sh
