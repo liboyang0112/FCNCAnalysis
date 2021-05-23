@@ -565,6 +565,7 @@ std::vector<TString> sampleNPlist = {
 	"ttbarsys_PHHW71",
 	"ttbarsys_PHPyAF2",
 	"ttbarsys_hdamp",
+	"signalPS"
 };
 std::vector<TString> xsecNPlist = {
 	"ztautauXsec_up",
