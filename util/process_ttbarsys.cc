@@ -118,18 +118,17 @@ int main(int argc, char const *argv[])
 		TH1D *ttbarPS = (TH1D*)ttbarNOMINAL->Clone("ttbarPS");
 		TH1D *ttbarPS71 = (TH1D*)ttbarNOMINAL->Clone("ttbarPS71");
 		ttbarME->Add(diffME);
-		ttbarhdamp->Add(ttbarNOMINAL);
+		diffhdamp->Add(ttbarNOMINAL);
 		ttbarPS->Add(diffPS);
 		ttbarPS71->Add(diffPS71);
 		deletepointer(diffPS);
 		deletepointer(diffPS71);
 		deletepointer(diffME);
-		deletepointer(diffhdamp);
 		ttbarfile->cd();
 		ttbarPS->Write("PS",TObject::kWriteDelete);
 		ttbarPS71->Write("PS71",TObject::kWriteDelete);
 		ttbarME->Write("ME",TObject::kWriteDelete);
-		ttbarhdamp->Write("hdamp",TObject::kWriteDelete);
+		diffhdamp->Write("hdamp",TObject::kWriteDelete);
 		ttbarfile->Close();
 		deletepointer(ttbarfile);
 	}
