@@ -1912,7 +1912,7 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
                 }
               }
             }// end of applyNewFakeSF
-            if(!theNP.Contains("Xsec") && !theNP.Contains("fakeSF") && nominaltree && !theNP.Contains("Lumi")) { ////this part deal with "weight"
+            if(!theNP.Contains("Xsec") && !theNP.Contains("fakeSF") && nominaltree && !theNP.Contains("Lumi") && !theNP.Contains("NOMINAL")) { ////this part deal with "weight"
               auto it = weightmap.find(theNP.Data());
               int index = 0;
               if(it != weightmap.end()) index = it->second;
