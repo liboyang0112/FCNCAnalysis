@@ -43,6 +43,7 @@ int main(int argc, char const *argv[])
 			fakePHHW71->Write("PS71",TObject::kWriteDelete);
 			PS->Write("PS",TObject::kWriteDelete);
 			ME->Write("ME",TObject::kWriteDelete);
+			hdamp->Write("hdamp",TObject::kWriteDelete);
 			fakefile->Close();
 			deletepointer(fakefile);
 
