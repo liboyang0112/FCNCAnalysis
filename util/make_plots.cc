@@ -589,7 +589,9 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 					for(auto signalsamp : signalmap.at(samples[j].name)){
 						inputfile = getFile(mc_campaign + "_" + signalsamp + (NPname.Contains("signalPS")?"sys_PS":""));
 						for (int i = 0; i < origin.size(); i++) {
-							tau_plots->read_sample( samples[j].name, signalsamp + (NPname.Contains("signalPS")?"sys_PS":"") + "_" + origin.at(i).name, histmiddlename, samples[j].title, samples[j].color, samples[j].norm, inputfile, !getFileFailed);
+							float norm = samples[j].norm;
+							if(framework=="tthML"&&signalsamp.Contains("fcnc_prod")) norm*=signalsamp.Contains("fcnc_prod_uh")*1.4218/1.24+signalsamp.Contains("fcnc_prod_ch")*0.206/0.18;
+							tau_plots->read_sample( samples[j].name, signalsamp + (NPname.Contains("signalPS")?"sys_PS":"") + "_" + origin.at(i).name, histmiddlename, samples[j].title, samples[j].color, norm, inputfile, !getFileFailed);
 						}
 						deletepointer(inputfile);
 					}
