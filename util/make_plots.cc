@@ -105,6 +105,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	if(framework == "xTFW") calculate_fake_calibration = 0;
 	histSaver *tau_plots = new histSaver("dummy");
 	tau_plots->doROC = 0;
+	tau_plots->BOSRatio = 2;
 	TString lumitag = "#it{#sqrt{s}} = 13TeV, ";
 	lumitag += campaignto == 3 ? "140 fb^{-1}" : (campaignto==2?"80 fb^{-1}":"36.1 fb^{-1}");
 	tau_plots->SetLumiAnaWorkflow(lumitag,"FCNC tqH H#rightarrow#tau#tau","Internal");
