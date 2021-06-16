@@ -991,6 +991,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 			for (auto samp : sigsamples)
 			{
 				tau_plots->overlay(samp.name);
+				if(samp.name!="tuH" && samp.name!="tcH") tau_plots->overlaytogether.push_back(samp.name);
 			}
 		if(figuredir == "") figuredir = ".";
 		if(chartdir == "") chartdir = ".";
