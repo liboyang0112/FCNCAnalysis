@@ -965,6 +965,10 @@ bool nominal::addTheorySys(){
       if(weightName!=""){ //https://twiki.cern.ch/twiki/bin/view/AtlasProtected/PmgTopProcesses, Top, Single Top, ttH
         if((weightName.Contains("muR=") && weightName.Contains(",muF=")) || weightName.Contains("PDFset=260") ){
           addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(1)/theoryweightsum->GetBinContent(i),weightName);
+        }else if(weightName.Contains("PDFset=26600")){
+          addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(1)/theoryweightsum->GetBinContent(i),"alphaS_up");
+        }else if(weightName.Contains("PDFset=26500")){
+          addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(1)/theoryweightsum->GetBinContent(i),"alphaS_down");
         }else if(weightName.Contains("isr:muRfac=10_fsr:muRfac=20")){
           addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(1)/theoryweightsum->GetBinContent(i),"FSR_up");
         }else if(weightName.Contains("isr:muRfac=10_fsr:muRfac=05")){
