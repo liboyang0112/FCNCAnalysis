@@ -16,9 +16,24 @@ do
 	done
 done
 
-#cp tuH/combined_BDTG_test/RankingSysts_SigXsecOverSM.pdf $FCNC_DIR/FCNCFigures/tthML/Limit/tuH_Ranking.pdf
-##cp tcH/combined_BDTG_test/RankingSysts_SigXsecOverSM.pdf $FCNC_DIR/FCNCFigures/tthML/Limit/tcH_Ranking.pdf
-cp tuH/combined_BDTG_test/NuisPar.pdf $FCNC_DIR/FCNCFigures/tthML/Limit/tuH_NuisPar.pdf
-cp tcH/combined_BDTG_test/NuisPar.pdf $FCNC_DIR/FCNCFigures/tthML/Limit/tcH_NuisPar.pdf
-cp tuH/combined_BDTG_test/CorrMatrix.pdf $FCNC_DIR/FCNCFigures/tthML/Limit/tuH_CorrMatrix.pdf
-cp tcH/combined_BDTG_test/CorrMatrix.pdf $FCNC_DIR/FCNCFigures/tthML/Limit/tcH_CorrMatrix.pdf
+cp tuH/combined_BDTG_test/RankingSysts_SigXsecOverSM.pdf $DestDir/Limit/tuH_Ranking.pdf
+rm $DestDir/Limit/tuH_Pruning*.pdf
+for files in `ls tuH/combined_BDTG_test | grep Pruning | grep pdf`
+do
+	cp tuH/combined_BDTG_test/$files $DestDir/Limit/tuH_$files
+done
+#cp tcH/combined_BDTG_test/RankingSysts_SigXsecOverSM.pdf $DestDir/Limit/tcH_Ranking.pdf
+
+for sig in ${signalall[@]}
+do
+	cp $sig/combined_BDTG_test/NuisPar.pdf $DestDir/Limit/${sig}_NuisPar.pdf
+	cp $sig/combined_BDTG_test/CorrMatrix.pdf $DestDir/Limit/${sig}_CorrMatrix.pdf
+done
+
+cp -r combined_BDTG_test/Systematics/ttbar* $DestDir/trexfitter/.
+cp -r combined_BDTG_test/Systematics/TES_DETECTOR $DestDir/trexfitter/.
+cp -r combined_BDTG_test/Systematics/scale $DestDir/trexfitter/
+cp -r combined_BDTG_test/Systematics/FSR $DestDir/trexfitter/.
+cp -r combined_BDTG_test/Systematics/ABCD_electron $DestDir/trexfitter/.
+
+cp tuH/combined_BDTG_test/Tables/Yields*.tex $FCNC_DIR/FCNCTables/tthML/yield
