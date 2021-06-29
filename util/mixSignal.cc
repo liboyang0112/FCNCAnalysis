@@ -28,12 +28,13 @@ int main(int argc, char const *argv[])
 			tcHscale+=interval;
 		    TFile *tqHfile = new TFile(prefix+variable+"/"+region+"/"+"tqH" + char('0' + (int)(tcHscale/interval)) + ".root","recreate");
 			for(int i = 0; i < nHist ; i++){
-				TH1D* tuHhist = (TH1D*) tuHkeys->At(i);
-				TString histName = tuHhist->GetName();
+				TKey* tuHkey = (TKey*) tuHkeys->At(i);
+				TString histName = tuHkey->GetName();
+				TH1D* tuHhist = (TH1D*)tuHkey->ReadObj();
 				tuHhist->Scale(tuHscale);
 				tuHhist->Add((TH1D*)tcHfile->Get(histName),tcHscale);
 				tqHfile->cd();
-				tuHhist->Write();
+				tuHhist->Write(histName);
 			}
 			tqHfile->Close();
 			deletepointer(tqHfile);
