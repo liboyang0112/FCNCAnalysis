@@ -37,6 +37,8 @@ int main(int argc, char const *argv[])
 			}
 			tqHfile->Close();
 			deletepointer(tqHfile);
+			if(tuHscale == 0) break;
 		}
 	}
+	return 0;
 }
