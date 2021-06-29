@@ -1,9 +1,13 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 # create_model.py
 import numpy as np
 
 import configparser
 import sys
+from ROOT import TFile
+from ROOT import TH2D
+from ROOT import TObject
+from ROOT import TLorentzVector
 
 def isfloat(value):
 	try:
@@ -79,26 +83,40 @@ endwatcher = nwatcies
 
 
 rawdatatrain = readfiles(config['DEFAULT']['traindata'])
-invmassrec = [int(rawdatatrain[x][1]) for x in range(0,len(rawdatatrain)) if (x+1)%(nobj+1) == 0]
 tausdata=readfilesobj(config['DEFAULT']['traindata'],"taus")
-pooldata=[readfilesobj(config['DEFAULT']['traindata'],"pool"+str(i)) for i in range(0,pool)]
-testweight = [rawdatatest[x][0] for x in range(0,len(rawdatatest)) if (x+1)%(nobj+1) == 0]
+pooldata=[readfilesobj(config['DEFAULT']['traindata'],"pool"+str(i)) for i in range(1,pool+1)]
+testweight = [rawdatatrain[x][0] for x in range(0,len(rawdatatrain)) if (x+1)%(nobj+1) == 0]
 
-file = TFile("FCNCDr.root","update")
-hist = (TH2D)file.Get("hist")
-if(hist == None):
-	hist = TH2D("hist","hist"100,0,6,100,0,6)
+file = TFile(modelname+"FCNCDr.root","update")
+hist = TH2D("hist","hist",100,0,6,100,0,6)
+if(file.Get("hist") != None):
+	hist = TH2D(file.Get("hist"))
 
+score=0
+full=0
+tau1 = TLorentzVector()
+tau2 = TLorentzVector()
+vpool = TLorentzVector()
 for i in range(0,len(pooldata[0])):
-	tau1 = TLorentzVector()
-	tau1.SetPtEtaPhiM(tausdata[i/2][0],tausdata[i/2][0],tausdata[i/2][0],tausdata[i/2][0])
-	tau2.SetPtEtaPhiM(tausdata[i/2+1][0],tausdata[i/2+1][0],tausdata[i/2+1][0],tausdata[i/2+1][0])
-	drFCNC = pooldata[invmassrec[i]][i].DeltaR(tau1+tau2)
+	tau1.SetPtEtaPhiE(tausdata[i*2][0],tausdata[i*2][1],tausdata[i*2][2],tausdata[i*2][3])
+	tau2.SetPtEtaPhiE(tausdata[i*2+1][0],tausdata[i*2+1][1],tausdata[i*2+1][2],tausdata[i*2+1][3])
+	truthjet = 0;
 	for j in range(0,pool):
-		if(j == invmassrec[i]):
+		if(pooldata[j][i][4]==1):
+			truthjet = j
+			vpool.SetPtEtaPhiE(pooldata[j][i][0],pooldata[j][i][1],pooldata[j][i][2],pooldata[j][i][3])
+			break;
+	drFCNC = vpool.DeltaR(tau1+tau2)
+	for j in range(0,pool):
+		if(j == truthjet):
 			continue
-		hist.fill(drFCNC,pooldata[j][i].DeltaR(tau1+tau2),testweight[i])
-
+		vpool.SetPtEtaPhiE(pooldata[j][i][0],pooldata[j][i][1],pooldata[j][i][2],pooldata[j][i][3])
+		if(drFCNC>vpool.DeltaR(tau1+tau2)):
+			score+=1
+		else:
+			score-=1
+		full+=1
+		hist.Fill(drFCNC,vpool.DeltaR(tau1+tau2),testweight[i])
+print(score,full)
 file.cd()
-hist.Write("hist",TObject::kWriteDelete)
-print(invmassrec)
+hist.Write("hist",TObject.kWriteDelete)
