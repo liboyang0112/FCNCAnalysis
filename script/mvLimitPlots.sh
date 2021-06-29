@@ -37,3 +37,4 @@ cp -r combined_BDTG_test/Systematics/scale $DestDir/trexfitter/
 cp -r combined_BDTG_test/Systematics/FSR $DestDir/trexfitter/.
 cp -r combined_BDTG_test/Systematics/ABCD_electron $DestDir/trexfitter/.
 
+cp tuH/combined_BDTG_test/Tables/Yields*.tex $FCNC_DIR/FCNCTables/tthML/yield
