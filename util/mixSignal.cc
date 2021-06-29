@@ -13,7 +13,7 @@ int main(int argc, char const *argv[])
 	TString prefix = TString(PACKAGE_DIR) + "/config/trexfitter/";
 	vector<TString> regions = readTovecString(prefix + framework + "/regionlist.txt");
 	int scanPoints = 3;
-	float interval = 1/(scanPoints+1);
+	float interval = 1./(scanPoints+1);
 //======================= read files ======================
 	prefix = "./trexinputs/";
 	for(auto region:regions){
