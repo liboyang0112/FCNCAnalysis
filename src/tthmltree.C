@@ -97,10 +97,11 @@ void tthmltree::init_hist(TString outputfilename){
     }
     else{
       if(reduce >= 2) {
-        if(reduce == 3 && doBDT) {
+        if(doBDT) {
           fcnc_plots->add(vars.at("BDTG_test"),&BDTG_test);
           fcnc_plots->add(vars.at("BDTG_train"),&BDTG_train);
-        }else if(plotNPs.size()==1){
+        }
+        if(plotNPs.size()==1){
           fcnc_plots->add(vars.at("chi2"),&chi2);
           fcnc_plots->add(vars.at("t1mass"),&t1mass);
           fcnc_plots->add(vars.at("mtw"),&mtw);

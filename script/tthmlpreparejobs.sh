@@ -20,7 +20,7 @@ inputdatadir=/global/projecta/projectdirs/atlas/weiming/testareaSL5/AxAODsData/t
 #	cat $files | sort >> $sysallsamplefile
 #	echo >> $sysallsamplefile
 #done
-ls $inputdir/*.root | grep -v p4310 | tee $allsamplefile $sysallsamplefile > /dev/null
+ls $inputdir/*.root | grep -v p4310 | grep -v '2021-3-16' | grep -v '2021-3-23' | grep -v '2021-3-11' | tee $allsamplefile $sysallsamplefile > /dev/null
 ls $inputdatadir/*newProd*.root | grep -v p4310 | tee -a $allsamplefile $sysallsamplefile > /dev/null
 ls $inputdatadir/*-nom*.root | grep -v p4310 | tee -a $allsamplefile $sysallsamplefile > /dev/null
 ls $inputdatadir/*nomOnly*.root | grep -v p4310 | tee -a $allsamplefile $sysallsamplefile > /dev/null
@@ -45,7 +45,7 @@ do
 		haveFS=0
 		for files in $alldsidfiles
 		do
-			if [[ $files =~ "FS" ]] ; then
+			if ! [[ $files =~ "AF" ]] ; then
 				haveFS=1
 				break;
 			fi

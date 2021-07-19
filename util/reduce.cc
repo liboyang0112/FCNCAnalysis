@@ -150,24 +150,25 @@ int main(int argc, char const *argv[])
 //			regions.push_back("reg1l1tau1b_os_antiiso");
 //			regions.push_back("reg1l1tau1b1j_os_antiiso");
 //			regions.push_back("reg1l1tau1b3j_ss_antiiso");
-			regions.push_back("reg2l1tau1bnj");
-			regions.push_back("reg2l1tau2bnj");
-			regions.push_back("reg1l1tau1b_ss");
+//
+		//	regions.push_back("reg2l1tau1bnj");
+		//	regions.push_back("reg2l1tau2bnj");
+		//	regions.push_back("reg1l1tau1b_ss");
 			regions.push_back("reg1l1tau1b1j_ss");
 			regions.push_back("reg1l1tau1b2j_os");
 			regions.push_back("reg1l1tau1b2j_ss");
 			regions.push_back("reg1l1tau1b3j_os");
-			regions.push_back("reg1l1tau1b_ss_antiiso");
-			regions.push_back("reg1l1tau1b1j_ss_antiiso");
-			regions.push_back("reg1l1tau1b2j_os_antiiso");
-			regions.push_back("reg1l1tau1b2j_ss_antiiso");
-			regions.push_back("reg1l1tau1b3j_os_antiiso");
-			regions.push_back("reg1l1tau2b2j_os");
-			regions.push_back("reg1l1tau2b2j_ss");
-			regions.push_back("reg1l1tau2b3j_os");
-			regions.push_back("reg1l1tau2b3j_ss");
+		//	regions.push_back("reg1l1tau1b_ss_antiiso");
+		//	regions.push_back("reg1l1tau1b1j_ss_antiiso");
+		//	regions.push_back("reg1l1tau1b2j_os_antiiso");
+		//	regions.push_back("reg1l1tau1b2j_ss_antiiso");
+		//	regions.push_back("reg1l1tau1b3j_os_antiiso");
+		//	regions.push_back("reg1l1tau2b2j_os");
+		//	regions.push_back("reg1l1tau2b2j_ss");
+		//	regions.push_back("reg1l1tau2b3j_os");
+		//	regions.push_back("reg1l1tau2b3j_ss");
 			regions.push_back("reg1l2tau1bnj_os");
-			regions.push_back("reg1l2tau1bnj_ss");
+		//	regions.push_back("reg1l2tau1bnj_ss");
 //
 //			regions.push_back("reg1l1tau2b_os");
 //			regions.push_back("reg1l1tau2b_ss");
@@ -370,7 +371,7 @@ int main(int argc, char const *argv[])
 	if(inputconfig.Contains("data")) isData = 1;
 	else if(inputconfig.Contains("mc16a")) luminosity = 3.219555072 + 32.988125184;
 	else if(inputconfig.Contains("mc16d")) luminosity = 44.30739456; //No event passed GRL in run 338377 in v3, reason unknown.
-	else if(inputconfig.Contains("mc16e")) luminosity = 59.93723904;
+	else if(inputconfig.Contains("mc16e")) luminosity = 58.450;
 	else {
 		printf("Wrong config file name, cannot recognise mc campaign: %s\n", inputconfig.Data());
 		exit(0);
@@ -598,7 +599,7 @@ int main(int argc, char const *argv[])
 	analysis->cut_flow.print();
   	analysis->cut_flow.save(5);
   	analysis->cut_flow.clear();
-	if(inputconfig.Contains("mc16a") && (analysis->nominaltree ||inputconfig.Contains("sys"))) {
+	if(inputconfig.Contains("mc16a") && analysis->nominaltree ) {
 		gSystem->mkdir(prefix + "/config/theoryweightlist");
 		analysis->saveweightslist(prefix + "/config/theoryweightlist/" + framework + "_" + to_string(lastdsid) + ".txt");
 	}

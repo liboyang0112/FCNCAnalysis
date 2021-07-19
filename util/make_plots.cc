@@ -54,7 +54,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	bool mergeleptype = 1;
 	bool doClosureTest = 0;
 	bool printSRTable = 0;
-	bool BDTOnly = 1;
+	bool BDTOnly = 0;
 	if(method.Contains("SROnly")){
 		printSRTable = 1;
 	}
@@ -107,7 +107,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	tau_plots->doROC = 0;
 	tau_plots->BOSRatio = 2;
 	TString lumitag = "#it{#sqrt{s}} = 13TeV, ";
-	lumitag += campaignto == 3 ? "140 fb^{-1}" : (campaignto==2?"80 fb^{-1}":"36.1 fb^{-1}");
+	lumitag += campaignto == 3 ? "139 fb^{-1}" : (campaignto==2?"80 fb^{-1}":"36.1 fb^{-1}");
 	tau_plots->SetLumiAnaWorkflow(lumitag,"FCNC tqH H#rightarrow#tau#tau","Internal");
 	tau_plots->debug = debug;
 /*
@@ -152,7 +152,8 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	auto vars = getVariables(framework);
 
 	if(doClosureTest || !printSRTable) tau_plots->yieldvariable = "lep_pt_0";
-	else tau_plots->yieldvariable = "tau_pt_0";
+	else if(printSRTable) tau_plots->yieldvariable = "BDTG_test"; 
+        else tau_plots->yieldvariable = "tau_pt_0";
 	if(framework == "tthML"){
 		if(plot2lttbar){
 			tau_plots->add(vars.at("nljet"));
@@ -457,6 +458,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	for(auto reg : ret["all"]) tau_plots->add_region(reg);
 	if(framework=="tthML"){
 		if(printSRTable){
+			//tau_plots->regioninTables["reg1l2tau1bnj_ss"] = "$t_{l}\\thadhad$";
 			tau_plots->regioninTables["reg1l2tau1bnj_os"] = "$t_{l}\\thadhad$";
 			tau_plots->regioninTables["reg1l1tau1b1j_ss_vetobtagwp70_highmet"] = "$t_{l}\\tauhad$-1j";
 			tau_plots->regioninTables["reg1l1tau1b2j_os_vetobtagwp70_highmet"] = "$t_{h}\\tlhad$-2j";
@@ -957,6 +959,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 		}
 	}else{
 		tau_plots->merge_regions("reg1l2tau1bnj_os_vetobtagwp70_highmet","reg1l2tau1bnj_os_vetobtagwp70_lowmet", "reg1l2tau1bnj_os");
+		tau_plots->merge_regions("reg1l2tau1bnj_ss_vetobtagwp70_highmet","reg1l2tau1bnj_ss_vetobtagwp70_lowmet", "reg1l2tau1bnj_ss");
 	}
 	if(framework == "xTFW"){
 		tau_plots->merge_regions(string("reg2mtau1b3jss_vetobtagwp70_highmet")+(plotSB?"_SB":""),string("reg2mtau1b2jss_vetobtagwp70_highmet")+(plotSB?"_SB":""), string("reg2mtau1bnjss")+(plotSB?"_SB":""));

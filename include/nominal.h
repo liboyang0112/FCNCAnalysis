@@ -69,7 +69,7 @@ public :
   TMinuit* gMinside;
 // Fixed size dimensions of array or collections stored in the TTree if any.
   //const double btagwpCut[4]={0.94,0.83,0.64,0.11};
-  const double btagwpCut[4]={4.31,2.96,2.20,1.27};  //DL1r
+  const double btagwpCut[4]={4.31,2.96,2.20,1.27};  //DL1r 60 70 77 85
   double defaultbtagwp;
   //const double fakeSFs[4][4] = {
   //  {1.028254, 0.060939, 2.842907, 0.802803},  //1prong <35

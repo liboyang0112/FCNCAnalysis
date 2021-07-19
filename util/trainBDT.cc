@@ -110,11 +110,13 @@ void RunMVA( TString region = "", TCut cut = "(eventNumber%2)!=0" , TString weig
    }
 
    auto inputbkgsamples = getBkgSamples(framework);
+   //std::vector<TString> inputcHfiles = {"fcnc_ch_lvsys_PS","fcnc_ch_qqsys_PS","fcnc_prod_chsys_PS"};
+   //std::vector<TString> inputuHfiles = {"fcnc_uh_lvsys_PS","fcnc_uh_qqsys_PS","fcnc_prod_uhsys_PS"};
    auto inputcHfiles = signalmap.at("tcH");
    auto inputuHfiles = signalmap.at("tuH");
    
    TString nominaltreedir  = framework=="tthML" ? "nominal/" : "NOMINAL/";
-   TString version = framework=="tthML"?"5":"3";
+   TString version = framework=="tthML"?"6":"3";
    for (int icamp = 0; icamp < 3; ++icamp)
    {
       for (auto &file : inputcHfiles)
@@ -295,7 +297,7 @@ int main(int argc, char const *argv[])
       chart.print((tabdir+"/BDT/Optim_"+catname).Data());
    }else{
       plotROC = 1;
-      train(argv[3],argv[4]);
+      printf("Optim Value: %f",train(argv[3],argv[4]));
    }
    return 0;
 }

@@ -942,7 +942,7 @@ observable nominal::FindNewFakeSF(TString NP, int itau, TString &name){ //origin
     }
     printf("get origin: %s\n", origin.Data());
   }
-  observable result = doubleCounting? newFakeSFSys[prongbin].at(origin).at(slice) : newFakeSF[prongbin].at(InputSample.Contains("sys")?InputSample:NP).at(origin).at(slice);
+  observable result = doubleCounting? newFakeSFSys[prongbin].at(origin).at(slice) : newFakeSF[prongbin].at(InputSample.Contains("sys")?(InputSample.Contains("fcnc")?"NOMINAL":InputSample):NP).at(origin).at(slice);
   string ss = string("fakeSFNP_") + (mergeProngFF?"":(prongbin? "3prong_":"1prong_")) + "ptbin" + to_string(slice) + "_" + origin.Data();
   name = ss.c_str();
   if(!newFakeSF[prongbin][NP].size()) printf("nominal::FindNewFakeSF : NP %s not found\n", NP.Data());
@@ -1766,7 +1766,7 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
   
     if (dohist && mcChannelNumber && weightsysmap.find(mcChannelNumber) == weightsysmap.end()) {
       readweightsysmap(mcChannelNumber,(!(belong_regions.have("2l")||belong_regions.have("1l")) || belong_regions.have("ltau"))? "xTFW" : "tthML");
-      if(weightsysmap.find(mcChannelNumber) == weightsysmap.end()) {
+      if(!samplename.Contains("sys") && weightsysmap.find(mcChannelNumber) == weightsysmap.end()) {
         printf("tthmltree::Loop() WARNING: channel number %d not found in the systematics map, skipping\n", mcChannelNumber);
         continue;
       }
@@ -1879,10 +1879,12 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
       	  }
       	}
         if(mcChannelNumber!=0){
-          auto weightvec = weightsysmap.at(mcChannelNumber);
           unordered_map<string,int> weightmap;
-          for(int i = 0; i<weightvec.size();i++){
-            weightmap[weightvec[i].Data()] = i;
+          if(!samplename.Contains("sys")){
+            auto weightvec = weightsysmap.at(mcChannelNumber);
+            for(int i = 0; i<weightvec.size();i++){
+              weightmap[weightvec[i].Data()] = i;
+            }
           }
           for (int iNP = 0; iNP < plotNPs.size(); ++iNP){ //// loop over NPs I want to plot
             auto theNP = plotNPs.at(iNP);
