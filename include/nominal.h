@@ -17,6 +17,7 @@
 #include "observable.h"
 #include "cutflow.h"
 #include <TH2D.h>
+#include "MissingMassCalculator.h"
 // Header file for the classes stored in the TTree if any.
 
 #ifndef NO_TMINUIT
@@ -28,6 +29,7 @@ class nominal {
 public :
   //=============================configurations===============================
   bool dofit1l2tau = 0;
+  bool useMMC = 1;
   bool applyfakeSF = 0;
   bool ctagFCNC = 0;
   std::map<TString,bool> dobwp;
@@ -106,7 +108,7 @@ public :
   };
   
   std::map<TString, TMVA::Reader*> reader;
-
+  MissingMassCalculator *mmcTool;
   static int GeV;
   std::vector<TString> plotNPs;
   std::map<TString,std::map<TString,std::vector<observable>>> newFakeSF[2];
