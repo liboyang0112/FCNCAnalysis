@@ -90,7 +90,7 @@ void nominal::initMVA(TString region){
     tmpreader->AddVariable("drltau",&drltau);
     tmpreader->AddVariable("drtaub",&drtaub);
     if(region.Contains("2tau")) tmpreader->AddVariable("drtautau",&drtautau);
-    tmpreader->AddVariable("lep_pt_0",&lep_pt_0);
+    if(!region.Contains("1l2tau")) tmpreader->AddVariable("lep_pt_0",&lep_pt_0);
   }else{
     tmpreader->AddVariable("drtautau",&drtautau);
     tmpreader->AddVariable("t2mass",&t2mass);
@@ -1392,7 +1392,6 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
       //===============================pre-selections===============================
     if(reduce == 2) {
       cut_flow.fill("this region");
-      if(!passRegionCut()) continue;
       /*if (taus_p4->size() && taus_b_tagged->at(0) == 1) continue;
       if (taus_p4->size()>1)
         if(taus_b_tagged->at(1) == 1)
@@ -1701,6 +1700,7 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
         lep_pt_1 = leps_p4->at(1)->Pt();
         if(leps_p4->size() >= 2) mll = (*leps_p4->at(0)+*leps_p4->at(1)).M();
       }
+      if(!passRegionCut()) continue;
     }
 
     if(reduce == 3){

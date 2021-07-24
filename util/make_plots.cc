@@ -28,7 +28,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	observable fakeFactorl;
 	int debug = 0;
 	bool prefit = 1;
-	float BRbenchmark = 0.2;
+	float BRbenchmark = 0.1;
 	bool calculate_fake_calibration = 1;
 	bool mergeFake = 0;// template: mergeFake=0,showfake=0       hadhad realonly=1,mergeFake=0 ==>0,1
 	bool mergeOrigin = 0;
@@ -231,7 +231,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 
 
 	gErrorIgnoreLevel = kWarning;
-	tau_plots->blinding = 0.2;
+	tau_plots->blinding = 0.1;
 	vector<TString> regions_xTFW = {
 		/*//"reg1mtau1ltau1b2jss",
 		"reg2ltau1b2jss",

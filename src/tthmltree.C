@@ -164,7 +164,7 @@ void tthmltree::init_hist(TString outputfilename){
 }
 
 bool tthmltree::passRegionCut(){
-  if(etmiss > 20*GeV && taus_q->size() == 1 && taus_q->at(0) * leps_id->at(1) > 0){
+  if(etmiss > 20*GeV && taus_q->size() == 1 && taus_q->at(0) * leps_id->at(0) > 0){
     if(tautaumass<140*GeV && tautaumass>100*GeV)
       cut_flow.fill("100GeV<$m_{\\tau\\tau}<140GeV$");
     else return false;
