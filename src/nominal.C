@@ -1441,24 +1441,18 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
         if(ljet_indice->size()) fcncjetbscore = ljets_bscore->at(ljet_indice->at(0));
         else fcncjetbscore = 0;
         TLorentzVector *tau2 = 0;
-        TLorentzVector *wlep = 0;
+        TLorentzVector *wlep = leps_p4->at(0);
         if(taus_p4->size() == 2) {
           tau2 = taus_p4->at(1);
-          if(leps_p4->size()!=0) wlep = leps_p4->at(0);
-        }
-        else {
+        } else {
           tau2 = leps_p4->at(0);
           if(leps_p4->size() == 2){
             if((belong_regions.have("2lSS1tau") && tau2->DeltaR(*taus_p4->at(0)) > leps_p4->at(1)->DeltaR(*taus_p4->at(0)))
               || (!belong_regions.have("2l1tau") && leps_id->at(0)*taus_q->at(0) < 0) ){
               tau2 = leps_p4->at(1);
-              wlep = leps_p4->at(0);
             }else{
               wlep = leps_p4->at(1);
             }
-            
-          }else{
-            wlep = 0;
           }
         }
         if(wlep) t1vismass = (*wlep + *bjets_p4->at(0)).M();
@@ -1653,7 +1647,7 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
         }
         if(wlep) mtw = sqrt(2*wlep->Pt()*etmiss*(1 - cos( met_p4->DeltaPhi(*wlep) )));
         if(taus_p4->size() >= 2&&leps_p4->size()!=0) drlbditau = (*leps_p4->at(0) + *bjets_p4->at(0)).DeltaR(*taus_p4->at(0) + *taus_p4->at(1));
-        else if(wlep) drlbditau = (*wlep + *bjets_p4->at(0)).DeltaR(*taus_p4->at(0) + *tau2);
+        else if(wlep && taus_p4->size()>=2) drlbditau = (*wlep + *bjets_p4->at(0)).DeltaR(*taus_p4->at(0) + *tau2);
   
         drtaujmin = 0;
         for (int ijet = 0 ; ijet < ljets_p4->size(); ijet ++ ) {
