@@ -23,7 +23,7 @@ int main(int argc, char const *argv[])
 		int nHist = tuHkeys->GetSize();
 		float tuHscale = 1;
 		float tcHscale = 0;
-		while(tuHscale>0){
+		while(tuHscale>interval){
 			tuHscale-=interval;
 			tcHscale+=interval;
 		    TFile *tqHfile = new TFile(prefix+variable+"/"+region+"/"+"tqH" + char('0' + (int)(tcHscale/interval)) + ".root","recreate");
