@@ -34,7 +34,7 @@ int main(int argc, char const *argv[])
 	bool doTheory=1;
 	bool onlyMajorNP = 0; // set to 0 for current xTFW analysis.
 	bool applynewSF = 0; //w-jet non-w-jet fake, not available for both hadhad and lephad yet
-	bool nominalOnly = 1; //when nominal =1
+	bool nominalOnly = 0; //when nominal =1
 	TString version = "v3"; //define your n-tuple version
 	TString prefix1;
 	TString prefix = PACKAGE_DIR;
@@ -155,20 +155,20 @@ int main(int argc, char const *argv[])
 		//	regions.push_back("reg2l1tau2bnj");
 		//	regions.push_back("reg1l1tau1b_ss");
 			regions.push_back("reg1l1tau1b1j_ss");
-	//		regions.push_back("reg1l1tau1b2j_os");
+			regions.push_back("reg1l1tau1b2j_os");
 			regions.push_back("reg1l1tau1b2j_ss");
-	//		regions.push_back("reg1l1tau1b3j_os");
-	//		regions.push_back("reg1l1tau1b_ss_antiiso");
+			regions.push_back("reg1l1tau1b3j_os");
+			regions.push_back("reg1l1tau1b_ss_antiiso");
 			regions.push_back("reg1l1tau1b1j_ss_antiiso");
-	//		regions.push_back("reg1l1tau1b2j_os_antiiso");
+			regions.push_back("reg1l1tau1b2j_os_antiiso");
 			regions.push_back("reg1l1tau1b2j_ss_antiiso");
-	//		regions.push_back("reg1l1tau1b3j_os_antiiso");
+			regions.push_back("reg1l1tau1b3j_os_antiiso");
 		//	regions.push_back("reg1l1tau2b2j_os");
 		//	regions.push_back("reg1l1tau2b2j_ss");
 		//	regions.push_back("reg1l1tau2b3j_os");
 		//	regions.push_back("reg1l1tau2b3j_ss");
-	//		regions.push_back("reg1l2tau1bnj_os");
-		//	regions.push_back("reg1l2tau1bnj_ss");
+			regions.push_back("reg1l2tau1bnj_os");
+			regions.push_back("reg1l2tau1bnj_ss");
 //
 //			regions.push_back("reg1l1tau2b_os");
 //			regions.push_back("reg1l1tau2b_ss");
@@ -599,7 +599,7 @@ int main(int argc, char const *argv[])
 	analysis->cut_flow.print();
   	analysis->cut_flow.save(5);
   	analysis->cut_flow.clear();
-	if(inputconfig.Contains("mc16a") && analysis->nominaltree ) {
+	if(inputconfig.Contains("mc16d") && analysis->nominaltree ) {
 		gSystem->mkdir(prefix + "/config/theoryweightlist");
 		analysis->saveweightslist(prefix + "/config/theoryweightlist/" + framework + "_" + to_string(lastdsid) + ".txt");
 	}

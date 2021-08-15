@@ -112,10 +112,10 @@ void RunMVA( TString region = "", TCut cut = "(eventNumber%2)!=0" , TString weig
    }
 
    auto inputbkgsamples = getBkgSamples(framework);
-   std::vector<TString> inputcHfiles = {"fcnc_ch_lvsys_PS","fcnc_ch_qqsys_PS","fcnc_prod_chsys_PS","fcnc_ch_lv","fcnc_prod_uh","fcnc_ch_qq"};
-   std::vector<TString> inputuHfiles = {"fcnc_uh_lvsys_PS","fcnc_uh_qqsys_PS","fcnc_prod_uhsys_PS"};
-   //auto inputcHfiles = signalmap.at("tcH");
-   //auto inputuHfiles = signalmap.at("tuH");
+   //std::vector<TString> inputcHfiles = {"fcnc_ch_lvsys_PS","fcnc_ch_qqsys_PS","fcnc_prod_chsys_PS","fcnc_ch_lv","fcnc_prod_uh","fcnc_ch_qq"};
+   //std::vector<TString> inputuHfiles = {"fcnc_uh_lvsys_PS","fcnc_uh_qqsys_PS","fcnc_prod_uhsys_PS"};
+   auto inputcHfiles = signalmap.at("tcH");
+   auto inputuHfiles = signalmap.at("tuH");
    
    TString nominaltreedir  = framework=="tthML" ? "nominal/" : "NOMINAL/";
    TString version = framework=="tthML"?"6":"3";
