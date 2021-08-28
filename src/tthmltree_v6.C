@@ -245,6 +245,7 @@ bool tthmltree_v6::addWeightSys(){
 
 bool tthmltree_v6::passBasicCut(){
   //https://twiki.cern.ch/twiki/bin/view/Atlas/MuonTriggerPhysicsRecommendationsRel212017#Recommended_triggers
+  if(samplename.Contains("fcnc_ml")&&higgsDecayMode==7) return false;
   bool single_mu_trig = 0;
   if(RunYear == 2015) single_mu_trig = (lep_Pt_0>21*GeV && GlobalTrigDecision_mu20_iloose_L1MU15) 
     || (lep_Pt_0>51*GeV && GlobalTrigDecision_mu50);
@@ -273,7 +274,6 @@ bool tthmltree_v6::passBasicCut(){
   else emu_trig = GlobalTrigDecision_e17_lhloose_nod0_mu14;
   emu_trig = emu_trig && lep_Pt_0 > 18*GeV && lep_Pt_0 > 15*GeV;
   if(!single_e_trig && !single_mu_trig && !di_e_trig && !di_mu_trig && !emu_trig) return false;
-
   cut_flow.fill("pass trigger");
 
   if(nTaus_OR && (!(taus_numTrack_0 == 1 || taus_numTrack_0 == 3) || !(taus_passEleBDT_0 && taus_passMuonOLR_0)) ) return false; // assuming triggers for 2017 is same for 2016 
