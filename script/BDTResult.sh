@@ -4,6 +4,7 @@ for files in `ls OptimResult_*`
 do
 	channel=${files/OptimResult_/}
 	channel=${channel/.txt/}
+	#if [[ $channel =~ "os" ]] ; then continue ; fi
 	echo $channel `cat $files` >> tmpOptimResult
 	trainBDT_run $channel 2 `cat $files` > /dev/null 2>&1 &
 done

@@ -62,7 +62,7 @@ void RunMVA( TString region = "", TCut cut = "(eventNumber%2)!=0" , TString weig
       dataloader->AddVariable("drtautau",'F');
       dataloader->AddVariable("t2mass",'F');
    }
-   if(region.Contains("2j") || region.Contains("3j")){
+   if((region.Contains("2j") || region.Contains("3j"))  && region.Contains("os")){
       dataloader->AddVariable("dphitauetmiss",'F');
       dataloader->AddVariable("phicent",'F');
       dataloader->AddVariable("tautaumass",'F');
@@ -76,14 +76,16 @@ void RunMVA( TString region = "", TCut cut = "(eventNumber%2)!=0" , TString weig
          dataloader->AddVariable("wmass",'F');
       }
       if(region.Contains("1l1tau1b3j_os"))  dataloader->AddVariable("chi2",'F');
-   }else if(region.Contains("1l2tau1") || region.Contains("2lSS")){
+   }else if(region.Contains("1l2tau1") || region.Contains("ss")){
       dataloader->AddVariable("t1vismass",'F');
       dataloader->AddVariable("mtaujmin",'F');
       dataloader->AddVariable("etamax",'F');
       dataloader->AddVariable("mtw",'F');
-      dataloader->AddVariable("drlbditau",'F');
-      dataloader->AddVariable("tautauvispt",'F');
-      dataloader->AddVariable("t2vismass",'F');
+      if(region.Contains("1l2tau1")) {
+        dataloader->AddVariable("drlbditau",'F');
+        dataloader->AddVariable("tautauvispt",'F');
+        dataloader->AddVariable("t2vismass",'F');
+      }
    }
 
 
@@ -205,7 +207,7 @@ int main(int argc, char const *argv[])
    cutnb += char(*argv[2]);
    cutnb += ")!=";
    TFile *outputfile[5];
-
+   int tolerance = 1;
    float optim = 0;
    bool plotROC = 0;
    int ncut,ntree;
@@ -270,6 +272,8 @@ int main(int argc, char const *argv[])
       chart.maxrow=37;
       chart.set("NTrees="+to_string(ntree),"NCuts="+to_string(ncut),optim);
       ofstream debugfile("Optim_debug.txt");
+      int tolerancecount = tolerance;
+      int bestncut, bestntree;
       while(true){
          debugfile << ncut <<" "<< ntree <<" "<<optim<<endl;
          float treestep = train(to_string(ncut).c_str(),to_string(ntree+10).c_str());
@@ -279,20 +283,29 @@ int main(int argc, char const *argv[])
          if(optim > cutstep && optim > treestep){
             plotROC = 1;
             train(to_string(ncut).c_str(),to_string(ntree).c_str());
-            break;
+            if(tolerancecount == 0) break;
+            else{
+              tolerancecount--;
+              bestncut = ncut;
+              bestntree = ntree;
+              if(treestep > cutstep) ntree+=10;
+              else ncut+=5;
+            }
          }
          else if(treestep > cutstep)
          {
+            tolerancecount = tolerance;
             ntree+=10;
             optim = treestep;
          }else{
+            tolerancecount = tolerance;
             ncut+=5;
             optim = cutstep;
          }
       }
       debugfile.close();
       ofstream file(("OptimResult_" + catname + ".txt").Data());
-      file << ncut << endl << ntree << endl;
+      file << bestncut << endl << bestntree << endl;
       file.close();
       chart.print((tabdir+"/BDT/Optim_"+catname).Data());
    }else{
