@@ -1906,7 +1906,7 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
                 }
               }
             }// end of applyNewFakeSF
-            if(!theNP.Contains("Xsec") && !theNP.Contains("fakeSF") && nominaltree && !theNP.Contains("Lumi") && !theNP.Contains("NOMINAL")) { ////this part deal with "weight"
+            if(!theNP.Contains("tauPLV") && !theNP.Contains("Xsec") && !theNP.Contains("fakeSF") && nominaltree && !theNP.Contains("Lumi") && !theNP.Contains("NOMINAL")) { ////this part deal with "weight"
               auto it = weightmap.find(theNP.Data());
               int index = 0;
               if(it != weightmap.end()) index = it->second;
@@ -1915,6 +1915,7 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
                 else weight *= weights->at(index);
               }
             }
+            if(region.Contains("1l1tau")&&tauorigin.Contains("real")&&theNP.Contains("tauPLV")) weight*=1.02;
             if(region.Contains("1mtau1ltau1b")) { weight*=read_fake_factor(theNP,subleading_bin); /*std::cout<<"ff:"<<read_fake_factor(theNP,subleading_bin)<<std::endl;*/}
             if(plotTauFake && region.Contains("tau")) fillhist(fcnc?fcnc_plots:fake_plots, region, tauorigin, theNP);
             //else if(!region.Contains("tau")) fill_notau(region, sample, theNP);
