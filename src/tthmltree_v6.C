@@ -245,7 +245,7 @@ bool tthmltree_v6::addWeightSys(){
 
 bool tthmltree_v6::passBasicCut(){
   //https://twiki.cern.ch/twiki/bin/view/Atlas/MuonTriggerPhysicsRecommendationsRel212017#Recommended_triggers
-  if(samplename.Contains("fcnc_ml")&&higgsDecayMode==7) return false;
+  if(samplename.Contains("fcnc_ml")&&higgsDecayMode==6) return false;
   bool single_mu_trig = 0;
   if(RunYear == 2015) single_mu_trig = (lep_Pt_0>21*GeV && GlobalTrigDecision_mu20_iloose_L1MU15) 
     || (lep_Pt_0>51*GeV && GlobalTrigDecision_mu50);

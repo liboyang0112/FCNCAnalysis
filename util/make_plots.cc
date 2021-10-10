@@ -122,7 +122,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	int colors[] = {kViolet, kOrange, 7, kBlue, kGreen, kGray, kRed, kMagenta, kSpring, kTeal, kAzure};
 	vector<fcncSample> sigsamples = getSigSamples(framework, BRbenchmark);
 	vector<TString> mergedOrigins = {"c_fake","g_fake","j_fake","nomatch"};
-	//if(!calculate_fake_calibration){
+	//if(fittodata){
 		samples.insert(samples.begin(),sigsamples.begin(),sigsamples.end());
 	//}
 	TString samplesys = "";
@@ -171,7 +171,8 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 //					&&var.first!="etmiss"
 //					&&var.first!="ttvismass"
 					((!printSRTable||doClosureTest) && var.first!="lep_pt_0")||
-					((BDTOnly||doTrex) && var.first!="BDTG_test")
+					//((BDTOnly||doTrex) && var.first!="BDTG_test")
+					((BDTOnly||doTrex) && var.first!="tau_pt_0")
 					//var.first!="chi2"
 					//&&var.first!="drlb"
 					//&&var.first!="x1fit"

@@ -83,7 +83,7 @@ if [[ $2 =~ "sub" ]] ; then
 		for i in `echo $1| sed -e 's/\(.\)/\1\n/g'`
 		do
 			echo "reduce_run tthML $i $lines $systname > $name$i.out 2>&1"  >> bulkreduce.sh
-			echo "reduce_run tthML $i $lines $systname > $name$i.out 2>&1"  >> sublocal.sh
+			echo "reduce_run tthML $i $lines $systname > $name$i.out 2>&1 &"  >> sublocal.sh
 		done
 		#if [[ $2 =~ "local" ]] ; then
 		#	./sublocal.sh $lines > ${name}.out 2>&1 &

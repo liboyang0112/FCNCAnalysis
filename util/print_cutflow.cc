@@ -88,7 +88,7 @@ int main(int argc, char const *argv[])
 						inputfile = new TFile(filename + subsamp + ".root");
 						TH1D *cutflowhist = (TH1D*)(inputfile->Get(region[ireg]));
 						if(!cutflowhist) continue;
-						cutflowhist->Scale(0.5);
+						if(!sample.name.Contains("ml")) cutflowhist->Scale(0.5);
 						if(!cutflow_hist) {
 							cutflow_hist = (TH1D*)(cutflowhist->Clone());
 							cutflow_hist->SetDirectory(0);

@@ -56,8 +56,8 @@ std::vector<fcncSample> getSigSamples(TString framework, float BRbenchmark){
 	samples.emplace_back("fcnc_prod_uh","ug#rightarrowtH"+tmp,kRed,signorm);
 	samples.emplace_back("tcH","tcH merged"+tmp,kRed,signorm);
 	samples.emplace_back("fcnc_uh","#bar{t}t#rightarrowbWuH"+tmp,kRed,signorm);
-	samples.emplace_back("tuH_ml","tuH WWZZ"+tmp,kRed,signorm);
-	samples.emplace_back("tcH_ml","tcH WWZZ"+tmp,kRed,signorm);
+	samples.emplace_back("tuH_ml","tuH WWZZ"+tmp,kRed,signorm*2);
+	samples.emplace_back("tcH_ml","tcH WWZZ"+tmp,kRed,signorm*2);
 	samples.emplace_back("tuH","tuH merged"+tmp,kRed,signorm);
 	//samples.emplace_back("fcnc_ch_ml","#bar{t}t#rightarrowbWcH,H#rightarrowVV"+tmp,kRed,signorm);
 	//samples.emplace_back("fcnc_uh_ml","#bar{t}t#rightarrowbWuH,H#rightarrowVV"+tmp,kRed,signorm);

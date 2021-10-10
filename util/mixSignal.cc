@@ -1,4 +1,5 @@
 #include "fcnc_include.h"
+#include "processVariable.h"
 using namespace std;
 int main(int argc, char const *argv[])
 {
@@ -9,7 +10,7 @@ int main(int argc, char const *argv[])
 	//}
 	TString framework = "tthML";
 	TString outputdir = "trexinputs";
-	string variable="BDTG_test";
+	string variable=processVariable.Data();
 	TString prefix = TString(PACKAGE_DIR) + "/config/trexfitter/";
 	vector<TString> regions = readTovecString(prefix + framework + "/regionlist.txt");
 	int scanPoints = 3;

@@ -164,7 +164,7 @@ void tthmltree::init_hist(TString outputfilename){
 }
 
 bool tthmltree::passRegionCut(){
-  if(etmiss > 20*GeV && taus_q->size() == 1 && taus_q->at(0) * leps_id->at(0) > 0){
+  if(etmiss > 20*GeV && taus_q->at(0) * leps_id->at(0) > 0 && belong_regions.have("1l1tau1b")){
     if(tautaumass<140*GeV && tautaumass>100*GeV)
       cut_flow.fill("100GeV<$m_{\\tau\\tau}<140GeV$");
     else return false;
@@ -356,6 +356,7 @@ void tthmltree::constructwmatchmap(TTree *tree){
   tree->SetBranchStatus("*",0);
   tree->SetBranchStatus("eventNumber",1);
   tree->SetBranchStatus("taus_matched_mother_pdgId",1);
+  tree->SetBranchStatus("higgsDecayMode",1);
   tree->SetBranchAddress("eventNumber",&eventnumber);
   tree->SetBranchAddress("taus_matched_mother_pdgId",&matched);
   Long64_t nentries = tree->GetEntriesFast();
