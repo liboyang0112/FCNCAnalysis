@@ -958,16 +958,31 @@ observable nominal::FindNewFakeSF(TString NP, int itau){
 }
 
 bool nominal::addTheorySys(){
-  if(weight_mc_v){
+  if(weight_mc_v &&!samplename.Contains("smhiggs")){
     for (int i = 1; i <= theoryweightsum->GetNbinsX(); ++i)
     {
+      
       string weightname = theoryweightsum->GetXaxis()->GetBinLabel(i);
+      //std::cout<<"weight size:"<<weight_mc_v->size()<<std::endl;
+      //std::cout<<"weightsum size:"<<theoryweightsum->GetNbinsX()<<std::endl;
       findAndReplaceAll(weightname,"LHE3Weight_","");
+      
+
+      // in hadhad, the signal is like this muR=100,muF=200, not muR=10,muF=20,
+      if(samplename.Contains("fcnc")&&weightname.find("muR")!=string::npos&&weightname.find("muF")!=string::npos){
+        findAndReplaceAll(weightname,"=100","=10");
+        findAndReplaceAll(weightname,"=200","=20");
+        findAndReplaceAll(weightname,"=050","=05");
+        }
+
       TString weightName=weightname.c_str();
-      if(weightName!=""){ //https://twiki.cern.ch/twiki/bin/view/AtlasProtected/PmgTopProcesses, Top, Single Top, ttH
+
+      // signal,top(others in hadhad),ttbar
+      if(samplename.Contains("fcnc")||samplename.Contains("other")||samplename.Contains("ttbar")||samplename.Contains("top")){
+            if(weightName!=""){ //https://twiki.cern.ch/twiki/bin/view/AtlasProtected/PmgTopProcesses, Top, Single Top, ttH
         if((weightName.Contains("muR=") && weightName.Contains(",muF=")) || weightName.Contains("PDFset=260") ){
           addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(1)/theoryweightsum->GetBinContent(i),weightName);
-        }else if(weightName.Contains("PDFset=26600")){
+          }else if(weightName.Contains("PDFset=26600")){
           addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(1)/theoryweightsum->GetBinContent(i),"alphaS_up");
         }else if(weightName.Contains("PDFset=26500")){
           addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(1)/theoryweightsum->GetBinContent(i),"alphaS_down");
@@ -981,9 +996,100 @@ bool nominal::addTheorySys(){
           addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(1)/theoryweightsum->GetBinContent(i),"ISR_down");
         }
       }
+      }
+      // diboson,wjets
+      if(samplename.Contains("wjet")||samplename.Contains("diboson")){
+        //std::cout<<"I am in wjet or diboson: I am"<<samplename<<std::endl;
+        if(weightName!=""){
+          bool is_used=0;
+            if(weightName=="MUR05_MUF05_PDF261000"){
+                addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(8)/theoryweightsum->GetBinContent(i),"muR=05,muF=05");
+                is_used=1;
+            }
+            if(weightName=="MUR05_MUF1_PDF261000"){
+                addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(8)/theoryweightsum->GetBinContent(i),"muR=05,muF=10");
+                is_used=1;
+            }
+            if(weightName=="MUR1_MUF05_PDF261000"){
+                addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(8)/theoryweightsum->GetBinContent(i),"muR=10,muF=05");
+                is_used=1;
+            }
+            if(weightName=="MUR1_MUF2_PDF261000"){
+                addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(8)/theoryweightsum->GetBinContent(i),"muR=10,muF=20");
+                is_used=1;
+            }
+            if(weightName=="MUR2_MUF1_PDF261000"){
+                addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(8)/theoryweightsum->GetBinContent(i),"muR=20,muF=10");
+                is_used=1;
+            }
+            if(weightName=="MUR2_MUF2_PDF261000"){
+                addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(8)/theoryweightsum->GetBinContent(i),"muR=20,muF=20");
+                is_used=1;
+            }
+            if(weightName=="MUR1_MUF1_PDF269000"){
+                addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(8)/theoryweightsum->GetBinContent(i),"ALPHAS_1");
+                is_used=1;
+            }
+            if(weightName=="MUR1_MUF1_PDF270000"){
+                addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(8)/theoryweightsum->GetBinContent(i),"ALPHAS_2");
+                is_used=1;
+            }
+            if(weightName=="MUR1_MUF1_PDF25300"){
+                addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(8)/theoryweightsum->GetBinContent(i),samplename.Contains("wjet")?"MMHT":"ALPHAS_3");
+                is_used=1;
+            }
+            if(weightName=="MUR1_MUF1_PDF13000"){
+                addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(8)/theoryweightsum->GetBinContent(i),samplename.Contains("wjet")?"CT14":"ALPHAS_4");
+                is_used=1;
+            }
+            // nominal weight is MUR1_MUF1_PDF261000 , bin index=8
+            // cahnge nname just for convinence, these name can be consistent with nams in  weightsys_list.h
+            if(weightName.Contains("MUR1_MUF1")&&!weightName.Contains("MUR1_MUF1_PDF261000")&&!is_used){
+                findAndReplaceAll(weightname,"MUR1_MUF1_PDF","PDFset=");
+                findAndReplaceAll(weightname,"261","260");
+                addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(8)/theoryweightsum->GetBinContent(i),weightname);
+            }
+        }  
+      }
+
+      // ttV
+      if(samplename.Contains("ttV")){
+        //std::cout<<"I am in ttV,I am "<<samplename<<std::endl;
+        if(weightName!=""){
+            if(weightName=="muR=050000E+00muF=050000E+00"){
+                addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(1)/theoryweightsum->GetBinContent(i),"muR=05,muF=05");
+            }
+            if(weightName=="muR=050000E+00muF=010000E+01"){
+                addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(1)/theoryweightsum->GetBinContent(i),"muR=05,muF=10");
+            }
+            if(weightName=="muR=010000E+01muF=050000E+00"){
+                addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(1)/theoryweightsum->GetBinContent(i),"muR=10,muF=05");
+            }
+            if(weightName=="muR=010000E+01muF=020000E+01"){
+                addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(1)/theoryweightsum->GetBinContent(i),"muR=10,muF=20");
+            }
+            if(weightName=="muR=020000E+01muF=010000E+01"){
+                addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(1)/theoryweightsum->GetBinContent(i),"muR=20,muF=10");
+            }
+            if(weightName=="muR=020000E+01muF=020000E+01"){
+                addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(1)/theoryweightsum->GetBinContent(i),"muR=20,muF=20");
+            }
+            if(weightName=="muR=020000E+01muF=050000E+00"){
+                addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(1)/theoryweightsum->GetBinContent(i),"muR=20,muF=05");
+            }
+            if(weightName=="muR=050000E+00muF=020000E+01"){
+                addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(1)/theoryweightsum->GetBinContent(i),"muR=05,muF=20");
+            }
+            if(!weightName.Contains("muR=") && !weightName.Contains("muF=") && weightName.Contains("pdfset=")){
+                findAndReplaceAll(weightname,"pdfset=","PDFset=");
+                addweights(weight_mc_v->at(i-1)/weight_mc*theoryweightsum->GetBinContent(1)/theoryweightsum->GetBinContent(i),weightname);  
+            }
+        }
+      }
     }
   }
   for(int i = 0; i < weights->size(); i++){
+    std::cout<<"weightlist[i].Data():"<<weightlist[i].Data()<<","<<weights->at(i)<<std::endl;
     if(weights->at(i)!=weights->at(i)) {
       printf("weight is nan, eventNumber: %llu, weight %s: %d\n", eventNumber, weightlist[i].Data(), i);
       (*weights)[i]=1;

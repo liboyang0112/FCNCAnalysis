@@ -385,7 +385,13 @@ std::vector<TString> theoryNPlist = { // theory uncertainties, the recipe is cha
 	"FSR_up",
 	"FSR_down",
 	"Lumi",
-	"tauPLV"
+	"tauPLV",
+	 "ALPHAS_1",
+	"ALPHAS_2",
+	"ALPHAS_3",
+	"ALPHAS_4",
+	"MMHT",
+	"CT14"
 };
 
 std::vector<TString> xTFWNPlist = {
