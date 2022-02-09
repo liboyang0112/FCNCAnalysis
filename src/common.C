@@ -91,6 +91,7 @@ std::map<TString,variable*> getVariables(TString framework){
 		ret["BDTG_train"] = new variable("BDTG_train","BDT discriminant",100,-1.,1.,"",1,10);
 		ret["BDTG_test"] = new variable("BDTG_test","BDT discriminant",100,-1.,1.,"",1,10);
 		ret["tau_pt_0"] = new variable("tau_pt_0","p_{T,lead-#tau}",90,40.,130.,"GeV",scale,10);
+		ret["tau_eta_0"] = new variable("tau_eta_0","#eta_{#tau}",200,-2.5,2.5,"",1,10);
 		ret["tau_pt_1"] = new variable("tau_pt_1","p_{T,sublead-#tau}",100,30.,80.,"GeV",scale,10);
 		ret["etmiss"] = new variable("etmiss","E^{T}_{miss}",100,15.,115.,"GeV",scale,10);
 		ret["dphitauetmiss"] = new variable("dphitauetmiss","#Delta#phi(#tau#tau,P^{T}_{miss})",60,0.,3.,"",1,6);
@@ -127,6 +128,7 @@ std::map<TString,variable*> getVariables(TString framework){
 		ret["met_sigma"] = new variable("met_sigma","#sigma(E^{T}_{miss})",100,0,5,"",1,5);
 		ret["tau_pt_0"] = new variable("tau_pt_0","p_{T,#tau}",100,25.,125.,"GeV",scale,10);
 		ret["tau_pt_1"] = new variable("tau_pt_1","p_{T,sub-#tau}",100,25.,125.,"GeV",scale,10);
+		ret["tau_eta_0"] = new variable("tau_eta_0","#eta_{#tau}",200,-2.5,2.5,"",1,10);
 		ret["lep_pt_0"] = new variable("lep_pt_0","p_{T,l}",100,25.,125.,"GeV",scale,10);
 		ret["lep_pt_1"] = new variable("lep_pt_1","p_{T,sub-l}",100,15.,115.,"GeV",scale,10);
 		ret["t1mass"] = new variable("t1mass","m_{t,SM}",100,100.,300.,"GeV",scale,10);

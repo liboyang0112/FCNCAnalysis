@@ -25,8 +25,10 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	TString histmiddlename =  (dirname==NPname || NPname.Contains("ABCD"))? nominalname:NPname;
 	TString figuredir = method.Contains("test")?"." : FIGURE_DIR;
 	TString chartdir = method.Contains("test")?"." : TABLE_DIR;
+	bool checkHighBDT = method.Contains("highBDT");
 	observable fakeFactorl;
 	int debug = 0;
+	bool mergeOthers=1;
 	bool prefit = 1;
 	float BRbenchmark = 0.1;
 	bool calculate_fake_calibration = 1;
@@ -170,9 +172,9 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 //					var.first!="drlbditau"
 //					&&var.first!="etmiss"
 //					&&var.first!="ttvismass"
-					((!printSRTable||doClosureTest) && var.first!="lep_pt_0")||
+					(((!printSRTable&&!checkHighBDT)||doClosureTest) && var.first!="lep_pt_0")||
 					//((BDTOnly||doTrex) && var.first!="BDTG_test")
-					((BDTOnly||doTrex) && var.first!="tau_pt_0")
+					((BDTOnly||doTrex) && var.first!="tau_pt_0" && var.first!="BDTG_test")
 					//var.first!="chi2"
 					//&&var.first!="drlb"
 					//&&var.first!="x1fit"
@@ -232,7 +234,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 
 
 	gErrorIgnoreLevel = kWarning;
-	tau_plots->blinding = 0.1;
+	tau_plots->blinding = 0;
 	vector<TString> regions_xTFW = {
 		/*//"reg1mtau1ltau1b2jss",
 		"reg2ltau1b2jss",
@@ -306,6 +308,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 //		"reg1l1tau2b3j_os",
 //		"reg1l1tau2b3j_ss",
 		"reg1l2tau1bnj_os",
+		"reg1l2tau1bnj_ss",
 //		"reg1l2tau1bnj_ss",
 //		"reg1l2tau2bnj_os",
 //		"reg1l2tau2bnj_ss",
@@ -333,6 +336,11 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 			ele="lowBDT_"+ele;
 		}
 	}
+	if(checkHighBDT){
+                for(auto& ele : regions_tthML_faketau){
+                        ele="highBDT_"+ele;
+                }
+        }
 	vector<TString> regions_tthML_fakelep = {
 		"reg2l1bnj",
 		"reg2l2bnj",
@@ -459,7 +467,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	for(auto reg : ret["all"]) tau_plots->add_region(reg);
 	if(framework=="tthML"){
 		if(printSRTable){
-			//tau_plots->regioninTables["reg1l2tau1bnj_ss"] = "$t_{l}\\thadhad$";
+			tau_plots->regioninTables["reg1l2tau1bnj_ss"] = "$t_{l}\\thadhad$ ss";
 			tau_plots->regioninTables["reg1l2tau1bnj_os"] = "$t_{l}\\thadhad$";
 			tau_plots->regioninTables["reg1l1tau1b1j_ss_vetobtagwp70_highmet"] = "$t_{l}\\tauhad$-1j";
 			tau_plots->regioninTables["reg1l1tau1b2j_os_vetobtagwp70_highmet"] = "$t_{h}\\tlhad$-2j";
@@ -473,10 +481,17 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 			tau_plots->regioninTables["reg1l1tau2b2j_ss_vetobtagwp70_highmet"] = "$t_{l}t_{h}2b\\tauhad$-2jSS";
 			tau_plots->regioninTables["reg1l1tau2b3j_os_vetobtagwp70_highmet"] = "$t_{l}t_{h}2b\\tauhad$-3jOS";
 			tau_plots->regioninTables["lowBDT_reg1l2tau1bnj_os"] = "t_{l}\\thadhad";
+			tau_plots->regioninTables["lowBDT_reg1l2tau1bnj_ss"] = "t_{l}\\thadhad ss";
 			tau_plots->regioninTables["lowBDT_reg1l1tau1b1j_ss_vetobtagwp70_highmet"] = "$t_{l}\\tauhad$-1j";
 			tau_plots->regioninTables["lowBDT_reg1l1tau1b2j_os_vetobtagwp70_highmet"] = "$t_{h}\\tlhad$-2j";
 			tau_plots->regioninTables["lowBDT_reg1l1tau1b2j_ss_vetobtagwp70_highmet"] = "$t_{l}\\tauhad$-2j";
 			tau_plots->regioninTables["lowBDT_reg1l1tau1b3j_os_vetobtagwp70_highmet"] = "$t_{h}\\tlhad$-3j";
+			tau_plots->regioninTables["highBDT_reg1l2tau1bnj_os"] = "t_{l}\\thadhad";
+			tau_plots->regioninTables["highBDT_reg1l2tau1bnj_ss"] = "t_{l}\\thadhad ss";
+			tau_plots->regioninTables["highBDT_reg1l1tau1b1j_ss_vetobtagwp70_highmet"] = "$t_{l}\\tauhad$-1j";
+			tau_plots->regioninTables["highBDT_reg1l1tau1b2j_os_vetobtagwp70_highmet"] = "$t_{h}\\tlhad$-2j";
+			tau_plots->regioninTables["highBDT_reg1l1tau1b2j_ss_vetobtagwp70_highmet"] = "$t_{l}\\tauhad$-2j";
+			tau_plots->regioninTables["highBDT_reg1l1tau1b3j_os_vetobtagwp70_highmet"] = "$t_{h}\\tlhad$-3j";
 			if(!prefit){
 				tau_plots->regioninTables["reg1l1tau1b1j_ss_antiiso_vetobtagwp70_highmet"] = "$t_{l}\\tauhad$-1j C";
 				tau_plots->regioninTables["reg1l1tau1b1j_ss_vetobtagwp70_lowmet"] = "$t_{l}\\tauhad$-1j B";
@@ -604,7 +619,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 					inputfile = getFile(mc_campaign + "_" + samplename);
 					double norm = samples[j].norm;
 					if(plotFakeLep) tau_plots->read_sample( samples[j].name, samplename + "_realLep", histmiddlename, samples[j].title, samples[j].color, norm, inputfile, !getFileFailed);
-					else if(samples[j].name.Contains("ttbar") || framework == "xTFW" || !showFake) 
+					else if(samples[j].name.Contains("ttbar") || framework == "xTFW" || !showFake || !mergeOthers) 
 						tau_plots->read_sample( samples[j].name, samplename + "_real", histmiddlename, samples[j].title, samples[j].color, norm, inputfile, !getFileFailed);
 					else tau_plots->read_sample("others", samplename + "_real", histmiddlename, "Other MC", samples[j].color, norm, inputfile, !getFileFailed);
 					//tau_plots->read_sample( samples[j].name, samplename + "_lep", histmiddlename, samples[j].title, samples[j].color, norm, inputfile, !getFileFailed);
@@ -674,8 +689,9 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 				LatexChart *FFchart = 0;
 				if(ipart==0) if(iNP == 0) FFchart = new LatexChart("FF");
 				tau_plots->stackorder.push_back("QCD_Fake_lep");
-//				string fakeFormular="1 data -1 smhiggs -1 wjet -1 diboson -1 zll -1 ztautau -1 ttbar -1 ttV -1 others -1 lep_fake -1 other_fake -1 b_fake -1 w_jet_fake";
-				string fakeFormular="1 data -1 others -1 ttbar -1 lep_fake -1 other_fake -1 b_fake -1 w_jet_fake";
+				string fakeFormular;
+				if(!mergeOthers) fakeFormular="1 data -1 smhiggs -1 wjet -1 diboson -1 zll -1 ztautau -1 ttbar -1 ttV -1 others -1 lep_fake -1 other_fake -1 b_fake -1 w_jet_fake";
+				else fakeFormular="1 data -1 others -1 ttbar -1 lep_fake -1 other_fake -1 b_fake -1 w_jet_fake";
 				vector<TString> FFregions = {
 					//"reg1l1tau1b1j_os",
 					"reg1l1tau1b1j_ss",
@@ -688,14 +704,15 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 				};
 				for(auto &FFreg: FFregions){
 					if(doClosureTest) FFreg = "lowBDT_"+FFreg;
-					if(ipart == 0){
+					if(checkHighBDT) FFreg = "highBDT_"+FFreg;
+					if(ipart == 0 && !checkHighBDT){
 						fakeFactor_e[FFreg]=tau_plots->calculateYield(FFreg + "_e_vetobtagwp70_lowmet",fakeFormular,histmiddlename);
 						fakeFactor_e[FFreg].error = rms(fakeFactor_e[FFreg].error,tau_plots->calculateYield(FFreg + "_e_vetobtagwp70_lowmet","1 tuH",histmiddlename).nominal);
 						fakeFactor_e[FFreg]=fakeFactor_e[FFreg]/(tau_plots->calculateYield(FFreg + "_antiiso_e_vetobtagwp70_lowmet",fakeFormular,histmiddlename));
 						if(FFchart) FFchart->set(translateRegion(FFreg).Data(),"Electron",fakeFactor_e[FFreg]);
 					}
 					//tau_plots->templatesample(FFreg + "_antiiso_e_vetobtagwp70_highmet",histmiddlename,fakeFormular,FFreg + "_e_vetobtagwp70_highmet","FF_QCD_e","#muFF(QCD)",(enum EColor)45,0,fakeFactor_e[FFreg].nominal);
-					if(ipart == 0){
+					if(ipart == 0 && !checkHighBDT){
 						fakeFactor_mu[FFreg]=tau_plots->calculateYield(FFreg + "_mu_vetobtagwp70_lowmet",fakeFormular,histmiddlename);
 						fakeFactor_mu[FFreg].error = rms(fakeFactor_mu[FFreg].error,tau_plots->calculateYield(FFreg + "_mu_vetobtagwp70_lowmet","1 tuH",histmiddlename).nominal);
 						fakeFactor_mu[FFreg]=fakeFactor_mu[FFreg]/(tau_plots->calculateYield(FFreg + "_antiiso_mu_vetobtagwp70_lowmet",fakeFormular,histmiddlename));
@@ -703,7 +720,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 					}
 					//tau_plots->templatesample(FFreg + "_antiiso_mu_vetobtagwp70_highmet",histmiddlename,fakeFormular,FFreg + "_mu_vetobtagwp70_highmet","FF_QCD_mu","eFF(QCD)",(enum EColor)46,0,fakeFactor_mu[FFreg].nominal);
 				}
-				if(ipart==0) {
+				if(ipart==0  && !checkHighBDT) {
 					if(iNP == 0) gSystem->mkdir((chartdir + "/FF/").Data());
 					auto getvec = [&](auto map){
 						std::vector<observable> ret;
@@ -961,6 +978,8 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 	}else{
 		tau_plots->merge_regions("reg1l2tau1bnj_os_vetobtagwp70_highmet","reg1l2tau1bnj_os_vetobtagwp70_lowmet", "reg1l2tau1bnj_os");
 		tau_plots->merge_regions("reg1l2tau1bnj_ss_vetobtagwp70_highmet","reg1l2tau1bnj_ss_vetobtagwp70_lowmet", "reg1l2tau1bnj_ss");
+		tau_plots->merge_regions("highBDT_reg1l2tau1bnj_os_vetobtagwp70_highmet","highBDT_reg1l2tau1bnj_os_vetobtagwp70_lowmet", "highBDT_reg1l2tau1bnj_os");
+		tau_plots->merge_regions("highBDT_reg1l2tau1bnj_ss_vetobtagwp70_highmet","highBDT_reg1l2tau1bnj_ss_vetobtagwp70_lowmet", "highBDT_reg1l2tau1bnj_ss");
 	}
 	if(framework == "xTFW"){
 		tau_plots->merge_regions(string("reg2mtau1b3jss_vetobtagwp70_highmet")+(plotSB?"_SB":""),string("reg2mtau1b2jss_vetobtagwp70_highmet")+(plotSB?"_SB":""), string("reg2mtau1bnjss")+(plotSB?"_SB":""));
@@ -996,7 +1015,7 @@ int plot(int iNP, TString framework, TString method, int ipart = 0) //method = f
 			for (auto samp : sigsamples)
 			{
 				tau_plots->overlay(samp.name);
-				if(samp.name!="tuH" && samp.name!="tcH") tau_plots->overlaytogether.push_back(samp.name);
+				if(samp.name!="tuH" && samp.name!="tcH" && !samp.name.Contains("H_ml")) tau_plots->overlaytogether.push_back(samp.name);
 			}
 		if(figuredir == "") figuredir = ".";
 		if(chartdir == "") chartdir = ".";
@@ -1051,10 +1070,13 @@ int main(int argc, char const *argv[])
 	TString dirname;
 	TString method = argv[4];
 	plotSB=method.Contains("SB")?true:false;
-	method=method.ReplaceAll("SB","");
+	method.ReplaceAll("SB","");
+	TString tmp = method;
+	tmp.ReplaceAll("highBDT","");
 	for (int i = from; i <= to; ++i)
 	{
 		printf("=============================generating NP %d : %s=============================\n", i, findNPname(dirname,i,framework).Data());
+		if(method.Contains("highBDT")) plot(i,framework,tmp,0);
 		for(int ipart = 0;1;ipart++)
 			if(!plot(i,framework,method,ipart) || method.Contains("IFF") || (method.Contains("fit")&&!method.Contains("postfit"))) break;
 	}

@@ -1,2 +1,3 @@
 #include "TString.h"
-TString processVariable = "tau_pt_0";
+TString processVariable = "BDTG_test";
+//TString processVariable = "tau_pt_0";

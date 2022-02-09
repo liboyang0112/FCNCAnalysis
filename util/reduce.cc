@@ -534,7 +534,7 @@ int main(int argc, char const *argv[])
 				//printf("tot weighted: %f\n",totalEventsWeighted);
 				for(int j = 0; j<weightname->size(); j++) {
 					if (fabs(weightsum->at(j)/totalEventsWeighted-1)>2) {
-						printf("%d theory %f\n",weightsum->at(j)/totalEventsWeighted);
+						printf("%d theory %f\n",j,weightsum->at(j)/totalEventsWeighted);
 						theoryweightsum[dsid]->Fill(j,weightsum->at(0));
 					}
 					else{

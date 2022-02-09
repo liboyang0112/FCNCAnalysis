@@ -306,6 +306,7 @@ void nominal::setBDTBranch(TTree *tree){
   tree->SetBranchAddress("tau_pt_ss", & tau_pt_ss);
   tree->SetBranchAddress("tau_pt_os", & tau_pt_os);
   tree->SetBranchAddress("tau_pt_0", & tau_pt_0);
+  tree->SetBranchAddress("tau_eta_0", & tau_eta_0);
   tree->SetBranchAddress("tau_pt_1", & tau_pt_1);
   tree->SetBranchAddress("lep_pt_0", & lep_pt_0);
   tree->SetBranchAddress("lep_pt_1", & lep_pt_1);
@@ -365,6 +366,7 @@ void nominal::BDTBranch(TTree *tree){
   tree->Branch("tau_pt_ss", & tau_pt_ss);
   tree->Branch("tau_pt_os", & tau_pt_os);
   tree->Branch("tau_pt_0", & tau_pt_0);
+  tree->Branch("tau_eta_0", & tau_eta_0);
   tree->Branch("tau_pt_1", & tau_pt_1);
   tree->Branch("lep_pt_0", & lep_pt_0);
   tree->Branch("lep_pt_1", & lep_pt_1);
@@ -1089,7 +1091,6 @@ bool nominal::addTheorySys(){
     }
   }
   for(int i = 0; i < weights->size(); i++){
-    std::cout<<"weightlist[i].Data():"<<weightlist[i].Data()<<","<<weights->at(i)<<std::endl;
     if(weights->at(i)!=weights->at(i)) {
       printf("weight is nan, eventNumber: %llu, weight %s: %d\n", eventNumber, weightlist[i].Data(), i);
       (*weights)[i]=1;
@@ -1309,6 +1310,7 @@ void nominal::fillhist(histSaver* plots, TString region, TString sample, TString
     }else{
       if(!plotProng) {
         if(BDTG_test<-0.6) plots->fill_hist(sample,"lowBDT_" + region+prongname + "_veto" + bwps[1] + (etmiss < 20*GeV? "_lowmet" : "_highmet"),NP);
+        if(BDTG_test>0.8) plots->fill_hist(sample,"highBDT_" + region+prongname + "_veto" + bwps[1] + (etmiss < 20*GeV? "_lowmet" : "_highmet"),NP);
       }
       plots->fill_hist(sample,region+prongname + "_veto" + bwps[1] + (etmiss < 20*GeV? "_lowmet" : "_highmet"),NP);
     }
@@ -1481,6 +1483,7 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
         defineLepTruth();
       }
       if(taus_p4->size()) tau_pt_0 = taus_p4->at(0)->Pt();
+      if(taus_p4->size()) tau_eta_0 = taus_p4->at(0)->Eta();
       if(taus_p4->size()>=2) tau_pt_1 = taus_p4->at(1)->Pt();
       if(leps_p4->size()) {
         lep_pt_0 = leps_p4->at(0)->Pt();
@@ -1792,13 +1795,10 @@ void nominal::Loop(TTree* inputtree, TString _samplename, float globalweight = 1
         }
         if (dumptruth && fcnc && sample.Contains("fcnc")) dumpTruth(eventNumber % 2);
         tau_pt_0 = taus_p4->at(0)->Pt();
+        tau_eta_0 = taus_p4->at(0)->Eta();
         if(taus_p4->size()>=2) tau_pt_1 = taus_p4->at(1)->Pt();
-        if(leps_p4->size()) {
-          tau_pt_0 = taus_p4->at(0)->Pt();
-          if(leps_p4->size()>=2) lep_pt_1 = leps_p4->at(1)->Pt();
-        }
+        if(leps_p4->size()>=2) lep_pt_1 = leps_p4->at(1)->Pt();
       }else {
-        if(taus_p4->size()) tau_pt_0 = taus_p4->at(0)->Pt();
         lep_pt_0 = leps_p4->at(0)->Pt();
         lep_pt_1 = leps_p4->at(1)->Pt();
         if(leps_p4->size() >= 2) mll = (*leps_p4->at(0)+*leps_p4->at(1)).M();

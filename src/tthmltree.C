@@ -102,6 +102,7 @@ void tthmltree::init_hist(TString outputfilename){
           fcnc_plots->add(vars.at("BDTG_train"),&BDTG_train);
         }
         if(plotNPs.size()==1){
+          fcnc_plots->add(vars.at("tau_eta_0"),&tau_eta_0);
           fcnc_plots->add(vars.at("chi2"),&chi2);
           fcnc_plots->add(vars.at("t1mass"),&t1mass);
           fcnc_plots->add(vars.at("mtw"),&mtw);

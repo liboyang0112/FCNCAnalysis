@@ -267,6 +267,7 @@ public :
   float      mtaujmin;
   float      mttjmin;
   float      tau_pt_0;
+  float      tau_eta_0;
   float      tau_pt_1;
   float      pt_b;
   float      pt_ljet;
